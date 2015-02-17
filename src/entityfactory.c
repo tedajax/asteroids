@@ -38,6 +38,9 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
     entities_add_component(entityManager,
         (Component*)collider_component_new(entity, &collider));
 
+    entities_add_component(entityManager,
+        (Component*)screen_wrap_component_new(entity, 64, 64));
+
     //entities_add_component(entityManager,
     //    (Component*)lua_component_new(entity, "assets/scripts/test_component.lua"));
 
@@ -64,6 +67,9 @@ Entity entity_create_bullet(EntityManager* entityManager, BulletConfig* bulletCo
 
     entities_add_component(entityManager,
         (Component*)collider_component_new(entity, &collider));
+
+    entities_add_component(entityManager,
+        (Component*)screen_wrap_component_new(entity, 16, 16));
 
     return entity;
 }
@@ -117,6 +123,9 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
 
     entities_add_component(entityManager,
         (Component*)collider_component_new(entity, &collider));
+
+    /*entities_add_component(entityManager,
+        (Component*)screen_wrap_component_new(entity, 64, 64));*/
 
     return entity;
 }

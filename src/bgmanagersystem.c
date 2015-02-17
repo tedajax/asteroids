@@ -31,10 +31,15 @@ void bg_manager_system_update(BgManagerSystem* self) {
 
         REQUIRED_COMPONENTS(bg);
 
-        f32 left = globals.camera.position.x - (f32)bg->tileWidth;
-        f32 right = globals.camera.position.x + globals.world.width + (f32)bg->tileWidth;
-        f32 top = globals.camera.position.y - (f32)bg->tileHeight;
-        f32 bottom = globals.camera.position.y + globals.world.height;
+        f32 w = (f32)bg->tileWidth;
+        f32 h = (f32)bg->tileHeight;
+        f32 hw = (f32)bg->tileWidth / 2.f;
+        f32 hh = (f32)bg->tileHeight / 2.f;
+
+        f32 left = globals.camera.position.x - w + hw;
+        f32 right = globals.camera.position.x + globals.world.width + hw;
+        f32 top = globals.camera.position.y - h + hh;
+        f32 bottom = globals.camera.position.y + globals.world.height + hh;
 
         for (u32 j = 0; j < bg->count; ++j) {
             TransformComponent* tx = bg->transforms[j];

@@ -269,6 +269,8 @@
     <ClCompile Include="src\primitives.c" />
     <ClCompile Include="src\profiler.c" />
     <ClCompile Include="src\range.c" />
+    <ClCompile Include="src\screenwrapcomponent.c" />
+    <ClCompile Include="src\screenwrapsystem.c" />
     <ClCompile Include="src\scriptapi.c" />
     <ClCompile Include="src\spritecomponent.c" />
     <ClCompile Include="src\spritesystem.c" />
@@ -345,6 +347,8 @@
     <ClInclude Include="src\primitives.h" />
     <ClInclude Include="src\profiler.h" />
     <ClInclude Include="src\range.h" />
+    <ClInclude Include="src\screenwrapcomponent.h" />
+    <ClInclude Include="src\screenwrapsystem.h" />
     <ClInclude Include="src\scriptapi.h" />
     <ClInclude Include="src\snprintf.h" />
     <ClInclude Include="src\spritecomponent.h" />

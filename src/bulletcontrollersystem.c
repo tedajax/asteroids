@@ -38,10 +38,6 @@ void bullet_controller_system_update(BulletControllerSystem* self) {
             bullet->destroyFlag = true;
         }
 
-        if (transform->position.x > globals.camera.position.x + globals.world.width) {
-            bullet->destroyFlag = true;
-        }
-
         if (bullet->destroyFlag) {
             entities_remove_entity(self->super.entityManager, entity);
         }

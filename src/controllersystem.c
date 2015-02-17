@@ -38,6 +38,11 @@ void controller_system_update(ControllerSystem* self) {
         turnRate *= controller->turnSpeed;
 
         vec2_add(&movement->velocity, &acceleration, &movement->velocity);
+        if (vec2_length(&movement->velocity) > controller->maxSpeed) {
+            vec2_normalize(&movement->velocity, &movement->velocity);
+            vec2_scale(&movement->velocity, controller->maxSpeed, &movement->velocity);
+        }
+
         movement->angularVelocity = turnRate;
 
         if (input_key_down(SDL_SCANCODE_S)) {
@@ -49,6 +54,7 @@ void controller_system_update(ControllerSystem* self) {
                 bullet_source_on(&controller->bulletSources[i]);
             }
         }
+
         if (input_key_up(SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
                 bullet_source_off(&controller->bulletSources[i]);

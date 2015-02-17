@@ -26,6 +26,8 @@ typedef enum component_type_e {
 
     COMPONENT_LUA,
 
+    COMPONENT_SCREEN_WRAP,
+
     COMPONENT_LAST,
 } ComponentType;
 

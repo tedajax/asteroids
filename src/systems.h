@@ -10,3 +10,4 @@
 #include "enemysystem.h"
 #include "collisionsystem.h"
 #include "luasystem.h"
+#include "screenwrapsystem.h"

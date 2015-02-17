@@ -34,6 +34,7 @@ void game_init(Game* self) {
     enemy_system_init(&self->enemySystem, self->entityManager);
     collision_system_init(&self->collisionSystem, self->entityManager);
     lua_system_init(&self->luaSystem, self->entityManager);
+    screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
 
     SpriteFrame* bgFrame = atlas_get_frame(atlas_get("atlas1"), "bg_dark_purple");
 
@@ -60,7 +61,7 @@ void game_init(Game* self) {
     }
 
     self->player = entity_create_player(self->entityManager,
-        vec2_init(32.f, 320.f),
+        vec2_init(globals.world.width / 2.f, globals.world.height / 2.f),
         atlas_get("atlas1"),
         "player_ship");
 
@@ -137,6 +138,8 @@ void game_update(Game* self) {
     lua_system_update(&self->luaSystem);
 
     movement_system_update(&self->movementSystem);
+
+    screen_wrap_system_update(&self->screenWrapSystem);
 
     profiler_tick("collision");
     collision_system_update(&self->collisionSystem);

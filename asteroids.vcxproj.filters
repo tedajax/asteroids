@@ -315,6 +315,12 @@
     <ClCompile Include="src\atlas.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\screenwrapcomponent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\screenwrapsystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -546,6 +552,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\atlas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\screenwrapcomponent.h">
+      <Filter>Source Files\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\screenwrapsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
