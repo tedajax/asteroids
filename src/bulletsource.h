@@ -32,7 +32,7 @@ static inline void bullet_source_off(BulletSource* self) {
     self->burstShotsRemaining = 0;
 }
 
-void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, Vec2* anchor);
-void bullet_source_fire(BulletSource* self, EntityManager* entityManager, Vec2* anchor);
+void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, TransformComponent* anchor);
+void bullet_source_fire(BulletSource* self, EntityManager* entityManager, TransformComponent* anchor);
 
 #endif

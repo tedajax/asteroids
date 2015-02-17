@@ -24,7 +24,7 @@ void bullet_source_release(BulletSource* self) {
     dynf32_release(&self->config->damage);
 }
 
-void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, Vec2* anchor) {
+void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, TransformComponent* anchor) {
     if (self->burstsRemaining <= 0) { return; }
 
     if (self->burstShotsRemaining > 0) {
@@ -57,14 +57,21 @@ void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManag
     }
 }
 
-void bullet_source_fire(BulletSource* self, EntityManager* entityManager, Vec2* anchor) {
+void bullet_source_fire(BulletSource* self, EntityManager* entityManager, TransformComponent* anchor) {
+    f32 x = self->config->offset.x;
+    f32 y = self->config->offset.y;
+    f32 theta = anchor->rotation * DEG_TO_RAD;
+    Vec2 transformedOffset;
+    transformedOffset.x = x * cosf(theta) - y * sinf(theta);
+    transformedOffset.y = x * sinf(theta) + y * cosf(theta);
     for (i32 i = 0; i < self->config->count; ++i) {
         Vec2 pos;
-        vec2_add(anchor, &self->config->offset, &pos);
+        vec2_add(&anchor->position, &transformedOffset, &pos);
         BulletConfig config;        
         config.speed = self->config->speed;
         config.angle = self->config->angle;
-        f32 sa = (i - (self->config->count / 2)) * dynf32_get(&self->config->spread);
+        f32 sa = anchor->rotation;
+        sa += (i - (self->config->count / 2)) * dynf32_get(&self->config->spread);
         sa += dynf32_get(&self->config->startAngle);
         config.baseAngle = sa;
         config.lifetime = dynf32_get(&self->config->lifetime);

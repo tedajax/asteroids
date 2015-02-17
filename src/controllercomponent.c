@@ -6,7 +6,10 @@ ControllerComponent* controller_component_new(Entity entity, Config* config, cha
 
     component_init((Component*)self, COMPONENT_CONTROLLER, sizeof(ControllerComponent), entity);
 
-    self->moveSpeed = config_get_float(config, section, "movement_speed");
+    self->turnSpeed = config_get_float(config, section, "turn_speed");
+    self->acceleration = config_get_float(config, section, "acceleration");
+    self->maxSpeed = config_get_float(config, section, "max_speed");
+    self->currentSpeed = 0.f;
 
     //TODO get rid of these ini calls
     self->bulletSourceCount = ini_get_array_count(&config->data, section, "bullet_sources");

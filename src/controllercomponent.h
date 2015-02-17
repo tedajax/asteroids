@@ -7,7 +7,10 @@
 
 typedef struct controller_component_t {
     Component super;
-    f32 moveSpeed;
+    f32 turnSpeed;
+    f32 acceleration;
+    f32 maxSpeed;
+    f32 currentSpeed;
     BulletSource* bulletSources;
     u32 bulletSourceCount;
 } ControllerComponent;

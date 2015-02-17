@@ -1,7 +1,7 @@
 #include "enemysystem.h"
 
 void enemy_system_init(EnemySystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_ENEMY, 64);
+    aspect_system_init(&self->super, entityManager, COMPONENT_ENEMY, 128);
 }
 
 void enemy_system_update(EnemySystem* self) {
@@ -40,6 +40,8 @@ void enemy_update(EnemySystem* self, EnemyComponent* enemy, TransformComponent* 
                     if (transform->position.x < playerTransform->position.x + 1000.f) {
                         enemy->state = 1;
                         movement->velocity.x = -500.f;
+                    } else {
+                        movement->velocity.x = -250.f;
                     }
                     break;
             }

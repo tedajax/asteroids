@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
+bool playGame = true;
 
 void game_debug_keys(Game* self);
 
@@ -72,8 +73,8 @@ void game_init(Game* self) {
         563
     };
 
-    for (u32 i = 0; i < 50; ++i) {
-        entity_create_basic_enemy(self->entityManager, vec2_init(i * 100.f, randf((f32)globals.world.height - 100.f)));
+    for (u32 i = 0; i < 128; ++i) {
+        entity_create_basic_enemy(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)));
     }
 
     camera_init(&globals.camera, NULL, &cameraConstraints);
@@ -116,6 +117,14 @@ void game_start(Game* self) {
 }
 
 void game_update(Game* self) {
+    if (input_key_down(SDL_SCANCODE_F5)) {
+        playGame = true;
+    }
+    
+    if (!playGame) {
+        return;
+    }
+
     globals.levelPosition += globals.scrollSpeed * globals.time.delta;
 
     health_system_update(&self->healthSystem);

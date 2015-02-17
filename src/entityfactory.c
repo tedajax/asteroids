@@ -12,7 +12,7 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
     //     entity);
 
     MovementComponent* movement = movement_component_new(entity, vec2_zero(), 0.f);
-    movement->constrainToCamera = true;
+    //movement->constrainToCamera = true;
 
     entities_add_component(entityManager,
         (Component*)movement);
@@ -27,12 +27,13 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
         (Component*)sprite_component_new(entity, atlas, spriteName, 1));
 
     Collider collider;
-    collider_init_aabb(&collider,
+    collider_init_obb(&collider,
         entity,
         COLLIDER_LAYER_PLAYER,
-        vec2_init(37.5f, 56.f),
+        vec2_zero(),
         75.f,
-        112.f);
+        112.f,
+        0.f);
 
     entities_add_component(entityManager,
         (Component*)collider_component_new(entity, &collider));
@@ -110,7 +111,7 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
     collider_init_aabb(&collider,
         entity,
         COLLIDER_LAYER_ENEMY,
-        vec2_init(42.f, 51.5f),
+        vec2_zero(),
         84.f,
         103.f);
 

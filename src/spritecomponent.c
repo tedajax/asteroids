@@ -45,8 +45,10 @@ void sprite_component_destination(SpriteComponent* self, TransformComponent* tra
     f32 px = transform->position.x - globals.camera.position.x + self->currentFrame.offset.x;
     f32 py = transform->position.y - globals.camera.position.y + self->currentFrame.offset.y;
 
-    int x = (int)px;
-    int y = (int)py;
+    int hw = (int)(self->width / 2.f);
+    int hh = (int)(self->height / 2.f);
+    int x = (int)px - hw;
+    int y = (int)py - hh;
     int w = (int)self->width;
     int h = (int)self->height;
 

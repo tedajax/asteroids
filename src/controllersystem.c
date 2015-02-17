@@ -20,31 +20,29 @@ void controller_system_update(ControllerSystem* self) {
 
         REQUIRED_COMPONENTS(transform, movement, controller);
 
-        f32 x = 0;
-        f32 y = 0;
+        f32 turnRate = 0.f;
+        Vec2 acceleration = vec2_zero();
 
         if (input_key(SDL_SCANCODE_LEFT)) {
-            x -= 1.f;
+            turnRate -= 1.f;
         }
 
         if (input_key(SDL_SCANCODE_RIGHT)) {
-            x += 1.f;
+            turnRate += 1.f;
         }
 
         if (input_key(SDL_SCANCODE_UP)) {
-            y -= 1.f;
+            vec2_set_angle(&acceleration, transform->rotation, controller->acceleration * globals.time.delta);
         }
 
-        if (input_key(SDL_SCANCODE_DOWN)) {
-            y += 1.f;
+        turnRate *= controller->turnSpeed;
+
+        vec2_add(&movement->velocity, &acceleration, &movement->velocity);
+        movement->angularVelocity = turnRate;
+
+        if (input_key_down(SDL_SCANCODE_S)) {
+            movement->velocity = vec2_zero();
         }
-
-        //printf("%f\n", controller->moveSpeed);
-
-        x *= controller->moveSpeed;
-        y *= controller->moveSpeed;
-
-        vec2_set(&movement->velocity, x, y);
 
         if (input_key_down(SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
@@ -58,21 +56,7 @@ void controller_system_update(ControllerSystem* self) {
         }
 
         for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
-            bullet_source_update(&controller->bulletSources[i], globals.time.delta, self->super.entityManager, &transform->position);
-        }        
-
-        //if (controller->fireTimer > 0.f) {
-        //    controller->fireTimer -= globals.time.delta;
-        //}
-
-        //if (input_key(SDL_SCANCODE_Z) && controller->fireTimer <= 0.f) {
-        //    Vec2 pos = vec2_clone(&transform->position);
-        //    pos.x += 64;
-        //    pos.y += 52;
-        //    entity_create_bullet(self->super.entityManager,
-        //        vec2_clone(&pos),
-        //        textures_get("player_bullet_1.png"));
-        //    controller->fireTimer = controller->fireDelay;
-        //}
+            bullet_source_update(&controller->bulletSources[i], globals.time.delta, self->super.entityManager, transform);
+        }
     }
 }
