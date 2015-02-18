@@ -104,8 +104,8 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
     entities_add_component(entityManager,
         (Component*)movement_component_new(entity, vec2_zero(), 0.f));
 
-    entities_add_component(entityManager,
-        (Component*)enemy_component_new(entity, ENEMY_TYPE_BASIC));
+    //entities_add_component(entityManager,
+    //    (Component*)enemy_component_new(entity, ENEMY_TYPE_BASIC));
 
     entities_add_component(entityManager,
         (Component*)health_component_new(entity, 100));
@@ -114,18 +114,20 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
         (Component*)sprite_component_new(entity, atlas_get("atlas1"), "enemy_red_1", 1));
 
     Collider collider;
-    collider_init_aabb(&collider,
+    collider_init_bcircle(&collider,
         entity,
         COLLIDER_LAYER_ENEMY,
         vec2_zero(),
-        84.f,
-        103.f);
+        64.f);
 
     entities_add_component(entityManager,
         (Component*)collider_component_new(entity, &collider));
 
-    /*entities_add_component(entityManager,
-        (Component*)screen_wrap_component_new(entity, 64, 64));*/
+    entities_add_component(entityManager,
+        (Component*)screen_wrap_component_new(entity, 64, 64));
+
+    entities_add_component(entityManager,
+        (Component*)asteroid_controller_component_new(entity, 5));
 
     return entity;
 }

@@ -106,7 +106,7 @@ bool _app_initialize(App* self) {
         return false;
     }
 
-    u32 windowFlags = SDL_WINDOW_SHOWN;
+    u32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
     if (globals.screen.fullscreen) {
         windowFlags |= SDL_WINDOW_FULLSCREEN;
     }

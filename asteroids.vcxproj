@@ -209,6 +209,8 @@
     <ClCompile Include="src\animation.c" />
     <ClCompile Include="src\application.c" />
     <ClCompile Include="src\aspectsystem.c" />
+    <ClCompile Include="src\asteroidcontrollercomponent.c" />
+    <ClCompile Include="src\asteroidcontrollersystem.c" />
     <ClCompile Include="src\atlas.c" />
     <ClCompile Include="src\bgmanagercomponent.c" />
     <ClCompile Include="src\bgmanagersystem.c" />
@@ -289,6 +291,8 @@
     <ClInclude Include="src\animation.h" />
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\aspectsystem.h" />
+    <ClInclude Include="src\asteroidcontrollercomponent.h" />
+    <ClInclude Include="src\asteroidcontrollersystem.h" />
     <ClInclude Include="src\atlas.h" />
     <ClInclude Include="src\bgmanagercomponent.h" />
     <ClInclude Include="src\bgmanagersystem.h" />

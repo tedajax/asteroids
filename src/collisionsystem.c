@@ -191,7 +191,14 @@ void collision_system_render(CollisionSystem* self) {
                 }
                 break;
 
-            case BOUNDING_VOLUME_CIRCLE:
+            case BOUNDING_VOLUME_CIRCLE: {
+                    Circle c;
+                    BoundingCircle bc = *((BoundingCircle*)collider->collider.volume);
+                    c.position.x = bc.center.x - globals.camera.position.x;
+                    c.position.y = bc.center.y - globals.camera.position.y;
+                    c.radius = bc.radius;
+                    prim_circle_color(globals.renderer, &c, 21, color);
+                }
                 break;
         }
     }

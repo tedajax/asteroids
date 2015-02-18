@@ -33,6 +33,16 @@ f32 randf_range(f32 min, f32 max) {
     return lerpf(min, max, r);
 }
 
+i32 signf(f32 v) {
+    if (v < 0.f) { return -1; }
+    else if (v > 0.f) { return 1; }
+    else { return 0; }
+}
+
+bool is_approx_zero(f32 v) {
+    return (fabs(v) < FLT_EPSILON);
+}
+
 Vec2* vec2_new(const f32 x, const f32 y) {
     Vec2* self = (Vec2 *)calloc(1, sizeof(Vec2));
 

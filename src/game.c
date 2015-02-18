@@ -35,6 +35,7 @@ void game_init(Game* self) {
     collision_system_init(&self->collisionSystem, self->entityManager);
     lua_system_init(&self->luaSystem, self->entityManager);
     screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
+    asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
 
     SpriteFrame* bgFrame = atlas_get_frame(atlas_get("atlas1"), "bg_dark_purple");
 
@@ -74,7 +75,7 @@ void game_init(Game* self) {
         563
     };
 
-    for (u32 i = 0; i < 128; ++i) {
+    for (u32 i = 0; i < 12; ++i) {
         entity_create_basic_enemy(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)));
     }
 
@@ -136,6 +137,7 @@ void game_update(Game* self) {
     enemy_system_update(&self->enemySystem);
     bg_manager_system_update(&self->bgManagerSystem);
     lua_system_update(&self->luaSystem);
+    asteroid_controller_system_update(&self->asteroidControllerSystem);
 
     movement_system_update(&self->movementSystem);
 

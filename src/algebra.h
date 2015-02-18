@@ -24,6 +24,9 @@ f32 lerpf(f32 start, f32 end, f32 t);
 f32 sqrf(f32 n);
 f32 randf(f32 max);
 f32 randf_range(f32 min, f32 max);
+i32 signf(f32 v);
+
+bool is_approx_zero(f32 v);
 
 typedef struct vec2_t {
     f32 x, y;

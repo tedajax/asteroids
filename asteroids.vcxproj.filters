@@ -321,6 +321,12 @@
     <ClCompile Include="src\screenwrapsystem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\asteroidcontrollercomponent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asteroidcontrollersystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -558,6 +564,12 @@
       <Filter>Source Files\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\screenwrapsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroidcontrollercomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asteroidcontrollersystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

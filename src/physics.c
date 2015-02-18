@@ -275,7 +275,27 @@ bool obbox_intersect_obbox(OBoundingBox* self, OBoundingBox* other) {
 }
 
 bool obbox_intersect_bcircle(OBoundingBox* self, BoundingCircle* other) {
-    // TODO
+    Vec2 closestDir;
+    Vec2 p;
+
+    vec2_sub(&self->center, &other->center, &closestDir);
+    vec2_normalize(&closestDir, &closestDir);
+    vec2_scale(&closestDir, other->radius, &p);
+    vec2_add(&p, &other->center, &p);
+
+    Vec2 tangent = vec2_init(-closestDir.y, closestDir.x);
+
+    for (u32 i = 0; i < 3; ++i) {
+        Vec2 p1 = self->corners[i];
+        Vec2 p2 = self->corners[i+1];
+        Vec2 _p1, _p2;
+        vec2_sub(&p1, &p, &_p1);
+        vec2_sub(&p2, &p, &_p2);
+        i32 s1 = signf(vec2_dot(&tangent, &_p1));
+        i32 s2 = signf(vec2_dot(&tangent, &_p2));
+        if (s1 != s2) { return true; }
+    }
+
     return false;
 }
 
