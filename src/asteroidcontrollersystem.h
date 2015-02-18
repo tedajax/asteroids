@@ -14,4 +14,6 @@ typedef struct asteroid_controller_system_t {
 void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager);
 void asteroid_controller_system_update(AsteroidControllerSystem* self);
 
+void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity entity, const Message msg);
+
 #endif

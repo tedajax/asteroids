@@ -15,5 +15,6 @@ Entity entity_create_bullet(EntityManager* entityManager, BulletConfig* bulletCo
 Entity entity_create_bg_tile(EntityManager* entityManager, Atlas* atlas, char* spriteName);
 Entity entity_create_bg_manager(EntityManager* entityManager, u32 twidth, u32 theight);
 Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position);
+Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 size);
 
 #endif

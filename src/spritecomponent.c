@@ -44,13 +44,15 @@ void sprite_component_source(SpriteComponent* self, SDL_Rect* source) {
 void sprite_component_destination(SpriteComponent* self, TransformComponent* transform, SDL_Rect* dest) {
     f32 px = transform->position.x - globals.camera.position.x + self->currentFrame.offset.x;
     f32 py = transform->position.y - globals.camera.position.y + self->currentFrame.offset.y;
+    f32 sx = transform->scale.x;
+    f32 sy = transform->scale.y;
 
-    int hw = (int)(self->width / 2.f);
-    int hh = (int)(self->height / 2.f);
-    int x = (int)px - hw;
-    int y = (int)py - hh;
-    int w = (int)self->width;
-    int h = (int)self->height;
+    int hw = (int)(self->width / 2.f * sx);
+    int hh = (int)(self->height / 2.f * sy);
+    int x = (int)(px - hw);
+    int y = (int)(py - hh);
+    int w = (int)(self->width * sx);
+    int h = (int)(self->height * sy);
 
     dest->x = x;
     dest->y = y;

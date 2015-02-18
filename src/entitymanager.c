@@ -164,19 +164,24 @@ void entities_internal_remove_entity(EntityManager* self, Entity entity) {
     Message msg;
     msg.type = MESSAGE_ENTITY_REMOVED;
 
+    // Send on_remove message
     for (u32 t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
         if (self->systems[t]) {
             aspect_system_send_message((AspectSystem*)self->systems[t],
                 entity,
                 msg);
         }
+    }
 
+    // Actually remove the components
+    for (u32 t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
         Component* toRemove = component_list_remove(&self->componentsMap[t], entity);
         if (toRemove != NULL) {
             component_free(toRemove);
         }
     }
 
+    // Free up the entity from the pool
     for (u32 i = 0; i < self->entities.capacity; ++i) {
         Entity* e = POOL_GET(Entity)(&self->entities, i);
         if (e && *e == entity) {

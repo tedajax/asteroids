@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
-bool playGame = true;
+bool playGame = false;
 
 void game_debug_keys(Game* self);
 
@@ -13,7 +13,7 @@ void game_init(Game* self) {
     globals.game = self;
 
     component_system_init();
-    tween_manager_init(&globals.tweens, 128);
+    tween_manager_init(&globals.tweens, 4192);
 
     textures_init("assets/textures");
     atlases_init();
@@ -75,8 +75,8 @@ void game_init(Game* self) {
         563
     };
 
-    for (u32 i = 0; i < 12; ++i) {
-        entity_create_basic_enemy(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)));
+    for (u32 i = 0; i < 5; ++i) {
+        entity_create_asteroid(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)), 5);
     }
 
     camera_init(&globals.camera, NULL, &cameraConstraints);

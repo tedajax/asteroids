@@ -44,8 +44,8 @@
     #define REQUIRED_COMPONENTS(...) GET_REQUIRED_COMPONENTS_MACRO(__VA_ARGS__, REQUIRED_COMPONENTS9, REQUIRED_COMPONENTS8, REQUIRED_COMPONENTS7, REQUIRED_COMPONENTS6, REQUIRED_COMPONENTS5, REQUIRED_COMPONENTS4, REQUIRED_COMPONENTS3, REQUIRED_COMPONENTS2, REQUIRED_COMPONENTS1)(__VA_ARGS__)
 #endif
 
-#define REGISTER_SYSTEM_HANDLER(type, func) \
-    ((AspectSystem*)self)->handlers[type] = func
+#define REGISTER_SYSTEM_HANDLER(messageType, func) \
+    ((AspectSystem*)self)->handlers[messageType] = func
 
 typedef struct aspect_system_t {
     EntityManager* entityManager;
