@@ -75,7 +75,7 @@ void game_init(Game* self) {
         563
     };
 
-    for (u32 i = 0; i < 5; ++i) {
+    for (u32 i = 0; i < 1; ++i) {
         entity_create_asteroid(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)), 5);
     }
 

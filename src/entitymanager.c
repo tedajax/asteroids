@@ -5,7 +5,7 @@
 #include "aspectsystem.h"
 #include "prefab.h"
 
-void entities_internal_remove_entity(EntityManager* self, Entity entity);
+void entities_internal_remove_entity(EntityManager* self, Entity entity, bool isShutdown);
 void entities_internal_send_message(EntityManager* self, TargetedMessage message);
 
 POOL_IMPLEMENTATION(Entity);
@@ -160,16 +160,19 @@ bool entities_has_component(EntityManager* self, ComponentType type, Entity enti
     return entities_get_component(self, type, entity) != NULL;
 }
 
-void entities_internal_remove_entity(EntityManager* self, Entity entity) {
+void entities_internal_remove_entity(EntityManager* self, Entity entity, bool isShutDown) {
     Message msg;
     msg.type = MESSAGE_ENTITY_REMOVED;
 
     // Send on_remove message
-    for (u32 t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
-        if (self->systems[t]) {
-            aspect_system_send_message((AspectSystem*)self->systems[t],
-                entity,
-                msg);
+    // but only if this is an individual remove and not all entities being removed
+    if (!isShutDown) {
+        for (u32 t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
+            if (self->systems[t]) {
+                aspect_system_send_message((AspectSystem*)self->systems[t],
+                    entity,
+                    msg);
+            }
         }
     }
 
@@ -200,7 +203,7 @@ void entities_remove_all_entities(EntityManager* self) {
     for (u32 i = 0; i < len; ++i) {
         Entity e = *POOL_GET(Entity)(&self->entities, i);
         if (e) {
-            entities_internal_remove_entity(self, e);
+            entities_internal_remove_entity(self, e, true);
         }
     }
 }
@@ -254,6 +257,6 @@ void entities_update(EntityManager* self) {
     message_event_queue_processing_unlock(&self->eventQueue);
 
     while (self->removeQueue.length > 0) {
-        entities_internal_remove_entity(self, entity_queue_pop(&self->removeQueue));
+        entities_internal_remove_entity(self, entity_queue_pop(&self->removeQueue), false);
     }
 }
