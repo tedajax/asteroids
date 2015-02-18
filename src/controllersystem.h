@@ -13,5 +13,7 @@ typedef struct controller_system_t {
 
 void controller_system_init(ControllerSystem* self, EntityManager* entityManager);
 void controller_system_update(ControllerSystem* self);
+void controller_system_on_collision_enter(AspectSystem* system, Entity entity, Message message);
+void controller_system_on_damage(AspectSystem* system, Entity entity, Message message);
 
 #endif

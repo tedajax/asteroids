@@ -37,12 +37,10 @@ typedef enum message_type_e {
 
 typedef struct message_on_collision_params_t {
     Entity other;
-    u8 padding[MESSAGE_PARAM_BLOCK_SIZE - 4];
 } MessageOnCollisionParams;
 
 typedef struct message_on_damage_params_t {
     i32 damage;
-    u8 padding[MESSAGE_PARAM_BLOCK_SIZE - 4];
 } MessageOnDamageParams;
 
 // TODO: Figure out some way of enforcing a schema on message params.  Right now it's really just built on trust.

@@ -3,6 +3,12 @@
 
 void controller_system_init(ControllerSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_CONTROLLER, 1);
+
+    REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER,
+        controller_system_on_collision_enter);
+
+    REGISTER_SYSTEM_HANDLER(MESSAGE_DAMAGE,
+        controller_system_on_damage);
 }
 
 void controller_system_update(ControllerSystem* self) {
@@ -19,6 +25,10 @@ void controller_system_update(ControllerSystem* self) {
             (TransformComponent*)GET_COMPONENT(entity, COMPONENT_TRANSFORM);
 
         REQUIRED_COMPONENTS(transform, movement, controller);
+
+        if (controller->damageRecoveryTimer > 0.f) {
+            controller->damageRecoveryTimer -= globals.time.delta;
+        }
 
         f32 turnRate = 0.f;
         Vec2 acceleration = vec2_zero();
@@ -65,4 +75,55 @@ void controller_system_update(ControllerSystem* self) {
             bullet_source_update(&controller->bulletSources[i], globals.time.delta, self->super.entityManager, transform);
         }
     }
+}
+
+void controller_system_on_collision_enter(AspectSystem* system, Entity entity, Message message) {
+    ControllerComponent* controller =
+        (ControllerComponent*)entities_get_component(system->entityManager,
+        COMPONENT_CONTROLLER,
+        entity);
+
+    REQUIRED_COMPONENTS(controller);
+
+    if (controller->damageRecoveryTimer > 0.f) {
+        return;
+    }
+
+    // Damage health on this controller
+    {
+        Message damageMsg;
+        MessageOnDamageParams damageParams;
+        damageParams.damage = 10;
+        message_init(&damageMsg, MESSAGE_DAMAGE);
+        MESSAGE_SET_PARAM_BLOCK(damageMsg, damageParams);
+
+        Entity target = entity;
+
+        entities_send_message(system->entityManager, target, damageMsg);
+    }
+
+    // Damage that thing that hit this controller
+    {
+        Message damageMsg;
+        MessageOnDamageParams damageParams;
+        damageParams.damage = 100000;
+        message_init(&damageMsg, MESSAGE_DAMAGE);
+        MESSAGE_SET_PARAM_BLOCK(damageMsg, damageParams);
+
+        MessageOnCollisionParams* params = (MessageOnCollisionParams*)message.paramBlock;
+        Entity target = params->other;
+
+        entities_send_message(system->entityManager, target, damageMsg);
+    }
+}
+
+void controller_system_on_damage(AspectSystem* system, Entity entity, Message message) {
+    ControllerComponent* controller =
+        (ControllerComponent*)entities_get_component(system->entityManager,
+        COMPONENT_CONTROLLER,
+        entity);
+
+    REQUIRED_COMPONENTS(controller);
+
+    controller->damageRecoveryTimer = controller->damageRecoveryInterval;
 }

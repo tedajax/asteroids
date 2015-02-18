@@ -11,8 +11,10 @@ typedef struct controller_component_t {
     f32 acceleration;
     f32 maxSpeed;
     f32 currentSpeed;
+    f32 damageRecoveryInterval;
     BulletSource* bulletSources;
     u32 bulletSourceCount;
+    f32 damageRecoveryTimer;
 } ControllerComponent;
 
 ControllerComponent* controller_component_new(Entity entity, Config* config, char* section);

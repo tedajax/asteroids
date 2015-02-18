@@ -21,7 +21,7 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
         (Component*)controller_component_new(entity, config_get("player.ini"), "player"));
 
     entities_add_component(entityManager,
-        (Component*)health_component_new(entity, 100000));
+        (Component*)health_component_new(entity, 100));
 
     entities_add_component(entityManager,
         (Component*)sprite_component_new(entity, atlas, spriteName, 1));
