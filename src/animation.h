@@ -1,5 +1,5 @@
 #ifndef RUNNER_ANIMATION_H
-#define RUNNER_ANIAMTION_H
+#define RUNNER_ANIMATION_H
 
 #include "core.h"
 #include "atlas.h"

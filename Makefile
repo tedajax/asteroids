@@ -28,11 +28,11 @@ endif
 
 EXPLICIT_OPTIMIZATIONS =
 
-TARGET		= runner
+TARGET		= asteroids
 CFLAGS		= -std=$(STD) -O$(OPT_LEVEL) $(EXPLICIT_OPTIMIZATIONS) -Wall -I. $(INCLUDE_FLAGS) $(DEBUG_FLAGS) -Wno-unknown-pragmas
 
 LINKER		= $(CC) -o
-LFLAGS		= -Wall -I. -lm -lluajit-5.1
+LFLAGS		= -Wall -I. -lm -lluajit-5.1 -lmxml
 
 SRCDIR		= src
 OBJDIR		= obj
