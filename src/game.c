@@ -9,6 +9,7 @@ bool drawCollision = false;
 bool playGame = false;
 
 ParticleEmitter testParticle;
+TransformComponent testParticleTransform;
 
 void game_debug_keys(Game* self);
 
@@ -104,6 +105,12 @@ void game_init(Game* self) {
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
 
+    testParticleTransform.position.x = 300;
+    testParticleTransform.position.y = 200;
+    testParticleTransform.rotation = 0;
+    testParticleTransform.scale.x = 1.f;
+    testParticleTransform.scale.y = 1.f;
+
     emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "fire_particle"));
 }
 
@@ -154,7 +161,8 @@ void game_update(Game* self) {
     collision_system_update(&self->collisionSystem);
     profiler_tock("collision");
 
-    emitter_update(&testParticle);
+    testParticleTransform.rotation += 25 * globals.time.delta;
+    emitter_update(&testParticle, &testParticleTransform);
 
     camera_update(&globals.camera);
 
@@ -195,7 +203,7 @@ void game_render(Game* self) {
 
     {
         Vec2 position = vec2_init(300, 100);
-        emitter_render(&testParticle, &position);
+        emitter_render(&testParticle, &testParticleTransform);
     }
     
     if (drawCollision) {

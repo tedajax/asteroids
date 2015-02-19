@@ -92,6 +92,9 @@ typedef struct particle_emitter_config_t {
     u32 maxParticles;
     f32 emissionInterval;
     u32 particlesPerEmission;
+    f32 emissionBaseAngle;
+    f32 emissionArcLength;
+    Vec2 spawnArea;
     char* atlasName;
     char* spriteName;
 } ParticleEmitterConfig;

@@ -7,6 +7,8 @@
 
 #include <SDL2/SDL.h>
 
+typedef struct transform_component_t TransformComponent;
+
 typedef struct particle_t {
     Vec2 position;
     Vec2 direction;
@@ -30,10 +32,10 @@ bool particle_dead(Particle* self);
 void emitter_init(ParticleEmitter* self, ParticleEmitterConfig* config);
 void emitter_free(ParticleEmitter* self);
 
-void emitter_update(ParticleEmitter* self);
+void emitter_update(ParticleEmitter* self, TransformComponent* anchor);
 i32 emitter_get_next_available(ParticleEmitter* self);
 
-void emitter_render(ParticleEmitter* self, Vec2* position);
+void emitter_render(ParticleEmitter* self, TransformComponent* anchor);
 
 
 #endif

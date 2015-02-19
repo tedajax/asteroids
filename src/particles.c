@@ -1,4 +1,5 @@
 #include "particles.h"
+#include "transformcomponent.h"
 
 void particle_init(Particle* self, Vec2 position, Vec2 direction, f32 speed, f32 lifetime) {
     vec2_copy_to(&position, &self->position);
@@ -25,7 +26,7 @@ void emitter_free(ParticleEmitter* self) {
     free(self->particles);
 }
 
-void emitter_update(ParticleEmitter* self) {
+void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
     self->emitTimer += globals.time.delta;
 
     for (u32 i = 0; i < self->config->maxParticles; ++i) {
@@ -54,7 +55,20 @@ void emitter_update(ParticleEmitter* self) {
 
         Particle* particle = &self->particles[index];
 
-        particle_init(particle, vec2_zero(), vec2_rand_direction(), 100.f, 1.f);
+        f32 angle = self->config->emissionBaseAngle;
+        f32 arc = self->config->emissionArcLength / 2.f;
+        angle += randf_range(-arc, arc);
+        angle += anchor->rotation;
+
+        Vec2 direction;
+        vec2_set_angle(&direction, angle, 1.f);
+
+        f32 w = self->config->spawnArea.x / 2.f;
+        f32 h = self->config->spawnArea.y / 2.f;
+        Vec2 spawnPos = vec2_rand_range(-w, -h, w, h);
+        vec2_tranform(&spawnPos, anchor->rotation, &spawnPos);
+
+        particle_init(particle, spawnPos, direction, 100.f, 1.f);
     }
 
     self->emitTimer = 0;
@@ -71,7 +85,7 @@ i32 emitter_get_next_available(ParticleEmitter* self) {
     return -1;
 }
 
-void emitter_render(ParticleEmitter* self, Vec2* position) {
+void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
     SpriteFrame* frame = atlas_get_frame(self->atlas, self->config->spriteName);
 
     for (u32 i = 0; i < self->config->maxParticles; ++i) {
@@ -84,8 +98,8 @@ void emitter_render(ParticleEmitter* self, Vec2* position) {
         SDL_SetTextureAlphaMod(self->atlas->texture, (u8)(particle->alpha * 255.f));
 
         SDL_Rect dest;
-        dest.x = (int)particle->position.x + (int)position->x;
-        dest.y = (int)particle->position.y + (int)position->y;
+        dest.x = (int)particle->position.x + (int)anchor->position.x;
+        dest.y = (int)particle->position.y + (int)anchor->position.y;
         dest.w = (int)frame->frame.width;
         dest.h = (int)frame->frame.height;
 
@@ -99,7 +113,7 @@ void emitter_render(ParticleEmitter* self, Vec2* position) {
             self->atlas->texture,
             &src,
             &dest,
-            0.f,
+            anchor->rotation,
             NULL,
             SDL_FLIP_NONE);
     }

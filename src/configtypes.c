@@ -108,4 +108,7 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
     self->maxParticles = (u32)CONFIG_GET(int)(config, table, "max_particles");
     self->particlesPerEmission = (u32)CONFIG_GET(int)(config, table, "emission_count");
     self->emissionInterval = CONFIG_GET(float)(config, table, "emission_interval");
+    self->emissionBaseAngle = CONFIG_TRY_GET(float)(config, table, "base_angle", 0.f);
+    self->emissionArcLength = CONFIG_TRY_GET(float)(config, table, "arc_length", 360.f);
+    self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());
 }
