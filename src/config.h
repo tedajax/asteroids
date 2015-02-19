@@ -89,6 +89,7 @@ CONFIG_REGISTER_TYPE_NAMED(ColliderConfig*, ColliderConfig);
 CONFIG_REGISTER_TYPE_NAMED(BulletSourceConfig*, BulletSourceConfig);
 CONFIG_REGISTER_TYPE_NAMED(TweenConfig*, TweenConfig);
 CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);
+CONFIG_REGISTER_TYPE_NAMED(ParticleEmitterConfig*, ParticleEmitterConfig);
 
 #define CONFIG_GET_KEY(charptr, data, section, key, index) \
     charptr = ini_get_string_at(data, section, key, index);
@@ -113,7 +114,9 @@ CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);
     }                                                                           \
     configtype* config = CALLOC(1, configtype);                                 \
     config->super.type = typeenum;                                              \
-    config->super.tableName = cfgSection;                                       \
+    size_t nameLen = strlen(cfgSection) + 1;                                    \
+    config->super.tableName = CALLOC(nameLen + 1, char);                        \
+    strncpy(config->super.tableName, cfgSection, nameLen);                      \
     DESERIALIZE(typeenum, (TypeConfig*)config, self, cfgSection);               \
     hashtable_insert(&self->typeConfigs, cfgSection, config);                   \
     return config;                                                              \

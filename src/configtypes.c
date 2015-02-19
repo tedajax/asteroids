@@ -99,3 +99,13 @@ void level_config_deserialize(TypeConfig* super, Config* config, char* table) {
 
     self->remove_this_later = 0;
 }
+
+void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char* table) {
+    ParticleEmitterConfig* self = (ParticleEmitterConfig*)super;
+
+    self->atlasName = CONFIG_GET(string)(config, table, "texture_atlas");
+    self->spriteName = CONFIG_GET(string)(config, table, "sprite");
+    self->maxParticles = (u32)CONFIG_GET(int)(config, table, "max_particles");
+    self->particlesPerEmission = (u32)CONFIG_GET(int)(config, table, "emission_count");
+    self->emissionInterval = CONFIG_GET(float)(config, table, "emission_interval");
+}

@@ -21,6 +21,15 @@ void config_type_free_void(void* pself) {
     config_type_free((Config*)pself);
 }
 
+void type_config_free(TypeConfig* self) {
+    free(self->tableName);
+    free(self);
+}
+
+void type_config_free_void(void* self) {
+    type_config_free((TypeConfig*)self);
+}
+
 bool config_type_update_mtime(Config* self) {
     time_t mtime = config_get_mtime(self->path);
     
@@ -53,6 +62,7 @@ void config_init() {
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_COLLIDER, collider_config_deserialize);
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_BULLET_SOURCE, bullet_source_config_deserialize);
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_TWEEN, tween_config_deserialize);
+    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_PARTICLE_EMITTER, particle_emitter_config_deserialize);
 }
 
 void config_terminate() {
@@ -87,7 +97,7 @@ void config_system_load(ConfigSystem* self, const char* filename) {
     strcpy(newConfig->path, fullPath);
     newConfig->lastMTime = config_get_mtime(newConfig->path);
 
-    hashtable_init(&newConfig->typeConfigs, 32, free);
+    hashtable_init(&newConfig->typeConfigs, 32, type_config_free_void);
     hashtable_insert(&self->configTable, filename, (void*)newConfig);
 }
 
@@ -212,3 +222,4 @@ CONFIG_TRY_GET_AT_PROTO(dynf32) {
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(ColliderConfig, TYPE_CONFIG_COLLIDER);
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(BulletSourceConfig, TYPE_CONFIG_BULLET_SOURCE);
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(TweenConfig, TYPE_CONFIG_TWEEN);
+CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(ParticleEmitterConfig, TYPE_CONFIG_PARTICLE_EMITTER);

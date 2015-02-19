@@ -2,6 +2,8 @@
 #define RUNNER_PARTICLES_H
 
 #include "core.h"
+#include "config.h"
+#include "atlas.h"
 
 #include <SDL2/SDL.h>
 
@@ -11,26 +13,21 @@ typedef struct particle_t {
     f32 speed;
     f32 lifetime;
     f32 alpha;
-    SDL_Texture* texture;
 } Particle;
 
 typedef struct particle_emitter_t {
+    ParticleEmitterConfig* config;
     Particle* particles;
-    u32 capacity;
-    SDL_Texture* texture;
-    //bool simulateLocally; // true to update particles in relation to emitter space, false to simulate them in world space
+    Atlas* atlas;
     f32 emitTimer;
-    f32 emitInterval;
-    u32 particlesPerEmit; // TODO: Support ranges (probably a feature of the config structure)
 } ParticleEmitter;
 
 // TODO: some sort of ParticleConfig struct
-void particle_init(Particle* self, Vec2 position, Vec2 direction, f32 speed, f32 lifetime, SDL_Texture* texture);
+void particle_init(Particle* self, Vec2 position, Vec2 direction, f32 speed, f32 lifetime);
 bool particle_dead(Particle* self);
 
 // TODO: ParticleEmitterConfig struct
-void emitter_init(ParticleEmitter* self, u32 maxParticles, SDL_Texture* texture);
-void emitter_config(ParticleEmitter* self, const char* configName, const char* sectionName);
+void emitter_init(ParticleEmitter* self, ParticleEmitterConfig* config);
 void emitter_free(ParticleEmitter* self);
 
 void emitter_update(ParticleEmitter* self);

@@ -1,11 +1,14 @@
 #include "game.h"
 #include "prefab.h"
 #include "atlas.h"
+#include "particles.h"
 
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
 bool playGame = false;
+
+ParticleEmitter testParticle;
 
 void game_debug_keys(Game* self);
 
@@ -100,6 +103,8 @@ void game_init(Game* self) {
         DebugHudWatch* tweenWatch = debug_hud_add_watch(&self->debugHud, "Tweens", WATCH_TYPE_INT, &globals.tweens.count);
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
+
+    emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "fire_particle"));
 }
 
 void game_quit(Game* self) {
@@ -110,6 +115,8 @@ void game_quit(Game* self) {
     tween_manager_terminate(&globals.tweens);
     debug_hud_free(&self->debugHud);
     component_system_terminate();
+
+    emitter_free(&testParticle);
 }
 
 void game_start(Game* self) {
@@ -147,6 +154,8 @@ void game_update(Game* self) {
     collision_system_update(&self->collisionSystem);
     profiler_tock("collision");
 
+    emitter_update(&testParticle);
+
     camera_update(&globals.camera);
 
     debug_hud_update_surfaces(&self->debugHud, globals.renderer);
@@ -183,6 +192,12 @@ void game_debug_keys(Game* self) {
 
 void game_render(Game* self) {
     sprite_system_render(&self->spriteSystem);
+
+    {
+        Vec2 position = vec2_init(300, 100);
+        emitter_render(&testParticle, &position);
+    }
+    
     if (drawCollision) {
         collision_system_render(&self->collisionSystem);
     }

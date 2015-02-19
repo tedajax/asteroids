@@ -10,6 +10,7 @@ typedef enum type_config_type_e {
     TYPE_CONFIG_COLLIDER = 0,
     TYPE_CONFIG_BULLET_SOURCE,
     TYPE_CONFIG_TWEEN,
+    TYPE_CONFIG_PARTICLE_EMITTER,
     TYPE_CONFIG_LAST
 } TypeConfigType;
 
@@ -85,5 +86,16 @@ typedef struct level_config_t {
 } LevelConfig;
 
 void level_config_deserialize(TypeConfig* super, Config* config, char* table);
+
+typedef struct particle_emitter_config_t {
+    TypeConfig super;
+    u32 maxParticles;
+    f32 emissionInterval;
+    u32 particlesPerEmission;
+    char* atlasName;
+    char* spriteName;
+} ParticleEmitterConfig;
+
+void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char* table);
 
 #endif
