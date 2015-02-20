@@ -166,31 +166,51 @@ CONFIG_TRY_GET_AT_PROTO(bool) {
 }
 
 CONFIG_GET_AT_PROTO(Vec2) {
-    f32 x = ini_get_float_at(&self->data, section, key, index * 2 + 0);
-    f32 y = ini_get_float_at(&self->data, section, key, index * 2 + 1);
+    f32 x = CONFIG_GET_AT(float)(self, section, key, index * 2 + 0);
+    f32 y = CONFIG_GET_AT(float)(self, section, key, index * 2 + 1);
     return vec2_init(x, y);
 }
 
 CONFIG_TRY_GET_AT_PROTO(Vec2) {
-    f32 x = ini_try_get_float_at(&self->data, section, key, index * 2 + 0, defaultValue.x);
-    f32 y = ini_try_get_float_at(&self->data, section, key, index * 2 + 1, defaultValue.y);
+    f32 x = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 0, defaultValue.x);
+    f32 y = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 1, defaultValue.y);
     return vec2_init(x, y);
 }
 
 CONFIG_GET_AT_PROTO(Range) {
-    f32 min = ini_get_float_at(&self->data, section, key, index * 2 + 0);
-    f32 max = ini_get_float_at(&self->data, section, key, index * 2 + 1);
+    f32 min = CONFIG_GET_AT(float)(self, section, key, index * 2 + 0);
+    f32 max = CONFIG_GET_AT(float)(self, section, key, index * 2 + 1);
     Range r;
     range_init(&r, min, max);
     return r;
 }
 
 CONFIG_TRY_GET_AT_PROTO(Range) {
-    f32 min = ini_try_get_float_at(&self->data, section, key, index * 2 + 0, defaultValue.min);
-    f32 max = ini_try_get_float_at(&self->data, section, key, index * 2 + 1, defaultValue.max);
+    f32 min = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 0, defaultValue.min);
+    f32 max = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 1, defaultValue.max);
     Range r;
     range_init(&r, min, max);
     return r;
+}
+
+CONFIG_GET_AT_PROTO(Color) {
+    u8 r = (u8)CONFIG_GET_AT(int)(self, section, key, index * 2 + 0);
+    u8 g = (u8)CONFIG_GET_AT(int)(self, section, key, index * 2 + 1);
+    u8 b = (u8)CONFIG_GET_AT(int)(self, section, key, index * 2 + 2);
+    u8 a = (u8)CONFIG_TRY_GET_AT(int)(self, section, key, index * 2 + 3, 255);
+    Color result;
+    color_init_rgba(&result, r, g, b, a);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(Color) {
+    u8 r = (u8)CONFIG_TRY_GET_AT(int)(self, section, key, index * 2 + 0, defaultValue.r);
+    u8 g = (u8)CONFIG_TRY_GET_AT(int)(self, section, key, index * 2 + 1, defaultValue.g);
+    u8 b = (u8)CONFIG_TRY_GET_AT(int)(self, section, key, index * 2 + 2, defaultValue.b);
+    u8 a = (u8)CONFIG_TRY_GET_AT(int)(self, section, key, index * 2 + 3, defaultValue.a);
+    Color result;
+    color_init_rgba(&result, r, g, b, a);
+    return result;
 }
 
 CONFIG_GET_AT_PROTO(dynf32) {
@@ -217,6 +237,36 @@ CONFIG_TRY_GET_AT_PROTO(dynf32) {
     if (!config_try_get_string_at(self, section, key, index, NULL)) { return defaultValue; }
 
     return CONFIG_GET_AT(dynf32)(self, section, key, index);
+}
+
+CONFIG_GET_AT_PROTO(DynamicVec2) {
+    char* table = CONFIG_GET_AT(string)(self, section, key, index);
+
+    DynamicVec2 result;
+    result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);
+    result.min = CONFIG_GET_AT(Vec2)(self, table, "min", index);
+    result.max = CONFIG_GET_AT(Vec2)(self, table, "max", index);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(DynamicVec2) {
+    if (!CONFIG_TRY_GET_AT(string)(self, section, key, index, NULL)) { return defaultValue; }
+    return CONFIG_GET_AT(DynamicVec2)(self, section, key, index);
+}
+
+CONFIG_GET_AT_PROTO(DynamicColor) {
+    char* table = CONFIG_GET_AT(string)(self, section, key, index);
+
+    DynamicColor result;
+    result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);
+    result.min = CONFIG_GET_AT(Color)(self, table, "min", index);
+    result.max = CONFIG_GET_AT(Color)(self, table, "max", index);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(DynamicColor) {
+    if (!CONFIG_TRY_GET_AT(string)(self, section, key, index, NULL)) { return defaultValue; }
+    return CONFIG_GET_AT(DynamicColor)(self, section, key, index);
 }
 
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(ColliderConfig, TYPE_CONFIG_COLLIDER);

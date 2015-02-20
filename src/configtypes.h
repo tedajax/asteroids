@@ -3,8 +3,8 @@
 
 #include "types.h"
 #include "algebra.h"
-
 #include "dynf32.h"
+#include "dynamics.h"
 
 typedef enum type_config_type_e {
     TYPE_CONFIG_COLLIDER = 0,
@@ -90,11 +90,13 @@ void level_config_deserialize(TypeConfig* super, Config* config, char* table);
 typedef struct particle_emitter_config_t {
     TypeConfig super;
     u32 maxParticles;
-    f32 emissionInterval;
     u32 particlesPerEmission;
+    f32 emissionInterval;
     f32 emissionBaseAngle;
     f32 emissionArcLength;
+    DynamicVec2 scale;
     Vec2 spawnArea;
+    bool worldSpace;
     char* atlasName;
     char* spriteName;
 } ParticleEmitterConfig;

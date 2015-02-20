@@ -327,6 +327,12 @@
     <ClCompile Include="src\asteroidcontrollersystem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\color.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dynamics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -570,6 +576,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\asteroidcontrollersystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dynamics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

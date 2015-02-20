@@ -7,22 +7,22 @@ void dynf32_zero(dynf32* self) {
     self->tweenConfig = NULL;
 }
 
+dynf32 dynf32_value(f32 value) {
+    dynf32 result;
+    result.value = value;
+    result.tween = NULL;
+    result.tweenConfig = NULL;
+    result.type = DYN_F32_VALUE;
+    return result;
+}
+
 void dynf32_release(dynf32* self) {
     if (self->type == DYN_F32_TWEEN) {
         tween_release(self->tween);
     }
 }
 
-void dynf32_start_tween(dynf32* self, TweenManager* tweenManager) {
-    if (self->type == DYN_F32_TWEEN) {
-        ASSERT(self->tween == NULL, "Tween has already been initialized.");
-        
-        self->tween = tween_manager_create(tweenManager, self->tweenConfig);
-        tween_play(self->tween);
-    }
-}
-
-void dynf32_restart(dynf32* self, TweenManager* tweenManager) {
+void dynf32_start(dynf32* self, TweenManager* tweenManager) {
     if (self->type != DYN_F32_TWEEN) {
         return;
     }
@@ -31,7 +31,8 @@ void dynf32_restart(dynf32* self, TweenManager* tweenManager) {
         dynf32_release(self);
     }
 
-    dynf32_start_tween(self, tweenManager);
+    self->tween = tween_manager_create(tweenManager, self->tweenConfig);
+    tween_play(self->tween);
 }
 
 void dynf32_copy(const dynf32* source, dynf32* dest) {

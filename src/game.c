@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
-bool playGame = false;
+bool playGame = true;
 
 ParticleEmitter testParticle;
 TransformComponent testParticleTransform;
@@ -161,7 +161,9 @@ void game_update(Game* self) {
     collision_system_update(&self->collisionSystem);
     profiler_tock("collision");
 
-    testParticleTransform.rotation += 25 * globals.time.delta;
+    testParticleTransform.position.x += 200 * globals.time.delta;
+    if (testParticleTransform.position.x > globals.world.width) { testParticleTransform.position.x = 0; }
+    testParticleTransform.rotation += 0 * globals.time.delta;
     emitter_update(&testParticle, &testParticleTransform);
 
     camera_update(&globals.camera);
@@ -201,11 +203,8 @@ void game_debug_keys(Game* self) {
 void game_render(Game* self) {
     sprite_system_render(&self->spriteSystem);
 
-    {
-        Vec2 position = vec2_init(300, 100);
-        emitter_render(&testParticle, &testParticleTransform);
-    }
-    
+    emitter_render(&testParticle, &testParticleTransform);
+
     if (drawCollision) {
         collision_system_render(&self->collisionSystem);
     }

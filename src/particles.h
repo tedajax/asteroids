@@ -4,6 +4,7 @@
 #include "core.h"
 #include "config.h"
 #include "atlas.h"
+#include "dynamics.h"
 
 #include <SDL2/SDL.h>
 
@@ -12,9 +13,10 @@ typedef struct transform_component_t TransformComponent;
 typedef struct particle_t {
     Vec2 position;
     Vec2 direction;
+    DynamicVec2 scale;
     f32 speed;
     f32 lifetime;
-    f32 alpha;
+    f32 alpha;    
 } Particle;
 
 typedef struct particle_emitter_t {
@@ -25,7 +27,7 @@ typedef struct particle_emitter_t {
 } ParticleEmitter;
 
 // TODO: some sort of ParticleConfig struct
-void particle_init(Particle* self, Vec2 position, Vec2 direction, f32 speed, f32 lifetime);
+void particle_init(Particle* self, Vec2 position, Vec2 direction, DynamicVec2* scale, f32 speed, f32 lifetime);
 bool particle_dead(Particle* self);
 
 // TODO: ParticleEmitterConfig struct

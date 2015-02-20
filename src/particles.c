@@ -1,9 +1,11 @@
 #include "particles.h"
 #include "transformcomponent.h"
 
-void particle_init(Particle* self, Vec2 position, Vec2 direction, f32 speed, f32 lifetime) {
+void particle_init(Particle* self, Vec2 position, Vec2 direction, DynamicVec2* scale, f32 speed, f32 lifetime) {
     vec2_copy_to(&position, &self->position);
     vec2_copy_to(&direction, &self->direction);
+    dynamic_vec2_copy(scale, &self->scale);
+    dynamic_vec2_start(&self->scale, &globals.tweens);
     self->speed = speed;
     self->lifetime = lifetime;
     self->alpha = 255;
@@ -43,6 +45,10 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
 
         particle->lifetime -= globals.time.delta;
         particle->alpha = particle->lifetime / 1.f;
+
+        if (particle_dead(particle)) {
+            dynamic_vec2_release(&particle->scale);
+        }
     }
 
     if (self->emitTimer < self->config->emissionInterval) {
@@ -68,7 +74,11 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         Vec2 spawnPos = vec2_rand_range(-w, -h, w, h);
         vec2_tranform(&spawnPos, anchor->rotation, &spawnPos);
 
-        particle_init(particle, spawnPos, direction, 100.f, 1.f);
+        if (self->config->worldSpace) {
+            vec2_add(&spawnPos, &anchor->position, &spawnPos);
+        }
+
+        particle_init(particle, spawnPos, direction, &self->config->scale, 100.f, 1.f);
     }
 
     self->emitTimer = 0;
@@ -97,11 +107,17 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
 
         SDL_SetTextureAlphaMod(self->atlas->texture, (u8)(particle->alpha * 255.f));
 
+        Vec2 scale = dynamic_vec2_get(&particle->scale);
+        f32 width = frame->frame.width * scale.x;
+        f32 height = frame->frame.height * scale.y;
+        f32 halfWidth = width / 2.f;
+        f32 halfHeight = height / 2.f;
+
         SDL_Rect dest;
-        dest.x = (int)particle->position.x + (int)anchor->position.x;
-        dest.y = (int)particle->position.y + (int)anchor->position.y;
-        dest.w = (int)frame->frame.width;
-        dest.h = (int)frame->frame.height;
+        dest.x = (int)particle->position.x - (int)halfWidth;
+        dest.y = (int)particle->position.y - (int)halfHeight;
+        dest.w = (int)width;
+        dest.h = (int)height;
 
         SDL_Rect src;
         src.x = (int)frame->frame.position.x;
@@ -109,11 +125,19 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
         src.w = (int)frame->frame.width;
         src.h = (int)frame->frame.height;
 
+        f32 rotation = 0.f;
+
+        if (!self->config->worldSpace) {
+            dest.x += (int)anchor->position.x;
+            dest.y += (int)anchor->position.y;
+            rotation = anchor->rotation;
+        }
+
         SDL_RenderCopyEx(globals.renderer,
             self->atlas->texture,
             &src,
             &dest,
-            anchor->rotation,
+            rotation,
             NULL,
             SDL_FLIP_NONE);
     }

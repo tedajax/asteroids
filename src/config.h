@@ -7,6 +7,7 @@
 #include "inline.h"
 #include "algebra.h"
 #include "range.h"
+#include "dynamics.h"
 
 #include "configtypes.h"
 
@@ -83,7 +84,10 @@ CONFIG_REGISTER_TYPE(float);
 CONFIG_REGISTER_TYPE(bool);
 CONFIG_REGISTER_TYPE(Vec2);
 CONFIG_REGISTER_TYPE(Range);
+CONFIG_REGISTER_TYPE(Color);
 CONFIG_REGISTER_TYPE(dynf32);
+CONFIG_REGISTER_TYPE(DynamicVec2);
+CONFIG_REGISTER_TYPE(DynamicColor);
 CONFIG_REGISTER_TYPE_NAMED(char*, string);
 CONFIG_REGISTER_TYPE_NAMED(ColliderConfig*, ColliderConfig);
 CONFIG_REGISTER_TYPE_NAMED(BulletSourceConfig*, BulletSourceConfig);

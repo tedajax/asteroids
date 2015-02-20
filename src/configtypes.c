@@ -70,14 +70,14 @@ void bullet_source_config_deserialize(TypeConfig* super, Config* config, char* t
     
     self->textureName = config_get_string(config, table, "texture_name");
 
-    dynf32_restart(&self->burstShotDelay, &globals.tweens);
-    dynf32_restart(&self->spread, &globals.tweens);
-    dynf32_restart(&self->lifetime, &globals.tweens);
-    dynf32_restart(&self->speed, &globals.tweens);
-    dynf32_restart(&self->angle, &globals.tweens);
-    dynf32_restart(&self->fireDelay, &globals.tweens);
-    dynf32_restart(&self->startAngle, &globals.tweens);
-    dynf32_restart(&self->damage, &globals.tweens);
+    dynf32_start(&self->burstShotDelay, &globals.tweens);
+    dynf32_start(&self->spread, &globals.tweens);
+    dynf32_start(&self->lifetime, &globals.tweens);
+    dynf32_start(&self->speed, &globals.tweens);
+    dynf32_start(&self->angle, &globals.tweens);
+    dynf32_start(&self->fireDelay, &globals.tweens);
+    dynf32_start(&self->startAngle, &globals.tweens);
+    dynf32_start(&self->damage, &globals.tweens);
 
     self->colliderConfig = config_get_ColliderConfig(config, table, "collider");
 }
@@ -110,5 +110,7 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
     self->emissionInterval = CONFIG_GET(float)(config, table, "emission_interval");
     self->emissionBaseAngle = CONFIG_TRY_GET(float)(config, table, "base_angle", 0.f);
     self->emissionArcLength = CONFIG_TRY_GET(float)(config, table, "arc_length", 360.f);
+    self->scale = CONFIG_TRY_GET(DynamicVec2)(config, table, "scale", dynamic_vec2_value(vec2_one()));
     self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());
+    self->worldSpace = CONFIG_TRY_GET(bool)(config, table, "world_space", false);
 }
