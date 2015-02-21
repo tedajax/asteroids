@@ -39,9 +39,18 @@ void color_init_packed(Color* self, u32 c) {
 }
 
 void color_lerp(Color* min, Color* max, f32 t, Color* dest) {
-    f32 r = lerpf(min->r / 255.f, max->r / 255.f, t);
-    f32 g = lerpf(min->g / 255.f, max->g / 255.f, t);
-    f32 b = lerpf(min->b / 255.f, max->b / 255.f, t);
-    f32 a = lerpf(min->a / 255.f, max->a / 255.f, t);
+    f32 rminf = (f32)min->r / 255.f;
+    f32 gminf = (f32)min->g / 255.f;
+    f32 bminf = (f32)min->b / 255.f;
+    f32 aminf = (f32)min->a / 255.f;
+    f32 rmaxf = (f32)max->r / 255.f;
+    f32 gmaxf = (f32)max->g / 255.f;
+    f32 bmaxf = (f32)max->b / 255.f;
+    f32 amaxf = (f32)max->a / 255.f;
+
+    f32 r = lerpf(rminf, rmaxf, t);
+    f32 g = lerpf(gminf, gmaxf, t);
+    f32 b = lerpf(bminf, bmaxf, t);
+    f32 a = lerpf(aminf, amaxf, t);
     *dest = color_make_rgbaf(r, g, b, a);
 }

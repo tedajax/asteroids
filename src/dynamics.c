@@ -61,10 +61,13 @@ void dynamic_color_start(DynamicColor* self, TweenManager* tweenManager) {
 }
 
 void dynamic_color_copy(const DynamicColor* source, DynamicColor* dest) {
+    dest->min = source->min;
+    dest->max = source->max;
     dynf32_copy(&source->time, &dest->time);
 }
 
 Color dynamic_color_get(DynamicColor* self) {
     Color result;
     color_lerp(&self->min, &self->max, dynf32_get(&self->time), &result);
+    return result;
 }

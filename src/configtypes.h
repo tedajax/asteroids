@@ -95,6 +95,7 @@ typedef struct particle_emitter_config_t {
     f32 emissionBaseAngle;
     f32 emissionArcLength;
     DynamicVec2 scale;
+    DynamicColor color;
     Vec2 spawnArea;
     bool worldSpace;
     char* atlasName;

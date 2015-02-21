@@ -1,14 +1,15 @@
 #include "particles.h"
 #include "transformcomponent.h"
 
-void particle_init(Particle* self, Vec2 position, Vec2 direction, DynamicVec2* scale, f32 speed, f32 lifetime) {
-    vec2_copy_to(&position, &self->position);
-    vec2_copy_to(&direction, &self->direction);
-    dynamic_vec2_copy(scale, &self->scale);
+void particle_init(Particle* self, ParticleConfig* config) {
+    vec2_copy_to(&config->position, &self->position);
+    vec2_copy_to(&config->direction, &self->direction);
+    dynamic_vec2_copy(config->scale, &self->scale);
     dynamic_vec2_start(&self->scale, &globals.tweens);
-    self->speed = speed;
-    self->lifetime = lifetime;
-    self->alpha = 255;
+    dynamic_color_copy(config->color, &self->color);
+    dynamic_color_start(&self->color, &globals.tweens);
+    self->speed = config->speed;
+    self->lifetime = config->lifetime;
 }
 
 bool particle_dead(Particle* self) {
@@ -44,10 +45,10 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         vec2_add(&particle->position, &velocity, &particle->position);
 
         particle->lifetime -= globals.time.delta;
-        particle->alpha = particle->lifetime / 1.f;
 
         if (particle_dead(particle)) {
             dynamic_vec2_release(&particle->scale);
+            dynamic_color_release(&particle->color);
         }
     }
 
@@ -78,7 +79,16 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
             vec2_add(&spawnPos, &anchor->position, &spawnPos);
         }
 
-        particle_init(particle, spawnPos, direction, &self->config->scale, 100.f, 1.f);
+        ParticleConfig particleCfg = {
+            spawnPos,
+            direction,
+            &self->config->scale,
+            &self->config->color,
+            100.f,
+            1.f
+        };
+
+        particle_init(particle, &particleCfg);
     }
 
     self->emitTimer = 0;
@@ -98,14 +108,16 @@ i32 emitter_get_next_available(ParticleEmitter* self) {
 void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
     SpriteFrame* frame = atlas_get_frame(self->atlas, self->config->spriteName);
 
-    for (u32 i = 0; i < self->config->maxParticles; ++i) {
+    for (i32 i = (i32)self->config->maxParticles - 1; i >= 0; --i) {
         Particle* particle = &self->particles[i];
         
         if (particle_dead(particle)) {
             continue;
         }
 
-        SDL_SetTextureAlphaMod(self->atlas->texture, (u8)(particle->alpha * 255.f));
+        Color color = dynamic_color_get(&particle->color);
+        SDL_SetTextureColorMod(self->atlas->texture, color.r, color.g, color.b);
+        SDL_SetTextureAlphaMod(self->atlas->texture, color.a);
 
         Vec2 scale = dynamic_vec2_get(&particle->scale);
         f32 width = frame->frame.width * scale.x;
@@ -142,5 +154,6 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
             SDL_FLIP_NONE);
     }
 
+    SDL_SetTextureColorMod(self->atlas->texture, 255, 255, 255);
     SDL_SetTextureAlphaMod(self->atlas->texture, 255);
 }

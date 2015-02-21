@@ -161,7 +161,7 @@ void game_update(Game* self) {
     collision_system_update(&self->collisionSystem);
     profiler_tock("collision");
 
-    testParticleTransform.position.x += 200 * globals.time.delta;
+    testParticleTransform.position.x += 0 * globals.time.delta;
     if (testParticleTransform.position.x > globals.world.width) { testParticleTransform.position.x = 0; }
     testParticleTransform.rotation += 0 * globals.time.delta;
     emitter_update(&testParticle, &testParticleTransform);

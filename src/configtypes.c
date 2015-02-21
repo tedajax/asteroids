@@ -111,6 +111,7 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
     self->emissionBaseAngle = CONFIG_TRY_GET(float)(config, table, "base_angle", 0.f);
     self->emissionArcLength = CONFIG_TRY_GET(float)(config, table, "arc_length", 360.f);
     self->scale = CONFIG_TRY_GET(DynamicVec2)(config, table, "scale", dynamic_vec2_value(vec2_one()));
+    self->color = CONFIG_TRY_GET(DynamicColor)(config, table, "color", dynamic_color_value(color_make_rgb(255, 255, 255)));
     self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());
     self->worldSpace = CONFIG_TRY_GET(bool)(config, table, "world_space", false);
 }
