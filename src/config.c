@@ -298,8 +298,8 @@ CONFIG_GET_AT_PROTO(DynamicVec2) {
 
     DynamicVec2 result;
     result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);
-    result.min = CONFIG_GET_AT(Vec2)(self, table, "min", index);
-    result.max = CONFIG_GET_AT(Vec2)(self, table, "max", index);
+    result.min = CONFIG_GET_AT(DynFloat2)(self, table, "min", index);
+    result.max = CONFIG_GET_AT(DynFloat2)(self, table, "max", index);
     return result;
 }
 
@@ -321,8 +321,8 @@ CONFIG_GET_AT_PROTO(DynamicColor) {
 
     DynamicColor result;
     result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);
-    result.min = CONFIG_GET_AT(Color)(self, table, "min", index);
-    result.max = CONFIG_GET_AT(Color)(self, table, "max", index);
+    result.min = CONFIG_GET_AT(DynFloat4)(self, table, "min", index);
+    result.max = CONFIG_GET_AT(DynFloat4)(self, table, "max", index);
     return result;
 }
 

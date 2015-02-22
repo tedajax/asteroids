@@ -17,7 +17,7 @@ dynf32 dynf32_value(f32 value) {
 }
 
 void dynf32_release(dynf32* self) {
-    if (self->type == DYN_F32_TWEEN) {
+    if (self->type == DYN_F32_TWEEN && self->tween) {
         tween_release(self->tween);
     }
 }

@@ -54,3 +54,11 @@ void color_lerp(Color* min, Color* max, f32 t, Color* dest) {
     f32 a = lerpf(aminf, amaxf, t);
     *dest = color_make_rgbaf(r, g, b, a);
 }
+
+void color_lerpf(Color* min, Color* max, f32 t, Color* dest) {
+    f32 r = lerpf(min->r, max->r, t);
+    f32 g = lerpf(min->g, max->g, t);
+    f32 b = lerpf(min->b, max->b, t);
+    f32 a = lerpf(min->a, max->a, t);
+    *dest = color_make_rgbaf(r, g, b, a);
+}

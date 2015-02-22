@@ -119,11 +119,12 @@ void game_quit(Game* self) {
     entity_manager_free(self->entityManager);
     atlases_terminate();
     textures_terminate();
+    emitter_free(&testParticle);
     tween_manager_terminate(&globals.tweens);
     debug_hud_free(&self->debugHud);
     component_system_terminate();
 
-    emitter_free(&testParticle);
+    
 }
 
 void game_start(Game* self) {

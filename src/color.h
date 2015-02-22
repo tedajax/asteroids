@@ -17,6 +17,7 @@ void color_init_rgba(Color* self, u8 r, u8 g, u8 b, u8 a);
 void color_init_rgbaf(Color* self, f32 r, f32 g, f32 b, f32 a);
 void color_init_packed(Color* self, u32 c);
 
-void color_lerp(Color* a, Color* b, f32 t, Color* dest);
+void color_lerp(Color* min, Color* max, f32 t, Color* dest);
+void color_lerpf(Color* min, Color* max, f32 t, Color* dest);
 
 #endif

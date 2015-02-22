@@ -7,18 +7,18 @@
 #include "color.h"
 
 typedef struct dynamic_vec2_t {
-    Vec2 min;
-    Vec2 max;
+    DynFloat2 min;
+    DynFloat2 max;
     dynf32 time;
 } DynamicVec2;
 
 typedef struct dynamic_color_t {
-    Color min;
-    Color max;
+    DynFloat4 min;
+    DynFloat4 max;
     dynf32 time;
 } DynamicColor;
 
-void dynamic_vec2_init(DynamicVec2* self, Vec2 min, Vec2 max, dynf32 time);
+void dynamic_vec2_init(DynamicVec2* self, DynFloat2 min, DynFloat2 max, dynf32 time);
 DynamicVec2 dynamic_vec2_value(Vec2 value);
 void dynamic_vec2_release(DynamicVec2* self);
 void dynamic_vec2_start(DynamicVec2* self, TweenManager* tweenManager);
@@ -27,7 +27,7 @@ Vec2 dynamic_vec2_get(DynamicVec2* self);
 void dynamic_vec2_play(DynamicVec2* self);
 void dynamic_vec2_pause(DynamicVec2* self);
 
-void dynamic_color_init(DynamicColor* self, Color min, Color max, dynf32 time);
+void dynamic_color_init(DynamicColor* self, DynFloat4 min, DynFloat4 max, dynf32 time);
 DynamicColor dynamic_color_value(Color value);
 void dynamic_color_release(DynamicColor* self);
 void dynamic_color_start(DynamicColor* self, TweenManager* tweenManager);
