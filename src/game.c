@@ -106,7 +106,7 @@ void game_init(Game* self) {
     }
 
     testParticleTransform.position.x = 300;
-    testParticleTransform.position.y = 200;
+    testParticleTransform.position.y = 500;
     testParticleTransform.rotation = 0;
     testParticleTransform.scale.x = 1.f;
     testParticleTransform.scale.y = 1.f;

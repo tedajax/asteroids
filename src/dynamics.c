@@ -36,6 +36,15 @@ Vec2 dynamic_vec2_get(DynamicVec2* self) {
     return result;
 }
 
+void dynamic_vec2_play(DynamicVec2* self) {
+    dynf32_play(&self->time);
+}
+
+void dynamic_vec2_pause(DynamicVec2* self) {
+    dynf32_pause(&self->time);
+}
+
+
 void dynamic_color_init(DynamicColor* self, Color min, Color max, dynf32 time) {
     self->min = min;
     self->max = max;
@@ -70,4 +79,12 @@ Color dynamic_color_get(DynamicColor* self) {
     Color result;
     color_lerp(&self->min, &self->max, dynf32_get(&self->time), &result);
     return result;
+}
+
+void dynamic_color_play(DynamicColor* self) {
+    dynf32_play(&self->time);
+}
+
+void dynamic_color_pause(DynamicColor* self) {
+    dynf32_pause(&self->time);
 }

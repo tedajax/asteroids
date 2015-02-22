@@ -61,3 +61,15 @@ bool dynf32_set(dynf32* self, f32 value) {
 
     return false;
 }
+
+void dynf32_play(dynf32* self) {
+    if (self->tween) {
+        tween_play(self->tween);
+    }
+}
+
+void dynf32_pause(dynf32* self) {
+    if (self->tween) {
+        tween_pause(self->tween);
+    }
+}

@@ -1,56 +1,182 @@
 #include "particles.h"
 #include "transformcomponent.h"
 
+int particle_lifetime_compare(Particle* p1, Particle* p2) {
+    if (p1->lifetime < p2->lifetime) {
+        return -1;
+    } else if (p1->lifetime > p2->lifetime) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+void emitter_sort(Particle** sortedList, u32 count, particle_compare_f compareFunc);
+
 void particle_init(Particle* self, ParticleConfig* config) {
     vec2_copy_to(&config->position, &self->position);
     vec2_copy_to(&config->direction, &self->direction);
+    dynamic_vec2_copy(config->acceleration, &self->acceleration);
+    dynamic_vec2_start(&self->acceleration, &globals.tweens);
     dynamic_vec2_copy(config->scale, &self->scale);
     dynamic_vec2_start(&self->scale, &globals.tweens);
     dynamic_color_copy(config->color, &self->color);
     dynamic_color_start(&self->color, &globals.tweens);
-    self->speed = config->speed;
+    dynf32_copy(config->rotationSpeed, &self->rotationSpeed);
+    dynf32_start(&self->rotationSpeed, &globals.tweens);
+    dynf32_copy(config->speed, &self->speed);
+    dynf32_start(&self->speed, &globals.tweens);
+    self->rotation = config->rotation;
     self->lifetime = config->lifetime;
+    self->velocity = vec2_zero();
+}
+
+void particle_cleanup(Particle* self) {
+    dynamic_vec2_release(&self->acceleration);
+    dynamic_vec2_release(&self->scale);
+    dynamic_color_release(&self->color);
+    dynf32_release(&self->rotationSpeed);
+    dynf32_release(&self->speed);
 }
 
 bool particle_dead(Particle* self) {
     return self->lifetime <= 0.f;
 }
 
+void particle_play(Particle* self) {
+    dynf32_play(&self->rotationSpeed);
+    dynf32_play(&self->speed);
+    dynamic_vec2_play(&self->acceleration);
+    dynamic_vec2_play(&self->scale);
+    dynamic_color_play(&self->color);
+}
+
+void particle_pause(Particle* self) {
+    dynf32_pause(&self->rotationSpeed);
+    dynf32_pause(&self->speed);
+    dynamic_vec2_pause(&self->acceleration);
+    dynamic_vec2_pause(&self->scale);
+    dynamic_color_pause(&self->color);
+}
+
 void emitter_init(ParticleEmitter* self, ParticleEmitterConfig* config) {
     self->config = config;
+    self->maxParticles = self->config->maxParticles;
     self->particles = CALLOC(self->config->maxParticles, Particle);
+    self->sortedParticles = CALLOC(self->config->maxParticles, Particle*);
+    self->activeParticles = 0;
 
-    self->emitTimer = 0.f;
+    for (u32 i = 0; i < self->maxParticles; ++i) {
+        self->sortedParticles[i] = &self->particles[i];
+    }
+
+    dynf32_copy(&config->startingRotation, &self->startingRotation);
+    dynf32_start(&self->startingRotation, &globals.tweens);
+
+    self->emitTimer = self->config->emissionInterval;
 
     self->atlas = atlas_get(config->atlasName);
+    self->lifetime = config->lifetime;
+    self->isPlaying = true;
+    self->spawnNewParticles = true;
 }
 
 void emitter_free(ParticleEmitter* self) {
     free(self->particles);
+    free(self->sortedParticles);
+    dynf32_release(&self->startingRotation);
+}
+
+void emitter_play(ParticleEmitter* self) {
+    self->isPlaying = true;
+    for (u32 i = 0; i < self->maxParticles; ++i) {
+        if (!particle_dead(&self->particles[i])) {
+            particle_play(&self->particles[i]);
+        }
+    }
+    if (self->lifetime <= 0.f) {
+        self->lifetime = self->config->lifetime;
+        self->spawnNewParticles = true;
+    }
+}
+
+void emitter_pause(ParticleEmitter* self) {
+    for (u32 i = 0; i < self->maxParticles; ++i) {
+        if (!particle_dead(&self->particles[i])) {
+            particle_pause(&self->particles[i]);
+        }
+    }
+    self->isPlaying = false;
+}
+
+void emitter_stop(ParticleEmitter* self) {
+    self->lifetime = 0.f;
 }
 
 void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
-    self->emitTimer += globals.time.delta;
+    if (!self->isPlaying) {
+        return;
+    }
+    
+    if (self->maxParticles < self->config->maxParticles) {
+        Particle* newParticleList = CALLOC(self->config->maxParticles, Particle);
+        memcpy(newParticleList, self->particles, self->maxParticles * sizeof(Particle));
+        free(self->particles);
+        self->particles = newParticleList;
 
-    for (u32 i = 0; i < self->config->maxParticles; ++i) {
+        Particle** newSortedParticleList = CALLOC(self->config->maxParticles, Particle*);
+        memcpy(newSortedParticleList, self->sortedParticles, self->maxParticles * sizeof(Particle*));
+        free(self->sortedParticles);
+        self->sortedParticles = newSortedParticleList;
+
+        for (u32 i = 0; i < self->config->maxParticles; ++i) {
+            self->sortedParticles[i] = &self->particles[i];
+        }
+
+        self->maxParticles = self->config->maxParticles;
+    }
+
+    for (u32 i = 0; i < self->maxParticles; ++i) {
         Particle* particle = &self->particles[i];
 
         if (particle_dead(particle)) {
             continue;
         }
 
-        f32 scaledSpeed = particle->speed * globals.time.delta;
+        Vec2 acceleration = dynamic_vec2_get(&particle->acceleration);
+        vec2_scale(&acceleration, globals.time.delta, &acceleration);
+        vec2_add(&acceleration, &particle->velocity, &particle->velocity);
+
         Vec2 velocity;
-        vec2_scale(&particle->direction, scaledSpeed, &velocity);
+        vec2_scale(&particle->direction, dynf32_get(&particle->speed), &velocity);
+        vec2_add(&velocity, &particle->velocity, &velocity);
+
+        vec2_scale(&velocity, globals.time.delta, &velocity);
+
         vec2_add(&particle->position, &velocity, &particle->position);
+
+        particle->rotation += dynf32_get(&particle->rotationSpeed) * globals.time.delta;
 
         particle->lifetime -= globals.time.delta;
 
         if (particle_dead(particle)) {
-            dynamic_vec2_release(&particle->scale);
-            dynamic_color_release(&particle->color);
+            particle_cleanup(particle);
+            --self->activeParticles;
         }
     }
+
+    if (self->lifetime > 0.f) {
+        self->lifetime -= globals.time.delta;
+        if (self->lifetime <= 0.f) {
+            self->spawnNewParticles = false;
+        }
+    }
+
+    if (!self->spawnNewParticles) {
+        return;
+    }
+
+    self->emitTimer += globals.time.delta;
 
     if (self->emitTimer < self->config->emissionInterval) {
         return;
@@ -58,7 +184,11 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
 
     for (u32 i = 0; i < self->config->particlesPerEmission; ++i) {
         i32 index = emitter_get_next_available(self);
-        ASSERT(index >= 0, "Reach maximum number of particles for emitter.  Change settings or make this work gracefully.");
+        if (index < 0) {
+            break;
+        }
+
+        self->newestParticle = index;
 
         Particle* particle = &self->particles[index];
 
@@ -82,16 +212,22 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         ParticleConfig particleCfg = {
             spawnPos,
             direction,
+            &self->config->acceleration,
             &self->config->scale,
             &self->config->color,
-            100.f,
-            1.f
+            &self->config->rotationSpeed,
+            &self->config->speed,
+            0.f, //dynf32_get(&self->config->startingRotation),
+            self->config->particleLifetime,
         };
 
         particle_init(particle, &particleCfg);
+        ++self->activeParticles;
     }
 
     self->emitTimer = 0;
+
+    emitter_sort(self->sortedParticles, self->maxParticles, particle_lifetime_compare);
 }
 
 // TODO: this is going to be pretty slow so we'll want to do some sort of sorting or something to allow for some faster lookups
@@ -108,8 +244,8 @@ i32 emitter_get_next_available(ParticleEmitter* self) {
 void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
     SpriteFrame* frame = atlas_get_frame(self->atlas, self->config->spriteName);
 
-    for (i32 i = (i32)self->config->maxParticles - 1; i >= 0; --i) {
-        Particle* particle = &self->particles[i];
+    for (u32 i = 0; i < self->maxParticles && self->sortedParticles[i]->lifetime > 0; ++i) {
+        Particle* particle = self->sortedParticles[i];
         
         if (particle_dead(particle)) {
             continue;
@@ -137,7 +273,7 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
         src.w = (int)frame->frame.width;
         src.h = (int)frame->frame.height;
 
-        f32 rotation = 0.f;
+        f32 rotation = particle->rotation;
 
         if (!self->config->worldSpace) {
             dest.x += (int)anchor->position.x;
@@ -156,4 +292,21 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
 
     SDL_SetTextureColorMod(self->atlas->texture, 255, 255, 255);
     SDL_SetTextureAlphaMod(self->atlas->texture, 255);
+}
+
+void emitter_sort(Particle** sortedList, u32 count, particle_compare_f compareFunc) {
+    profiler_tick("emitter_sort");
+    for (u32 i = 1; i < count; ++i) {
+        u32 j = i;
+        Particle* p1 = sortedList[j - 1];
+        Particle* p2 = sortedList[j];
+        while (j > 0 && compareFunc(p1, p2) < 0) {
+            Particle* temp = sortedList[j - 1];
+            sortedList[j - 1] = sortedList[j];
+            sortedList[j] = temp;
+            --j;
+        }
+    }
+
+    profiler_tock("emitter_sort");
 }

@@ -24,6 +24,8 @@ void dynamic_vec2_release(DynamicVec2* self);
 void dynamic_vec2_start(DynamicVec2* self, TweenManager* tweenManager);
 void dynamic_vec2_copy(const DynamicVec2* source, DynamicVec2* dest);
 Vec2 dynamic_vec2_get(DynamicVec2* self);
+void dynamic_vec2_play(DynamicVec2* self);
+void dynamic_vec2_pause(DynamicVec2* self);
 
 void dynamic_color_init(DynamicColor* self, Color min, Color max, dynf32 time);
 DynamicColor dynamic_color_value(Color value);
@@ -31,5 +33,7 @@ void dynamic_color_release(DynamicColor* self);
 void dynamic_color_start(DynamicColor* self, TweenManager* tweenManager);
 void dynamic_color_copy(const DynamicColor* source, DynamicColor* dest);
 Color dynamic_color_get(DynamicColor* self);
+void dynamic_color_play(DynamicColor* self);
+void dynamic_color_pause(DynamicColor* self);
 
 #endif

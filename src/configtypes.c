@@ -105,11 +105,17 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
 
     self->atlasName = CONFIG_GET(string)(config, table, "texture_atlas");
     self->spriteName = CONFIG_GET(string)(config, table, "sprite");
+    self->lifetime = CONFIG_GET(float)(config, table, "lifetime");
     self->maxParticles = (u32)CONFIG_GET(int)(config, table, "max_particles");
     self->particlesPerEmission = (u32)CONFIG_GET(int)(config, table, "emission_count");
+    self->particleLifetime = CONFIG_GET(float)(config, table, "particle_lifetime");
     self->emissionInterval = CONFIG_GET(float)(config, table, "emission_interval");
     self->emissionBaseAngle = CONFIG_TRY_GET(float)(config, table, "base_angle", 0.f);
     self->emissionArcLength = CONFIG_TRY_GET(float)(config, table, "arc_length", 360.f);
+    self->startingRotation = CONFIG_TRY_GET(dynf32)(config, table, "starting_rotation", dynf32_value(0.f));
+    self->rotationSpeed = CONFIG_TRY_GET(dynf32)(config, table, "rotation_speed", dynf32_value(0.f));
+    self->speed = CONFIG_TRY_GET(dynf32)(config, table, "speed", dynf32_value(100.f));
+    self->acceleration = CONFIG_TRY_GET(DynamicVec2)(config, table, "acceleration", dynamic_vec2_value(vec2_zero()));
     self->scale = CONFIG_TRY_GET(DynamicVec2)(config, table, "scale", dynamic_vec2_value(vec2_one()));
     self->color = CONFIG_TRY_GET(DynamicColor)(config, table, "color", dynamic_color_value(color_make_rgb(255, 255, 255)));
     self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());

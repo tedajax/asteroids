@@ -49,6 +49,7 @@ Config* config_system_get(ConfigSystem* self, const char* name);
 time_t config_get_mtime(const char* path);
 
 static inline int config_get_array_count(Config* self, const char* section, const char* key) { return ini_get_array_count(&self->data, section, key); }
+static inline bool config_is_array(Config* self, const char* section, const char* key) { return ini_is_array(&self->data, section, key); }
 
 #define STR_ENUM_CMP(str, enumval) (strcmp(str, #enumval) == 0)
 

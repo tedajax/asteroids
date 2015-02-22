@@ -689,3 +689,18 @@ u32 ini_get_array_count(Ini* self, const char* section, const char* key) {
 
     return self->table[sectionIndex][keyIndex].values.count;
 }
+
+bool ini_is_array(Ini* self, const char* section, const char* key) {
+    char* targetSection = (section) ? (char*)section : INI_DEFAULT_SECTION;
+
+    int sectionIndex = ini_section_index(self, targetSection);
+
+    ASSERT(sectionIndex > -1, "Invalid section.");
+
+    int keyIndex = ini_index(self, section, key);
+
+    ASSERT(keyIndex > -1, "Key not found in section.");
+
+    //TODO: not foolproof since it'll only handle arrays > 1 which isn't every case.
+    return self->table[sectionIndex][keyIndex].values.count > 1;
+}

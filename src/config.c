@@ -241,6 +241,12 @@ CONFIG_TRY_GET_AT_PROTO(dynf32) {
 
 CONFIG_GET_AT_PROTO(DynamicVec2) {
     char* table = CONFIG_GET_AT(string)(self, section, key, index);
+    
+    if (config_is_array(self, section, key)) {
+        f32 x = CONFIG_GET_AT(float)(self, section, key, 0);
+        f32 y = CONFIG_GET_AT(float)(self, section, key, 1);
+        return dynamic_vec2_value(vec2_init(x, y));
+    }
 
     DynamicVec2 result;
     result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);
@@ -256,6 +262,14 @@ CONFIG_TRY_GET_AT_PROTO(DynamicVec2) {
 
 CONFIG_GET_AT_PROTO(DynamicColor) {
     char* table = CONFIG_GET_AT(string)(self, section, key, index);
+
+    if (config_is_array(self, section, key)) {
+        u8 r = (u8)CONFIG_GET_AT(int)(self, section, key, 0);
+        u8 g = (u8)CONFIG_GET_AT(int)(self, section, key, 1);
+        u8 b = (u8)CONFIG_GET_AT(int)(self, section, key, 2);
+        u8 a = (u8)CONFIG_GET_AT(int)(self, section, key, 3);
+        return dynamic_color_value(color_make_rgba(r, g, b, a));
+    }
 
     DynamicColor result;
     result.time = CONFIG_GET_AT(dynf32)(self, table, "time", index);

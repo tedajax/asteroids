@@ -89,11 +89,17 @@ void level_config_deserialize(TypeConfig* super, Config* config, char* table);
 
 typedef struct particle_emitter_config_t {
     TypeConfig super;
+    f32 lifetime;
     u32 maxParticles;
     u32 particlesPerEmission;
+    f32 particleLifetime;
     f32 emissionInterval;
     f32 emissionBaseAngle;
     f32 emissionArcLength;
+    dynf32 startingRotation;
+    dynf32 rotationSpeed;
+    dynf32 speed;
+    DynamicVec2 acceleration;
     DynamicVec2 scale;
     DynamicColor color;
     Vec2 spawnArea;

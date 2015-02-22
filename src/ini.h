@@ -92,6 +92,7 @@ inline bool ini_get_bool(Ini* self, const char* section, const char* key) { retu
 inline char* ini_get_string(Ini* self, const char* section, const char* key) { return ini_get_string_at(self, section, key, 0); }
 
 u32 ini_get_array_count(Ini* self, const char* section, const char* key);
+bool ini_is_array(Ini* self, const char* section, const char* key);
 
 void ini_dump(Ini* self, FILE* file);
 
