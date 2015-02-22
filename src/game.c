@@ -103,6 +103,8 @@ void game_init(Game* self) {
 
         DebugHudWatch* tweenWatch = debug_hud_add_watch(&self->debugHud, "Tweens", WATCH_TYPE_INT, &globals.tweens.count);
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
+
+        debug_hud_add_watch(&self->debugHud, "Particle count", WATCH_TYPE_INT, &testParticle.activeParticles);
     }
 
     testParticleTransform.position.x = 300;

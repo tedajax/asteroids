@@ -16,6 +16,16 @@ DynamicVec2 dynamic_vec2_value(Vec2 value) {
     return result;
 }
 
+DynamicVec2 dynamic_vec2_dynfloat2(dynf32 x, dynf32 y) {
+    DynamicVec2 result;
+
+    result.min = dynfloat2_create(x, y);
+    result.max = dynfloat2_create(x, y);
+    result.time = dynf32_value(0.f);
+
+    return result;
+}
+
 void dynamic_vec2_release(DynamicVec2* self) {
     dynfloat2_release(&self->min);
     dynfloat2_release(&self->max);
@@ -66,6 +76,16 @@ DynamicColor dynamic_color_value(Color value) {
 
     result.min = dynfloat4_create(dynf32_value(value.r), dynf32_value(value.g), dynf32_value(value.b), dynf32_value(value.a));
     result.max = dynfloat4_create(dynf32_value(value.r), dynf32_value(value.g), dynf32_value(value.b), dynf32_value(value.a));
+    result.time = dynf32_value(0.f);
+
+    return result;
+}
+
+DynamicColor dynamic_color_dynfloat4(dynf32 x, dynf32 y, dynf32 z, dynf32 w) {
+    DynamicColor result;
+
+    result.min = dynfloat4_create(x, y, z, w);
+    result.max = dynfloat4_create(x, y, z, w);
     result.time = dynf32_value(0.f);
 
     return result;

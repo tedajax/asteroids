@@ -193,6 +193,36 @@ CONFIG_TRY_GET_AT_PROTO(Range) {
     return r;
 }
 
+CONFIG_GET_AT_PROTO(RandomRange) {
+    if (config_is_array(self, section, key)) {
+        f32 min = CONFIG_GET_AT(float)(self, section, key, index * 2 + 0);
+        f32 max = CONFIG_GET_AT(float)(self, section, key, index * 2 + 1);
+        RandomRange r;
+        random_range_init(&r, min, max);
+        return r;
+    } else {
+        f32 v = CONFIG_GET_AT(float)(self, section, key, index);
+        RandomRange r;
+        random_range_init(&r, v, v);
+        return r;
+    }
+}
+
+CONFIG_TRY_GET_AT_PROTO(RandomRange) {
+    if (config_is_array(self, section, key)) {
+        f32 min = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 0, defaultValue.min);
+        f32 max = CONFIG_TRY_GET_AT(float)(self, section, key, index * 2 + 1, defaultValue.max);
+        RandomRange r;
+        random_range_init(&r, min, max);
+        return r;
+    } else {
+        f32 v = CONFIG_TRY_GET_AT(float)(self, section, key, index, defaultValue.min);
+        RandomRange r;
+        random_range_init(&r, v, v);
+        return r;
+    }
+}
+
 CONFIG_GET_AT_PROTO(Color) {
     u8 r = (u8)CONFIG_GET_AT(int)(self, section, key, index * 2 + 0);
     u8 g = (u8)CONFIG_GET_AT(int)(self, section, key, index * 2 + 1);
@@ -291,9 +321,9 @@ CONFIG_GET_AT_PROTO(DynamicVec2) {
     char* table = CONFIG_GET_AT(string)(self, section, key, index);
     
     if (config_is_array(self, section, key)) {
-        f32 x = CONFIG_GET_AT(float)(self, section, key, 0);
-        f32 y = CONFIG_GET_AT(float)(self, section, key, 1);
-        return dynamic_vec2_value(vec2_init(x, y));
+        dynf32 x = CONFIG_GET_AT(dynf32)(self, section, key, 0);
+        dynf32 y = CONFIG_GET_AT(dynf32)(self, section, key, 1);
+        return dynamic_vec2_dynfloat2(x, y);
     }
 
     DynamicVec2 result;
@@ -312,11 +342,15 @@ CONFIG_GET_AT_PROTO(DynamicColor) {
     char* table = CONFIG_GET_AT(string)(self, section, key, index);
 
     if (config_is_array(self, section, key)) {
-        u8 r = (u8)CONFIG_GET_AT(int)(self, section, key, 0);
-        u8 g = (u8)CONFIG_GET_AT(int)(self, section, key, 1);
-        u8 b = (u8)CONFIG_GET_AT(int)(self, section, key, 2);
-        u8 a = (u8)CONFIG_GET_AT(int)(self, section, key, 3);
-        return dynamic_color_value(color_make_rgba(r, g, b, a));
+        u8 rb = (u8)CONFIG_GET_AT(int)(self, section, key, 0);
+        u8 gb = (u8)CONFIG_GET_AT(int)(self, section, key, 1);
+        u8 bb = (u8)CONFIG_GET_AT(int)(self, section, key, 2);
+        u8 ab = (u8)CONFIG_GET_AT(int)(self, section, key, 3);
+        dynf32 r = dynf32_value((f32)rb / 255.f);
+        dynf32 g = dynf32_value((f32)gb / 255.f);
+        dynf32 b = dynf32_value((f32)bb / 255.f);
+        dynf32 a = dynf32_value((f32)ab / 255.f);
+        return dynamic_color_dynfloat4(r, g, b, a);
     }
 
     DynamicColor result;

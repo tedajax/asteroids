@@ -17,6 +17,8 @@
 typedef f32(*tween_func)(f32, f32, f32, f32);
 
 f32 tween_linear(f32 t, f32 i, f32 f, f32 d);
+f32 tween_start_value(f32 t, f32 i, f32 f, f32 d);
+f32 tween_end_value(f32 t, f32 i, f32 f, f32 d);
 f32 tween_ease_in_quad(f32 t, f32 i, f32 f, f32 d);
 f32 tween_ease_out_quad(f32 t, f32 i, f32 f, f32 d);
 f32 tween_ease_in_out_quad(f32 t, f32 i, f32 f, f32 d);
@@ -46,6 +48,8 @@ Hashtable tweenFunctions;
 MULTILINE_MACRO_BEGIN()									\
     hashtable_init(&tweenFunctions, 32, NULL);		\
     TWEEN_REGISTER_FUNCTION(tween_linear);			\
+    TWEEN_REGISTER_FUNCTION(tween_start_value);     \
+    TWEEN_REGISTER_FUNCTION(tween_end_value);		\
     TWEEN_REGISTER_FUNCTION(tween_ease_in_quad);	\
     TWEEN_REGISTER_FUNCTION(tween_ease_out_quad);	\
     TWEEN_REGISTER_FUNCTION(tween_ease_in_out_quad);\

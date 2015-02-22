@@ -5,6 +5,7 @@
 #include "algebra.h"
 #include "dynf32.h"
 #include "dynamics.h"
+#include "range.h"
 
 typedef enum type_config_type_e {
     TYPE_CONFIG_COLLIDER = 0,
@@ -71,8 +72,8 @@ typedef f32(*tween_func)(f32, f32, f32, f32);
 
 typedef struct tween_config_t {
     TypeConfig super;
-    f32 start;
-    f32 end;
+    RandomRange start;
+    RandomRange end;
     f32 duration;
     f32 timescale;
     u32 loops;

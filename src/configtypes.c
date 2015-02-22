@@ -87,8 +87,8 @@ void tween_config_deserialize(TypeConfig* super, Config* config, char* table) {
 
     char* tweenFuncName = config_get_string(config, table, "function");
     self->function = tween_parse(tweenFuncName);
-    self->start = config_get_float(config, table, "start");
-    self->end = config_get_float(config, table, "end");
+    self->start = CONFIG_GET(RandomRange)(config, table, "start");
+    self->end = CONFIG_GET(RandomRange)(config, table, "end");
     self->duration = config_get_float(config, table, "duration");
     self->timescale = config_try_get_float(config, table, "timescale", 1.f);
     self->loops = config_try_get_int(config, table, "loops", TWEEN_LOOP_INFINITE);

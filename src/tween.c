@@ -8,6 +8,14 @@ f32 tween_linear(f32 t, f32 i, f32 f, f32 d) {
     return (f - i) * t / d + i;
 }
 
+f32 tween_start_value(f32 t, f32 i, f32 f, f32 d) {
+    return i;
+}
+
+f32 tween_end_value(f32 t, f32 i, f32 f, f32 d) {
+    return f;
+}
+
 f32 tween_ease_in_quad(f32 t, f32 i, f32 f, f32 d) {
     t /= d;
     return (f - i) * t * t + i;
@@ -125,8 +133,8 @@ f32 tween_random(f32 t, f32 i, f32 f, f32 d) {
 #pragma endregion
 
 void tween_init(Tween* self, TweenConfig* config) {
-    self->start = config->start;
-    self->end = config->end;
+    self->start = random_range_get(&config->start);
+    self->end = random_range_get(&config->end);
     self->duration = config->duration;
     self->loops = config->loops;
 
