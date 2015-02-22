@@ -35,6 +35,9 @@ COMPONENT_DESERIALIZE(COMPONENT_PARTICLE) {
 
 COMPONENT_FREE(COMPONENT_PARTICLE) {
     ParticleComponent* self = (ParticleComponent*)component;
+    for (u32 i = 0; i < self->emitterCount; ++i) {
+        emitter_free(&self->emitters[i]);
+    }
     free(self->emitters);
 }
 
