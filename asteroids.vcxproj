@@ -259,7 +259,9 @@
     <ClCompile Include="src\messaging.c" />
     <ClCompile Include="src\movementcomponent.c" />
     <ClCompile Include="src\movementsystem.c" />
+    <ClCompile Include="src\particlecomponent.c" />
     <ClCompile Include="src\particles.c" />
+    <ClCompile Include="src\particlesystem.c" />
     <ClCompile Include="src\path.c" />
     <ClCompile Include="src\physics.c" />
     <ClCompile Include="src\pool.c" />
@@ -347,7 +349,9 @@
     <ClInclude Include="src\messaging.h" />
     <ClInclude Include="src\movementcomponent.h" />
     <ClInclude Include="src\movementsystem.h" />
+    <ClInclude Include="src\particlecomponent.h" />
     <ClInclude Include="src\particles.h" />
+    <ClInclude Include="src\particlesystem.h" />
     <ClInclude Include="src\path.h" />
     <ClInclude Include="src\physics.h" />
     <ClInclude Include="src\pool.h" />

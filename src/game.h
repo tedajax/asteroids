@@ -20,6 +20,7 @@ typedef struct game_t {
     BgManagerSystem bgManagerSystem;
     EnemySystem enemySystem;
     CollisionSystem collisionSystem;
+    ParticleSystem particleSystem;
     LuaSystem luaSystem;
     ScreenWrapSystem screenWrapSystem;
     AsteroidControllerSystem asteroidControllerSystem;

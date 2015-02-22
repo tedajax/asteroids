@@ -8,9 +8,6 @@
 bool drawCollision = false;
 bool playGame = true;
 
-ParticleEmitter testParticle;
-TransformComponent testParticleTransform;
-
 void game_debug_keys(Game* self);
 
 void game_init(Game* self) {  
@@ -37,6 +34,7 @@ void game_init(Game* self) {
     bg_manager_system_init(&self->bgManagerSystem, self->entityManager);
     enemy_system_init(&self->enemySystem, self->entityManager);
     collision_system_init(&self->collisionSystem, self->entityManager);
+    particle_system_init(&self->particleSystem, self->entityManager);
     lua_system_init(&self->luaSystem, self->entityManager);
     screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
     asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
@@ -103,17 +101,7 @@ void game_init(Game* self) {
 
         DebugHudWatch* tweenWatch = debug_hud_add_watch(&self->debugHud, "Tweens", WATCH_TYPE_INT, &globals.tweens.count);
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
-
-        debug_hud_add_watch(&self->debugHud, "Particle count", WATCH_TYPE_INT, &testParticle.activeParticles);
     }
-
-    testParticleTransform.position.x = 300;
-    testParticleTransform.position.y = 500;
-    testParticleTransform.rotation = 0;
-    testParticleTransform.scale.x = 1.f;
-    testParticleTransform.scale.y = 1.f;
-
-    emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "fire_particle"));
 }
 
 void game_quit(Game* self) {
@@ -121,12 +109,9 @@ void game_quit(Game* self) {
     entity_manager_free(self->entityManager);
     atlases_terminate();
     textures_terminate();
-    emitter_free(&testParticle);
     tween_manager_terminate(&globals.tweens);
     debug_hud_free(&self->debugHud);
     component_system_terminate();
-
-    
 }
 
 void game_start(Game* self) {
@@ -155,6 +140,7 @@ void game_update(Game* self) {
     bg_manager_system_update(&self->bgManagerSystem);
     lua_system_update(&self->luaSystem);
     asteroid_controller_system_update(&self->asteroidControllerSystem);
+    particle_system_update(&self->particleSystem);
 
     movement_system_update(&self->movementSystem);
 
@@ -163,11 +149,6 @@ void game_update(Game* self) {
     profiler_tick("collision");
     collision_system_update(&self->collisionSystem);
     profiler_tock("collision");
-
-    testParticleTransform.position.x += 0 * globals.time.delta;
-    if (testParticleTransform.position.x > globals.world.width) { testParticleTransform.position.x = 0; }
-    testParticleTransform.rotation += 0 * globals.time.delta;
-    emitter_update(&testParticle, &testParticleTransform);
 
     camera_update(&globals.camera);
 
@@ -205,8 +186,7 @@ void game_debug_keys(Game* self) {
 
 void game_render(Game* self) {
     sprite_system_render(&self->spriteSystem);
-
-    emitter_render(&testParticle, &testParticleTransform);
+    particle_system_render(&self->particleSystem);
 
     if (drawCollision) {
         collision_system_render(&self->collisionSystem);

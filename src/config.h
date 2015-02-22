@@ -101,19 +101,19 @@ CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);
 CONFIG_REGISTER_TYPE_NAMED(ParticleEmitterConfig*, ParticleEmitterConfig);
 
 #define CONFIG_GET_KEY(charptr, data, section, key, index) \
-    charptr = ini_get_string_at(data, section, key, index);
+    charptr = CONFIG_GET_AT(string)(data, section, key, index);
 
 #define CONFIG_TRY_GET_KEY(charptr, data, section, key, index) \
-    charptr = ini_try_get_string_at(data, section, key, index, NULL); \
+    charptr = CONFIG_TRY_GET_AT(string)(data, section, key, index, NULL); \
     if (!charptr) { return NULL; }
 
 #define CONFIG_TYPE_CONFIG_GET_AT_BODY(configtype, typeenum, istry)             \
     MULTILINE_MACRO_BEGIN();                                                    \
     char* cfgSection;                                                           \
     if (istry) {                                                                \
-        CONFIG_TRY_GET_KEY(cfgSection, &self->data, section, key, index);       \
+        CONFIG_TRY_GET_KEY(cfgSection, self, section, key, index);       \
     } else {                                                                    \
-        CONFIG_GET_KEY(cfgSection, &self->data, section, key, index);           \
+        CONFIG_GET_KEY(cfgSection, self, section, key, index);           \
     }                                                                           \
     TypeConfig* typeConfig = hashtable_get(&self->typeConfigs, cfgSection);     \
     if (typeConfig) {                                                           \

@@ -23,11 +23,13 @@ typedef enum component_type_e {
     COMPONENT_ENEMY,
 
     COMPONENT_COLLIDER,
+    COMPONENT_PARTICLE,
 
     COMPONENT_LUA,
 
     COMPONENT_SCREEN_WRAP,
     COMPONENT_ASTEROID_CONTROLLER,
+
 
     COMPONENT_LAST,
 } ComponentType;
@@ -43,7 +45,7 @@ typedef void(*component_copy_f)(const Component*, Component*);
 #define COMPONENT_DESERIALIZE_FUNC(type) type##_deserialize
 #define COMPONENT_DESERIALIZE(type) Component* COMPONENT_DESERIALIZE_FUNC(type)(Config* config, const char* table)
 #define COMPONENT_COPY_FUNC(type) type##_copy
-#define COMPONENT_COPY(type) void COMPONENT_COPY_FUNC(type)(const Component*source, Component* dest)
+#define COMPONENT_COPY(type) void COMPONENT_COPY_FUNC(type)(const Component* source, Component* dest)
 
 #define COMPONENT_DEFINE(type) \
     COMPONENT_DESERIALIZE(type); \

@@ -333,6 +333,12 @@
     <ClCompile Include="src\dynamics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\particlecomponent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\particlesystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -582,6 +588,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\particlecomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\particlesystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

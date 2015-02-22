@@ -41,6 +41,12 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
     entities_add_component(entityManager,
         (Component*)screen_wrap_component_new(entity, 64, 64));
 
+    ParticleEmitterConfig* emitterConfig = 
+        CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "fire_particle");
+
+    entities_add_component(entityManager,
+        (Component*)particle_component_new(entity, &emitterConfig, 1));
+
     //entities_add_component(entityManager,
     //    (Component*)lua_component_new(entity, "assets/scripts/test_component.lua"));
 

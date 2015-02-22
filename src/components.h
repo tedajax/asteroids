@@ -12,3 +12,4 @@
 #include "luacomponent.h"
 #include "screenwrapcomponent.h"
 #include "asteroidcontrollercomponent.h"
+#include "particlecomponent.h"

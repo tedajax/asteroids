@@ -12,3 +12,4 @@
 #include "luasystem.h"
 #include "screenwrapsystem.h"
 #include "asteroidcontrollersystem.h"
+#include "particlesystem.h"
