@@ -239,6 +239,54 @@ CONFIG_TRY_GET_AT_PROTO(dynf32) {
     return CONFIG_GET_AT(dynf32)(self, section, key, index);
 }
 
+CONFIG_GET_AT_PROTO(DynFloat2) {
+    DynFloat2 result;
+    result.x = CONFIG_GET_AT(dynf32)(self, section, key, index + 0);
+    result.y = CONFIG_GET_AT(dynf32)(self, section, key, index + 1);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(DynFloat2) {
+    DynFloat2 result;
+    result.x = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 0, defaultValue.x);
+    result.y = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 1, defaultValue.y);
+    return result;
+}
+
+CONFIG_GET_AT_PROTO(DynFloat3) {
+    DynFloat3 result;
+    result.x = CONFIG_GET_AT(dynf32)(self, section, key, index + 0);
+    result.y = CONFIG_GET_AT(dynf32)(self, section, key, index + 1);
+    result.z = CONFIG_GET_AT(dynf32)(self, section, key, index + 2);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(DynFloat3) {
+    DynFloat3 result;
+    result.x = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 0, defaultValue.x);
+    result.y = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 1, defaultValue.y);
+    result.z = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 2, defaultValue.z);
+    return result;
+}
+
+CONFIG_GET_AT_PROTO(DynFloat4) {
+    DynFloat4 result;
+    result.x = CONFIG_GET_AT(dynf32)(self, section, key, index + 0);
+    result.y = CONFIG_GET_AT(dynf32)(self, section, key, index + 1);
+    result.z = CONFIG_GET_AT(dynf32)(self, section, key, index + 2);
+    result.w = CONFIG_GET_AT(dynf32)(self, section, key, index + 3);
+    return result;
+}
+
+CONFIG_TRY_GET_AT_PROTO(DynFloat4) {
+    DynFloat4 result;
+    result.x = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 0, defaultValue.x);
+    result.y = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 1, defaultValue.y);
+    result.z = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 2, defaultValue.z);
+    result.w = CONFIG_TRY_GET_AT(dynf32)(self, section, key, index + 3, defaultValue.w);
+    return result;
+}
+
 CONFIG_GET_AT_PROTO(DynamicVec2) {
     char* table = CONFIG_GET_AT(string)(self, section, key, index);
     
