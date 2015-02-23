@@ -146,18 +146,15 @@ bool config_extract_config_file(const char* path, char* dest, size_t n) {
     }
 
     if (barIndex < 0) {
-        log_error_format("Config", "Invalid pattern for finding config file name, should be \"config_file|section:key\"");
         return false;
     }
 
-    if (barIndex >= n) {
-        log_error_format("Config", "Not enough space in the provided buffer");
+    if (barIndex + 4 >= n) {
         return false;
     }
 
     strncpy(dest, path, barIndex);
-    dest[barIndex] = '\0';
-    snprintf(dest, n, "%s.ini", dest);
+    strncpy(&dest[barIndex], ".ini\0", 5);
     return true;
 }
 
@@ -179,17 +176,15 @@ bool config_extract_section(const char* path, char* dest, size_t n) {
 
     // If we can't find a | or a : we have no way of determining if what we're looking at is a section or a key.
     if (barIndex < 0 && colonIndex < 0) {
-        log_error("Config", "Invalid pattern for finding section name, should be \"config_file|section:key\" or \"section:key\"");
         return false;
     }
     
     // Brings the bar index to 0 if one was never found and moves it off the | if we did find one.
     int start = barIndex + 1;
     // If we didn't find a colon but have a bar we can assume we go to the end of the string from bar.
-    int end = (colonIndex < 0) ? len - 1 : colonIndex;
+    int end = (colonIndex < 0) ? len : colonIndex;
 
     if ((end - start) >= n) {
-        log_error("Config", "Not enough space in the provided buffer");
         return false;
     }
 
@@ -212,12 +207,10 @@ bool config_extract_key(const char* path, char* dest, size_t n) {
     }
 
     if (start >= len) {
-        log_error("Config", "\':\' found at end which confuses me.");
         return false;
     }
 
     if ((len - start) >= n) {
-        log_error("Config", "Not enough space in the provided buffer");
         return false;
     }
 
@@ -230,6 +223,7 @@ bool config_extract_key(const char* path, char* dest, size_t n) {
 Config* config_get_from_key(const char* key) {
     char configName[128];
     if (config_extract_config_file(key, configName, 128)) {
+        printf("loading config: %s\n", configName);
         return config_get(configName);
     } else {
         return NULL;

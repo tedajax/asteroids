@@ -1,15 +1,16 @@
 #include "log.h"
+#include "terminal.h"
 
 void log_log(LogLevel level, const char* context, const char* msg) {
     _set_console_color_level(level);
 
     fprintf(stdout, "\n[%s] %s\n", context, msg);
 
+    _reset_console_color();
+
     if (level == LOG_LEVEL_PANIC) {
         DEBUG_BREAKPOINT();
     }
-
-    _reset_console_color();
 }
 
 void log_log_format(LogLevel level, const char* context, const char* format, ...) {
@@ -74,9 +75,28 @@ void _log_formatv(LogLevel level, const char* context, const char* format, va_li
 }
 
 void _set_console_color_level(LogLevel level) {
-    
+    switch (level) {
+        case LOG_LEVEL_INFO:
+            terminal_set_color(TERM_COLOR_WHITE);
+            break;
+
+        case LOG_LEVEL_WARNING:
+            terminal_set_color(TERM_COLOR_YELLOW);
+            break;
+
+        case LOG_LEVEL_ERROR:
+            terminal_set_color(TERM_COLOR_RED);
+            break;
+
+        case LOG_LEVEL_PANIC:
+            terminal_set_color(TERM_COLOR_RED);
+            terminal_set_bgcolor(TERM_COLOR_WHITE);
+            break;
+
+        default: break;
+    }
 }
 
 void _reset_console_color() {
-
+    terminal_reset_color();
 }

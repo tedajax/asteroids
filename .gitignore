@@ -2,6 +2,8 @@ obj/*.o
 obj/Posix/*.o
 runner.exe
 runner
+asteroids
+asteroids.exe
 /Debug/
 /Release/
 /x64
