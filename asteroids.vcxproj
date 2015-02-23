@@ -271,6 +271,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\Posix\posixterminal.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\prefab.c" />
     <ClCompile Include="src\primitives.c" />
     <ClCompile Include="src\profiler.c" />
@@ -280,6 +286,7 @@
     <ClCompile Include="src\scriptapi.c" />
     <ClCompile Include="src\spritecomponent.c" />
     <ClCompile Include="src\spritesystem.c" />
+    <ClCompile Include="src\terminal.c" />
     <ClCompile Include="src\texturemanager.c" />
     <ClCompile Include="src\timer.c" />
     <ClCompile Include="src\transformcomponent.c" />
@@ -288,6 +295,7 @@
     <ClCompile Include="src\vector.c" />
     <ClCompile Include="src\window.c" />
     <ClCompile Include="src\Win\windirectory.c" />
+    <ClCompile Include="src\Win\winterminal.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aicontroller.h" />
@@ -367,6 +375,7 @@
     <ClInclude Include="src\spritesystem.h" />
     <ClInclude Include="src\systems.h" />
     <ClInclude Include="src\tdjxlua.h" />
+    <ClInclude Include="src\terminal.h" />
     <ClInclude Include="src\texturemanager.h" />
     <ClInclude Include="src\timer.h" />
     <ClInclude Include="src\transformcomponent.h" />

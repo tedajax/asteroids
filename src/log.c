@@ -4,7 +4,7 @@
 void log_log(LogLevel level, const char* context, const char* msg) {
     _set_console_color_level(level);
 
-    fprintf(stdout, "\n[%s] %s\n", context, msg);
+    fprintf(stdout, "[%s] %s\n\n", context, msg);
 
     _reset_console_color();
 
@@ -89,8 +89,8 @@ void _set_console_color_level(LogLevel level) {
             break;
 
         case LOG_LEVEL_PANIC:
-            terminal_set_color(TERM_COLOR_RED);
-            terminal_set_bgcolor(TERM_COLOR_WHITE);
+            terminal_set_color(TERM_COLOR_BLACK);
+            terminal_set_bgcolor(TERM_COLOR_RED);
             break;
 
         default: break;

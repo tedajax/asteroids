@@ -339,6 +339,15 @@
     <ClCompile Include="src\particlesystem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Posix\posixterminal.c">
+      <Filter>Source Files\Core\Application\Posix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terminal.c">
+      <Filter>Source Files\Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Win\winterminal.c">
+      <Filter>Source Files\Core\Application\Win</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -595,6 +604,9 @@
     </ClInclude>
     <ClInclude Include="src\particlesystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\terminal.h">
+      <Filter>Header Files\Core\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
