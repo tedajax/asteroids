@@ -1,6 +1,7 @@
 #include "bulletcontrollersystem.h"
 #include "collidercomponent.h"
 #include "physics.h"
+#include "prefab.h"
 
 void bullet_controller_system_init(BulletControllerSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_BULLET_CONTROLLER, 512);
@@ -39,6 +40,7 @@ void bullet_controller_system_update(BulletControllerSystem* self) {
         }
 
         if (bullet->destroyFlag) {
+            prefab_instantiate_at(prefab_get("bullet_explosion.prefab"), transform->position, 0.f);
             entities_remove_entity(self->super.entityManager, entity);
         }
     }

@@ -48,6 +48,12 @@ void config_system_reload_all(ConfigSystem* self);
 Config* config_system_get(ConfigSystem* self, const char* name);
 time_t config_get_mtime(const char* path);
 
+bool config_extract_config_file(const char* path, char* dest, size_t n);
+bool config_extract_section(const char* path, char* dest, size_t n);
+bool config_extract_key(const char* path, char* dest, size_t n);
+
+Config* config_get_from_key(const char* key);
+
 static inline int config_get_array_count(Config* self, const char* section, const char* key) { return ini_get_array_count(&self->data, section, key); }
 static inline bool config_is_array(Config* self, const char* section, const char* key) { return ini_is_array(&self->data, section, key); }
 
@@ -109,12 +115,23 @@ CONFIG_REGISTER_TYPE_NAMED(ParticleEmitterConfig*, ParticleEmitterConfig);
 
 #define CONFIG_TYPE_CONFIG_GET_AT_BODY(configtype, typeenum, istry)             \
     MULTILINE_MACRO_BEGIN();                                                    \
-    char* cfgSection;                                                           \
+    char* cfgPath;                                                           \
     if (istry) {                                                                \
-        CONFIG_TRY_GET_KEY(cfgSection, self, section, key, index);       \
+        CONFIG_TRY_GET_KEY(cfgPath, self, section, key, index);       \
     } else {                                                                    \
-        CONFIG_GET_KEY(cfgSection, self, section, key, index);           \
+        CONFIG_GET_KEY(cfgPath, self, section, key, index);           \
     }                                                                           \
+    Config* pathCfg = config_get_from_key(cfgPath);                             \
+    if (!pathCfg) { pathCfg = self;}                                            \
+                                                                                \
+    char* cfgSection;                                                           \
+    char sectionName[128];                                                      \
+    if (config_extract_section(cfgPath, sectionName, 128)) {                    \
+        cfgSection = sectionName;                                               \
+    } else {                                                                    \
+        cfgSection = cfgPath;                                                   \
+    }                                                                           \
+                                                                                \
     TypeConfig* typeConfig = hashtable_get(&self->typeConfigs, cfgSection);     \
     if (typeConfig) {                                                           \
         ASSERT(typeConfig->type == typeenum,                                    \
@@ -126,7 +143,7 @@ CONFIG_REGISTER_TYPE_NAMED(ParticleEmitterConfig*, ParticleEmitterConfig);
     size_t nameLen = strlen(cfgSection) + 1;                                    \
     config->super.tableName = CALLOC(nameLen + 1, char);                        \
     strncpy(config->super.tableName, cfgSection, nameLen);                      \
-    DESERIALIZE(typeenum, (TypeConfig*)config, self, cfgSection);               \
+    DESERIALIZE(typeenum, (TypeConfig*)config, pathCfg, cfgSection);            \
     hashtable_insert(&self->typeConfigs, cfgSection, config);                   \
     return config;                                                              \
     MULTILINE_MACRO_END();

@@ -2,7 +2,7 @@
 #include "entityfactory.h"
 
 void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, 128);
+    aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
 }

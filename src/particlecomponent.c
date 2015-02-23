@@ -46,5 +46,9 @@ COMPONENT_COPY(COMPONENT_PARTICLE) {
     ParticleComponent* particleDest = (ParticleComponent*)dest;
 
     particleDest->emitters = CALLOC(particleSource->emitterCount, ParticleEmitter);
-    memcpy(particleDest->emitters, particleSource->emitters, sizeof(ParticleEmitter) * particleSource->emitterCount);
+    particleDest->emitterCount = particleSource->emitterCount;
+
+    for (u32 i = 0; i < particleDest->emitterCount; ++i) {
+        emitter_init(&particleDest->emitters[i], particleSource->emitters[i].config);
+    }
 }

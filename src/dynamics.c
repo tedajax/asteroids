@@ -111,9 +111,18 @@ void dynamic_color_copy(const DynamicColor* source, DynamicColor* dest) {
 
 Color dynamic_color_get(DynamicColor* self) {
     Color result;
-    Color minColor = color_make_rgbaf(dynfloat4_get_x(&self->min), dynfloat4_get_y(&self->min), dynfloat4_get_z(&self->min), dynfloat4_get_w(&self->min));
-    Color maxColor = color_make_rgbaf(dynfloat4_get_x(&self->max), dynfloat4_get_y(&self->max), dynfloat4_get_z(&self->max), dynfloat4_get_w(&self->max));
-    color_lerpf(&minColor, &maxColor, dynf32_get(&self->time), &result);
+    
+    Color minColor = color_make_rgba((u8)dynfloat4_get_x(&self->min),
+        (u8)dynfloat4_get_y(&self->min),
+        (u8)dynfloat4_get_z(&self->min),
+        (u8)dynfloat4_get_w(&self->min));
+
+    Color maxColor = color_make_rgba((u8)dynfloat4_get_x(&self->max),
+        (u8)dynfloat4_get_y(&self->max),
+        (u8)dynfloat4_get_z(&self->max),
+        (u8)dynfloat4_get_w(&self->max));
+    
+    color_lerp(&minColor, &maxColor, dynf32_get(&self->time), &result);
     return result;
 }
 

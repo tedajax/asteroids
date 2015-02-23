@@ -4,6 +4,7 @@
 #include "core.h"
 #include "component.h"
 #include "luabind.h"
+#include "hashtable.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -32,11 +33,15 @@ typedef struct lua_component_t {
     lua_State* L;
     LuaComponentState state;
     LuaBind callbackBinds[LUA_CALLBACK_LAST];
+    Hashtable customBinds;
 } LuaComponent;
 
 LuaComponent* lua_component_new(Entity entity, const char* filename);
 COMPONENT_DEFINE(COMPONENT_LUA);
 void lua_component_load(LuaComponent* self);
 void lua_component_check_and_reload(LuaComponent* self);
+void lua_component_add_bind(LuaComponent* self, const char* funcName, int argc, ...);
+void lua_component_call(LuaComponent* self, const char* funcName, ...);
+void lua_component_callv(LuaComponent* self, const char* funcName, va_list argv);
 
 #endif

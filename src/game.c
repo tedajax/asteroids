@@ -6,7 +6,10 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
-bool playGame = false;
+bool playGame = true;
+
+ParticleEmitter testParticle;
+TransformComponent testParticleTransform;
 
 void game_debug_keys(Game* self);
 
@@ -77,7 +80,7 @@ void game_init(Game* self) {
         563
     };
 
-    for (u32 i = 0; i < 1; ++i) {
+    for (u32 i = 0; i < 0; ++i) {
         entity_create_asteroid(self->entityManager, vec2_init(i * 200.f, randf((f32)globals.world.height - 100.f)), 5);
     }
 
@@ -102,6 +105,10 @@ void game_init(Game* self) {
         DebugHudWatch* tweenWatch = debug_hud_add_watch(&self->debugHud, "Tweens", WATCH_TYPE_INT, &globals.tweens.count);
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
+
+    //////////////////////////////
+    emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));
+    //////////////////////////////
 }
 
 void game_quit(Game* self) {
@@ -109,6 +116,11 @@ void game_quit(Game* self) {
     entity_manager_free(self->entityManager);
     atlases_terminate();
     textures_terminate();
+
+    //////////////////////////////
+    emitter_free(&testParticle);
+    //////////////////////////////
+    
     tween_manager_terminate(&globals.tweens);
     debug_hud_free(&self->debugHud);
     component_system_terminate();
@@ -152,6 +164,12 @@ void game_update(Game* self) {
 
     camera_update(&globals.camera);
 
+    //////////////////////////////
+    testParticleTransform.position.x = 500;
+    testParticleTransform.position.y = 300;
+    emitter_update(&testParticle, &testParticleTransform);
+    //////////////////////////////
+    
     debug_hud_update_surfaces(&self->debugHud, globals.renderer);
     tween_manager_update(&globals.tweens, globals.time.delta);
 
@@ -187,6 +205,10 @@ void game_debug_keys(Game* self) {
 void game_render(Game* self) {
     sprite_system_render(&self->spriteSystem);
     particle_system_render(&self->particleSystem);
+
+    /////////////////////////////////
+    //emitter_render(&testParticle, &testParticleTransform);
+    /////////////////////////////////
 
     if (drawCollision) {
         collision_system_render(&self->collisionSystem);

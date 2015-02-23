@@ -1,4 +1,5 @@
 #include "config.h"
+#include "snprintf.h"
 
 void config_system_init(ConfigSystem* self, char* rootDir) {
     self->rootDir = rootDir;
@@ -131,6 +132,108 @@ time_t config_get_mtime(const char* path) {
     }
 
     return buffer.st_mtime;
+}
+
+bool config_extract_config_file(const char* path, char* dest, size_t n) {
+    int len = (int)strlen(path);
+
+    int barIndex = -1;
+    for (int i = 0; i < len; ++i) {
+        if (path[i] == '|') {
+            barIndex = i;
+            break;
+        }
+    }
+
+    if (barIndex < 0) {
+        log_error_format("Config", "Invalid pattern for finding config file name, should be \"config_file|section:key\"");
+        return false;
+    }
+
+    if (barIndex >= n) {
+        log_error_format("Config", "Not enough space in the provided buffer");
+        return false;
+    }
+
+    strncpy(dest, path, barIndex);
+    dest[barIndex] = '\0';
+    snprintf(dest, n, "%s.ini", dest);
+    return true;
+}
+
+bool config_extract_section(const char* path, char* dest, size_t n) {
+    int len = (int)strlen(path);
+    
+    int barIndex = -1;
+    int colonIndex = -1;
+    for (int i = 0; i < len; ++i) {
+        char c = path[i];
+        if (c == '|') {
+            ASSERT(barIndex < 0, "Only 1 \'|\' should exist in the config path.");
+            barIndex = i;
+        } else if (c == ':') {
+            colonIndex = i;
+            break;
+        }
+    }
+
+    // If we can't find a | or a : we have no way of determining if what we're looking at is a section or a key.
+    if (barIndex < 0 && colonIndex < 0) {
+        log_error("Config", "Invalid pattern for finding section name, should be \"config_file|section:key\" or \"section:key\"");
+        return false;
+    }
+    
+    // Brings the bar index to 0 if one was never found and moves it off the | if we did find one.
+    int start = barIndex + 1;
+    // If we didn't find a colon but have a bar we can assume we go to the end of the string from bar.
+    int end = (colonIndex < 0) ? len - 1 : colonIndex;
+
+    if ((end - start) >= n) {
+        log_error("Config", "Not enough space in the provided buffer");
+        return false;
+    }
+
+    strncpy(dest, &path[start], (end - start));
+    dest[end - start] = '\0';
+
+    return true;
+}
+
+bool config_extract_key(const char* path, char* dest, size_t n) {
+    int len = (int)strlen(path);
+    int start = len;
+    for (int i = len - 1; i >= 0; ++i) {
+        char c = path[i];
+        if (c != ':') {
+            --start;
+        } else {
+            break;
+        }
+    }
+
+    if (start >= len) {
+        log_error("Config", "\':\' found at end which confuses me.");
+        return false;
+    }
+
+    if ((len - start) >= n) {
+        log_error("Config", "Not enough space in the provided buffer");
+        return false;
+    }
+
+    strncpy(dest, &path[start], (len - start));
+    dest[len] = '\0';
+
+    return true;
+}
+
+Config* config_get_from_key(const char* key) {
+    char configName[128];
+    if (config_extract_config_file(key, configName, 128)) {
+        return config_get(configName);
+    } else {
+        return NULL;
+    }
 }
 
 CONFIG_GET_AT_PROTO_NAMED(char*, string) {
@@ -346,10 +449,10 @@ CONFIG_GET_AT_PROTO(DynamicColor) {
         u8 gb = (u8)CONFIG_GET_AT(int)(self, section, key, 1);
         u8 bb = (u8)CONFIG_GET_AT(int)(self, section, key, 2);
         u8 ab = (u8)CONFIG_GET_AT(int)(self, section, key, 3);
-        dynf32 r = dynf32_value((f32)rb / 255.f);
-        dynf32 g = dynf32_value((f32)gb / 255.f);
-        dynf32 b = dynf32_value((f32)bb / 255.f);
-        dynf32 a = dynf32_value((f32)ab / 255.f);
+        dynf32 r = dynf32_value((f32)rb);
+        dynf32 g = dynf32_value((f32)gb);
+        dynf32 b = dynf32_value((f32)bb);
+        dynf32 a = dynf32_value((f32)ab);
         return dynamic_color_dynfloat4(r, g, b, a);
     }
 

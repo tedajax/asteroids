@@ -2,6 +2,15 @@
 #include "memory.h"
 
 void lua_bind_init(LuaBind* self, const char* function, int argc, ...) {
+    va_list argv;
+    va_start(argv, argc);
+
+    lua_bind_initv(self, function, argc, argv);
+
+    va_end(argv);
+}
+
+void lua_bind_initv(LuaBind* self, const char* function, int argc, va_list argv) {
     self->functionName = (char*)function;
     self->argt = NULL;
     self->argc = argc;
@@ -10,14 +19,9 @@ void lua_bind_init(LuaBind* self, const char* function, int argc, ...) {
         self->argt = CALLOC(argc, LuaBindArgTypes);
     }
 
-    va_list argv;
-    va_start(argv, argc);
-
     for (int i = 0; i < argc; ++i) {
         self->argt[i] = (LuaBindArgTypes)va_arg(argv, int);
     }
-
-    va_end(argv);
 }
 
 void lua_bind_call(LuaBind* self, lua_State* L, ...) {

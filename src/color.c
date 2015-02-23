@@ -12,6 +12,10 @@ Color color_make_rgba(u8 r, u8 g, u8 b, u8 a) {
 }
 
 Color color_make_rgbaf(f32 r, f32 g, f32 b, f32 a) {
+    r = clampf(r, 0.f, 1.);
+    g = clampf(g, 0.f, 1.);
+    b = clampf(b, 0.f, 1.);
+    a = clampf(a, 0.f, 1.);
     return color_make_rgba((u8)(r * 255.f), (u8)(g * 255.f), (u8)(b * 255.f), (u8)(a * 255.f));
 }
 

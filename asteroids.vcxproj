@@ -381,6 +381,7 @@
     <None Include="assets\data\particles.ini" />
     <None Include="assets\data\player.ini" />
     <None Include="assets\data\test.ini" />
+    <None Include="assets\prefabs\bullet_explosion.prefab" />
     <None Include="assets\prefabs\test.prefab" />
     <None Include="assets\scripts\api.lua" />
     <None Include="assets\scripts\component.lua" />

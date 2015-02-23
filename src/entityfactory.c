@@ -169,8 +169,11 @@ Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 s
     entities_add_component(entityManager,
         (Component*)asteroid_controller_component_new(entity, size));
 
-    entities_add_component(entityManager,
+    /*LuaComponent* lua = (LuaComponent*)entities_add_component(entityManager,
         (Component*)lua_component_new(entity, "assets/scripts/timedlife.lua"));
+
+    lua_component_add_bind(lua, "set_time", 1, LUA_ARG_FLOAT);
+    lua_component_call(lua, "set_time", 2.f);*/
 
     return entity;
 }

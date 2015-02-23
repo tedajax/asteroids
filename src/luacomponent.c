@@ -58,6 +58,8 @@ void lua_component_load(LuaComponent* self) {
         LuaBind* bind = &self->callbackBinds[LUA_CALLBACK_RENDER];
         lua_bind_init(bind, "render", 0);
     }
+
+    hashtable_init(&self->customBinds, 16, lua_bind_free_void);
 }
 
 
@@ -76,6 +78,7 @@ COMPONENT_FREE(COMPONENT_LUA) {
     for (LuaComponentCallbacks cb = 0; cb < LUA_CALLBACK_LAST; ++cb) {
         lua_bind_free(&self->callbackBinds[cb]);
     }
+    hashtable_free_contents(&self->customBinds);
 }
 
 COMPONENT_COPY(COMPONENT_LUA) {
@@ -99,4 +102,35 @@ void lua_component_check_and_reload(LuaComponent* self) {
         self->state = LUA_STATE_NEW;
         profiler_tock("reload lua file");
     }
+}
+
+void lua_component_add_bind(LuaComponent* self, const char* funcName, int argc, ...) {
+    LuaBind* bind = CALLOC(1, LuaBind);
+    
+    va_list argv;
+    va_start(argv, argc);
+    
+    lua_bind_initv(bind, funcName, argc, argv);
+    
+    va_end(argv);
+
+    hashtable_insert(&self->customBinds, funcName, bind);
+}
+
+void lua_component_call(LuaComponent* self, const char* funcName, ...) {
+    va_list argv;
+    va_start(argv, funcName);
+    lua_component_callv(self, funcName, argv);
+    va_end(argv);
+}
+
+void lua_component_callv(LuaComponent* self, const char* funcName, va_list argv) {
+    LuaBind* bind = (LuaBind*)hashtable_get(&self->customBinds, funcName);
+
+    if (!bind) {
+        log_error_format("Lua", "No bind found for \'%s\' in file \'%s\'", funcName, self->file.path);
+        return;
+    }
+
+    lua_bind_callv(bind, self->L, argv);
 }

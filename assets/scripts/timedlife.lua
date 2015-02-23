@@ -1,14 +1,19 @@
 require("assets/scripts/component")
 
 _entity = 0
+_lifetime = 5
+
+function set_time(time)
+    _lifetime = time
+end
+
 start = function(entity)
     _entity = entity
-    lifetime = 1
 end
 
 update = function(dt)
-    lifetime = lifetime - dt
-    if lifetime <= 0 then
+    _lifetime = _lifetime - dt
+    if _lifetime <= 0 then
         Destroy(_entity)
     end
 end

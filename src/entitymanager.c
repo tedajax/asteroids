@@ -138,11 +138,13 @@ Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab, Vec2 pos
     return entity;
 }
 
-void entities_add_component(EntityManager* self, Component* component) {
+Component* entities_add_component(EntityManager* self, Component* component) {
     ASSERT(component->type > COMPONENT_INVALID && component->type < COMPONENT_LAST,
         "Invalid component, did you remember to set the component type in the component constructor?");
 
     component_list_append(&self->componentsMap[component->type], component);
+
+    return component;
 }
 
 Component* entities_get_component(EntityManager* self, ComponentType type, Entity entity) {

@@ -8,6 +8,8 @@
 
 #include "types.h"
 #include "debug.h"
+#include "inline.h"
+#include <stdlib.h>
 
 typedef enum lua_bind_arg_types_e {
     LUA_ARG_BOOLEAN,
@@ -23,9 +25,11 @@ typedef struct lua_bind_t {
 } LuaBind;
 
 void lua_bind_init(LuaBind* self, const char* function, int argc, ...);
+void lua_bind_initv(LuaBind* self, const char* function, int argc, va_list argv);
 void lua_bind_call(LuaBind* self, lua_State* L, ...);
 void lua_bind_callv(LuaBind* self, lua_State* L, va_list argv);
 void lua_bind_free(LuaBind* self);
+static inline void lua_bind_free_void(void* self) { lua_bind_free((LuaBind*)self); free(self); }
 
 #define LUA_ERROR(L) \
     fprintf(stderr, "Lua error -- %s:%d: %s\n", __FILE__, __LINE__, lua_tostring(L, -1));

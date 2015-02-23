@@ -628,6 +628,9 @@
     <None Include="assets\scripts\timedlife.lua">
       <Filter>Assets\Scripts</Filter>
     </None>
+    <None Include="assets\prefabs\bullet_explosion.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png">

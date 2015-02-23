@@ -55,7 +55,7 @@ void entity_manager_set_system_compare_function(EntityManager* self, AspectSyste
 i32 entities_gen_entity_id(EntityManager* self);
 Entity entities_create_entity(EntityManager* self);
 Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab, Vec2 position, f32 rotation);
-void entities_add_component(EntityManager* self, Component* component);
+Component* entities_add_component(EntityManager* self, Component* component);
 Component* entities_get_component(EntityManager* self, ComponentType type, Entity entity);
 ComponentList* entities_get_all_components(EntityManager* self, ComponentType type);
 bool entities_has_component(EntityManager* self, ComponentType type, Entity entity);
