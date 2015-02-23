@@ -32,6 +32,11 @@ void lua_bind_call(LuaBind* self, lua_State* L, ...) {
 void lua_bind_callv(LuaBind* self, lua_State* L, va_list argv) {
     lua_getglobal(L, self->functionName);
 
+    if (lua_isnil(L, -1)) {
+        lua_pop(L, -1);
+        return;
+    }
+
     for (int i = 0; i < self->argc; ++i) {
         switch (self->argt[i]) {
             case LUA_ARG_BOOLEAN:

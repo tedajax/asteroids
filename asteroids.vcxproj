@@ -386,6 +386,7 @@
     <None Include="assets\scripts\component.lua" />
     <None Include="assets\scripts\prefab_test.lua" />
     <None Include="assets\scripts\test_component.lua" />
+    <None Include="assets\scripts\timedlife.lua" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png" />

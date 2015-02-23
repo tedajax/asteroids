@@ -625,6 +625,9 @@
     <None Include="assets\prefabs\test.prefab">
       <Filter>Assets\Prefabs</Filter>
     </None>
+    <None Include="assets\scripts\timedlife.lua">
+      <Filter>Assets\Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png">

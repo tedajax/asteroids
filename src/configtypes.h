@@ -102,6 +102,7 @@ typedef struct particle_emitter_config_t {
     dynf32 speed;
     DynamicVec2 acceleration;
     DynamicVec2 scale;
+    DynamicVec2 offset;
     DynamicColor color;
     Vec2 spawnArea;
     bool worldSpace;

@@ -117,6 +117,7 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
     self->speed = CONFIG_TRY_GET(dynf32)(config, table, "speed", dynf32_value(100.f));
     self->acceleration = CONFIG_TRY_GET(DynamicVec2)(config, table, "acceleration", dynamic_vec2_value(vec2_zero()));
     self->scale = CONFIG_TRY_GET(DynamicVec2)(config, table, "scale", dynamic_vec2_value(vec2_one()));
+    self->offset = CONFIG_TRY_GET(DynamicVec2)(config, table, "offset", dynamic_vec2_value(vec2_zero()));
     self->color = CONFIG_TRY_GET(DynamicColor)(config, table, "color", dynamic_color_value(color_make_rgb(255, 255, 255)));
     self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());
     self->worldSpace = CONFIG_TRY_GET(bool)(config, table, "world_space", false);

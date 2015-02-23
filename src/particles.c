@@ -73,7 +73,12 @@ void emitter_init(ParticleEmitter* self, ParticleEmitterConfig* config) {
     dynf32_copy(&config->startingRotation, &self->startingRotation);
     dynf32_start(&self->startingRotation, &globals.tweens);
 
+    dynamic_vec2_copy(&config->offset, &self->offset);
+    dynamic_vec2_start(&self->offset, &globals.tweens);
+
     self->emitTimer = self->config->emissionInterval;
+
+    self->emitterVelocity = vec2_zero();
 
     self->atlas = atlas_get(config->atlasName);
     self->lifetime = config->lifetime;
@@ -85,6 +90,7 @@ void emitter_free(ParticleEmitter* self) {
     free(self->particles);
     free(self->sortedParticles);
     dynf32_release(&self->startingRotation);
+    dynamic_vec2_release(&self->offset);
 }
 
 void emitter_play(ParticleEmitter* self) {
@@ -118,6 +124,7 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         return;
     }
     
+    // Update storage amounts if config changes max particles
     if (self->maxParticles < self->config->maxParticles) {
         Particle* newParticleList = CALLOC(self->config->maxParticles, Particle);
         memcpy(newParticleList, self->particles, self->maxParticles * sizeof(Particle));
@@ -136,6 +143,7 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         self->maxParticles = self->config->maxParticles;
     }
 
+    // Update particles positions based on their properties
     for (u32 i = 0; i < self->maxParticles; ++i) {
         Particle* particle = &self->particles[i];
 
@@ -147,9 +155,15 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         vec2_scale(&acceleration, globals.time.delta, &acceleration);
         vec2_add(&acceleration, &particle->velocity, &particle->velocity);
 
+        Vec2 direction = particle->direction;
+        if (!self->config->worldSpace) {
+            //vec2_transform(&direction, anchor->rotation, &direction);
+        }
+
         Vec2 velocity;
-        vec2_scale(&particle->direction, dynf32_get(&particle->speed), &velocity);
+        vec2_scale(&direction, dynf32_get(&particle->speed), &velocity);
         vec2_add(&velocity, &particle->velocity, &velocity);
+        vec2_add(&velocity, &self->emitterVelocity, &velocity);
 
         vec2_scale(&velocity, globals.time.delta, &velocity);
 
@@ -172,16 +186,21 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         }
     }
 
+    // If we're not being instructed to spawn new particles we exit
     if (!self->spawnNewParticles) {
+        emitter_sort(self->sortedParticles, self->maxParticles, particle_lifetime_compare);
         return;
     }
 
+    // Update emit timer and if it's reached the emit interval spawn a wave of particles.
     self->emitTimer += globals.time.delta;
 
     if (self->emitTimer < self->config->emissionInterval) {
+        emitter_sort(self->sortedParticles, self->maxParticles, particle_lifetime_compare);
         return;
     }
 
+    // Spawn particles
     for (u32 i = 0; i < self->config->particlesPerEmission; ++i) {
         i32 index = emitter_get_next_available(self);
         if (index < 0) {
@@ -195,7 +214,9 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         f32 angle = self->config->emissionBaseAngle;
         f32 arc = self->config->emissionArcLength / 2.f;
         angle += randf_range(-arc, arc);
-        angle += anchor->rotation;
+        if (self->config->worldSpace) {
+            angle += anchor->rotation;
+        }
 
         Vec2 direction;
         vec2_set_angle(&direction, angle, 1.f);
@@ -203,9 +224,13 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         f32 w = self->config->spawnArea.x / 2.f;
         f32 h = self->config->spawnArea.y / 2.f;
         Vec2 spawnPos = vec2_rand_range(-w, -h, w, h);
-        vec2_tranform(&spawnPos, anchor->rotation, &spawnPos);
+        vec2_transform(&spawnPos, anchor->rotation, &spawnPos);
+
+        Vec2 offset = dynamic_vec2_get(&self->offset);
+        vec2_transform(&offset, anchor->rotation, &offset);
 
         if (self->config->worldSpace) {
+            vec2_add(&spawnPos, &offset, &spawnPos);
             vec2_add(&spawnPos, &anchor->position, &spawnPos);
         }
 
@@ -217,7 +242,7 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
             &self->config->color,
             &self->config->rotationSpeed,
             &self->config->speed,
-            0.f, //dynf32_get(&self->config->startingRotation),
+            dynf32_get(&self->config->startingRotation),
             self->config->particleLifetime,
         };
 
@@ -244,7 +269,7 @@ i32 emitter_get_next_available(ParticleEmitter* self) {
 void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
     SpriteFrame* frame = atlas_get_frame(self->atlas, self->config->spriteName);
 
-    for (u32 i = 0; i < self->maxParticles && self->sortedParticles[i]->lifetime > 0; ++i) {
+    for (u32 i = 0; i < self->maxParticles; ++i) {
         Particle* particle = self->sortedParticles[i];
         
         if (particle_dead(particle)) {
@@ -261,9 +286,17 @@ void emitter_render(ParticleEmitter* self, TransformComponent* anchor) {
         f32 halfWidth = width / 2.f;
         f32 halfHeight = height / 2.f;
 
+        Vec2 position = particle->position;
+        if (!self->config->worldSpace) {
+            vec2_transform(&position, anchor->rotation, &position);
+            Vec2 offset = dynamic_vec2_get(&self->offset);
+            vec2_transform(&offset, anchor->rotation, &offset);
+            vec2_add(&position, &offset, &position);
+        }
+
         SDL_Rect dest;
-        dest.x = (int)particle->position.x - (int)halfWidth;
-        dest.y = (int)particle->position.y - (int)halfHeight;
+        dest.x = (int)position.x - (int)halfWidth;
+        dest.y = (int)position.y - (int)halfHeight;
         dest.w = (int)width;
         dest.h = (int)height;
 

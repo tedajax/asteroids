@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
-bool playGame = true;
+bool playGame = false;
 
 void game_debug_keys(Game* self);
 

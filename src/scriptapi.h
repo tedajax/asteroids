@@ -73,6 +73,7 @@ LUA_EXPORT void draw_rectangle(Vec2 center, f32 width, f32 height);
 LUA_EXPORT void draw_rectangle_rgba(Vec2 center, f32 width, f32 height, u8 r, u8 g, u8 b, u8 a);
 LUA_EXPORT void instantiate(const char* name);
 LUA_EXPORT void instantiate_at(const char* name, Vec2 position, f32 rotation);
+LUA_EXPORT void destroy(Entity entity);
 LUA_EXPORT void get_transform(Entity entity);
 
 #endif

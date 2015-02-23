@@ -41,6 +41,8 @@ typedef struct particle_emitter_t {
     Particle** sortedParticles;
     Atlas* atlas;
     dynf32 startingRotation;
+    DynamicVec2 offset;
+    Vec2 emitterVelocity;
     u32 maxParticles;
     u32 activeParticles;
     i32 newestParticle;

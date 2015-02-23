@@ -101,6 +101,13 @@ bool _app_initialize(App* self) {
         return false;
     }
 
+    int count = SDL_GetNumAudioDevices(0);
+
+    printf("Audio device count: %d\n", count);
+    for (int i = 0; i < count; ++i) {
+        printf("Audio device %d: %s\n", i, SDL_GetAudioDeviceName(i, 0));
+    }
+
     if (TTF_Init() < 0) {
         log_error("SDL_TTF", TTF_GetError());
         return false;

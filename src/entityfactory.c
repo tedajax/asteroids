@@ -21,7 +21,7 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
         (Component*)controller_component_new(entity, config_get("player.ini"), "player"));
 
     entities_add_component(entityManager,
-        (Component*)health_component_new(entity, 100));
+        (Component*)health_component_new(entity, 100000));
 
     entities_add_component(entityManager,
         (Component*)sprite_component_new(entity, atlas, spriteName, 1));
@@ -168,6 +168,9 @@ Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 s
 
     entities_add_component(entityManager,
         (Component*)asteroid_controller_component_new(entity, size));
+
+    entities_add_component(entityManager,
+        (Component*)lua_component_new(entity, "assets/scripts/timedlife.lua"));
 
     return entity;
 }

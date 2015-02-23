@@ -4,6 +4,7 @@
 #include "prefab.h"
 #include "globals.h"
 #include "snprintf.h"
+#include "game.h"
 
 LUA_EXPORT void quit() {
     exit(0);
@@ -37,6 +38,10 @@ LUA_EXPORT void instantiate_at(const char* name, Vec2 position, f32 rotation) {
     if (prefab) {
         prefab_instantiate_at(prefab, position, rotation);
     }
+}
+
+LUA_EXPORT void destroy(Entity entity) {
+    entities_remove_entity(globals.game->entityManager, entity);
 }
 
 LUA_EXPORT void get_transform(Entity entity) {

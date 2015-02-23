@@ -139,7 +139,7 @@ void vec2_direction(const f32 angle, Vec2* dest) {
     dest->y = sinf(angle);
 }
 
-void vec2_tranform(const Vec2* self, const f32 rotation, Vec2* dest) {
+void vec2_transform(const Vec2* self, const f32 rotation, Vec2* dest) {
     f32 r = rotation * DEG_TO_RAD;
     f32 c = cosf(r), s = sinf(r);
     f32 x = self->x, y = self->y;

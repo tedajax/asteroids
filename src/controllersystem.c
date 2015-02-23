@@ -24,7 +24,10 @@ void controller_system_update(ControllerSystem* self) {
         TransformComponent* transform =
             (TransformComponent*)GET_COMPONENT(entity, COMPONENT_TRANSFORM);
 
-        REQUIRED_COMPONENTS(transform, movement, controller);
+        ParticleComponent* particle =
+            (ParticleComponent*)GET_COMPONENT(entity, COMPONENT_PARTICLE);
+
+        REQUIRED_COMPONENTS(transform, movement, controller, particle);
 
         if (controller->damageRecoveryTimer > 0.f) {
             controller->damageRecoveryTimer -= globals.time.delta;
@@ -43,6 +46,9 @@ void controller_system_update(ControllerSystem* self) {
 
         if (input_key(SDL_SCANCODE_UP)) {
             vec2_set_angle(&acceleration, transform->rotation, controller->acceleration * globals.time.delta);
+            particle->emitters[0].spawnNewParticles = true;
+        } else {
+            particle->emitters[0].spawnNewParticles = false;
         }
 
         turnRate *= controller->turnSpeed;
@@ -58,6 +64,8 @@ void controller_system_update(ControllerSystem* self) {
         if (input_key_down(SDL_SCANCODE_S)) {
             movement->velocity = vec2_zero();
         }
+
+        //vec2_negate(&movement->velocity, &particle->emitters[0].emitterVelocity);
 
         if (input_key_down(SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
