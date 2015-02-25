@@ -48,12 +48,20 @@ void controller_system_update(ControllerSystem* self) {
             vec2_set_angle(&acceleration, transform->rotation, controller->acceleration * globals.time.delta);
             particle->emitters[0].spawnNewParticles = true;
         } else {
+            if (vec2_length(&movement->velocity) > 0.f) {
+                Vec2 currentDirection;
+                vec2_normalize(&movement->velocity, &currentDirection);
+                f32 angle = vec2_direction_angle(&currentDirection);
+                f32 velocityMag = vec2_length(&movement->velocity);
+                vec2_set_angle(&acceleration, angle, velocityMag * controller->friction * globals.time.delta);
+            }
             particle->emitters[0].spawnNewParticles = false;
         }
 
         turnRate *= controller->turnSpeed;
 
         vec2_add(&movement->velocity, &acceleration, &movement->velocity);
+
         if (vec2_length(&movement->velocity) > controller->maxSpeed) {
             vec2_normalize(&movement->velocity, &movement->velocity);
             vec2_scale(&movement->velocity, controller->maxSpeed, &movement->velocity);

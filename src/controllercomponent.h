@@ -11,6 +11,7 @@ typedef struct controller_component_t {
     f32 acceleration;
     f32 maxSpeed;
     f32 currentSpeed;
+    f32 friction;
     f32 damageRecoveryInterval;
     BulletSource* bulletSources;
     u32 bulletSourceCount;

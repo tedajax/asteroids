@@ -58,6 +58,7 @@ void vec2_normalize(const Vec2* vec, Vec2* dest);
 void vec2_lerp(const Vec2* start, const Vec2* end, const f32 t, Vec2* dest);
 void vec2_direction(const f32 angle, Vec2* dest);
 void vec2_transform(const Vec2* self, const f32 rotation, Vec2* dest);
+f32 vec2_direction_angle(const Vec2* direction);
 f32 vec2_dot(const Vec2* lhs, const Vec2* rhs);
 f32 vec2_length(const Vec2* vec);
 f32 vec2_lengthSqr(const Vec2* vec);
