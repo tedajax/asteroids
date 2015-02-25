@@ -27,7 +27,7 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
         REQUIRED_COMPONENTS(asteroid, movement, transform);
 
         if (is_approx_zero(vec2_length(&movement->velocity))) {
-            f32 speed = (5 - asteroid->asteroidSize + 1) * 75.f;
+            f32 speed = (5 - asteroid->asteroidSize + 1) * 25.f;
             movement->velocity.x = randf_range(-speed, speed);
             movement->velocity.y = randf_range(-speed, speed);
         }

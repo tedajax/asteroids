@@ -5,7 +5,7 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
 
     // Transform
     entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, position, 0.f, vec2_one()));
+        (Component*)transform_component_new(entity, position, 0.f, vec2_init(0.5f, 0.5f)));
 
     // entities_add_component(entityManager,
     //     (Component*)gravity_component_world(),
@@ -31,8 +31,8 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* 
         entity,
         COLLIDER_LAYER_PLAYER,
         vec2_zero(),
-        75.f,
-        112.f,
+        37.f,
+        56.f,
         0.f);
 
     entities_add_component(entityManager,
@@ -57,7 +57,7 @@ Entity entity_create_bullet(EntityManager* entityManager, BulletConfig* bulletCo
     Entity entity = entities_create_entity(entityManager);
 
     entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, position, 0.f, vec2_one()));
+        (Component*)transform_component_new(entity, position, 0.f, vec2_init(0.5f, 0.5f)));
 
     entities_add_component(entityManager,
         (Component*)movement_component_new(entity, vec2_zero(), 0.f));

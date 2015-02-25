@@ -28,8 +28,9 @@ void globals_config(const char* configName) {
 
     if (globals.randomSeed == 0) {
         globals.randomSeed = (u32)time(NULL);
-        srand(globals.randomSeed);
     }
+
+    srand(globals.randomSeed);
 
     globals.screen.width = (u32)config_try_get_int(config, "screen", "width", 1280);
     globals.screen.height = (u32)config_try_get_int(config, "screen", "height", 720);
