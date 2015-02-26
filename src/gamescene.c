@@ -1,5 +1,6 @@
 #include "gamescene.h"
 #include "prefab.h"
+#include "entityfactory.h"
 
 void game_scene_init(GameScene* self) {
     self->entityManager = entity_manager_new();
@@ -18,8 +19,6 @@ void game_scene_init(GameScene* self) {
     screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
     asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
     ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
-
-    prefab_instantiate_at(prefab_get("player_ship.prefab"), vec2_init(globals.world.width / 2.f, globals.world.height / 2.f), 0.f);
 }
 
 void game_scene_quit(GameScene* self) {

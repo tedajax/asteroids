@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 
 bool drawCollision = false;
-bool playGame = false;
+bool playGame = true;
 
 ParticleEmitter testParticle;
 TransformComponent testParticleTransform;
@@ -63,6 +63,14 @@ void game_init(Game* self) {
     for (u32 i = 0; i < 6; ++i) {
         entity_create_asteroid(self->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
     }*/
+
+    entity_create_bg_manager(active_scene()->entityManager);
+
+    entity_create_player(active_scene()->entityManager, vec2_init(globals.world.width / 2.f, globals.world.height / 2.f));
+
+    for (u32 i = 0; i < 6; ++i) {
+        entity_create_asteroid(self->activeScene->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
+    }
 
     camera_init(&globals.camera, NULL);
 
@@ -169,6 +177,10 @@ void game_render(Game* self) {
     /////////////////////////////////
 
     game_scene_render(self->activeScene);
+
+    if (drawCollision) {
+        collision_system_render(&self->activeScene->collisionSystem);
+    }
 
     debug_hud_render(&self->debugHud, globals.renderer, 5, 5);
 }

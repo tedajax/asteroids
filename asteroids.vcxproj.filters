@@ -664,6 +664,18 @@
     <None Include="assets\prefabs\player_ship.prefab">
       <Filter>Assets\Prefabs</Filter>
     </None>
+    <None Include="assets\prefabs\player_bullet.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="assets\prefabs\asteroid.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="assets\prefabs\background_tile.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="assets\prefabs\background.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png">

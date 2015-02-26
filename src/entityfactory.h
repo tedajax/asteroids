@@ -8,12 +8,9 @@
 
 #include <SDL2/SDL.h>
 
-typedef struct bullet_source_config_t BulletSourceConfig;
-
-Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* atlas, char* spriteName);
-Entity entity_create_bullet(EntityManager* entityManager, BulletConfig* bulletConfig, ColliderConfig* colliderConfig, Vec2 position, Atlas* atlas, char* spriteName);
-Entity entity_create_bg_tile(EntityManager* entityManager, Atlas* atlas, char* spriteName);
-Entity entity_create_bg_manager(EntityManager* entityManager, u32 twidth, u32 theight);
+Entity entity_create_player(EntityManager* entityManager, Vec2 position);
+Entity entity_create_bullet(EntityManager* entityManager, Vec2 position, f32 baseAngle);
+Entity entity_create_bg_manager(EntityManager* entityManager);
 Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position);
 Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 size);
 

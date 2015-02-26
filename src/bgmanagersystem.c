@@ -1,4 +1,6 @@
 #include "bgmanagersystem.h"
+#include "spritecomponent.h"
+#include "prefab.h"
 
 void bg_manager_system_init(BgManagerSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_BG_MANAGER, 1);
@@ -12,7 +14,30 @@ void bg_manager_system_start(BgManagerSystem* self) {
 
         REQUIRED_COMPONENTS(bg);
 
-        for (u32 j = 0; j < bg->count; ++j) {
+        u32 width = 0, height = 0;
+        {
+            Entity entity = prefab_instantiate(bg->tilePrefab);
+            SpriteComponent* sprite = (SpriteComponent*)entities_get_component(self->super.entityManager,
+                COMPONENT_SPRITE,
+                entity);
+            width = (u32)floorf(sprite->currentFrame.frame.width);
+            height = (u32)floorf(sprite->currentFrame.frame.height);
+            entities_remove_entity(self->super.entityManager, entity);
+        }
+
+        bg->tileWidth = width;
+        bg->tileHeight = height;
+
+        bg->rows = globals.world.height / bg->tileHeight + 2;
+        bg->columns = globals.world.width / bg->tileWidth + 2;
+
+        bg->capacity = bg->rows * bg->columns;
+        bg->transforms = CALLOC(bg->capacity, TransformComponent*);
+
+        for (u32 j = 0; j < bg->capacity; ++j) {
+            Entity entity = prefab_instantiate(bg->tilePrefab);
+            bg_manager_component_add_entity(bg, self->super.entityManager, entity);
+
             TransformComponent* tx = bg->transforms[j];
 
             //todo place correctly based on camera and shit

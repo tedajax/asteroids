@@ -1,54 +1,46 @@
 components = [
     transform,
     movement,
-    controller,
     health,
     sprite,
     collider,
     screen_wrap,
-    particle_emitter
+    asteroid
 ]
 
 [transform]
 component_type = COMPONENT_TRANSFORM
-position = [640, 360]
+position = [0, 0]
 rotation = 0
-scale = [0.5, 0.5]
+scale = [1, 1]
 
 [movement]
 component_type = COMPONENT_MOVEMENT
 
-[controller]
-component_type = COMPONENT_CONTROLLER
-config_path = player|player
-
 [health]
 component_type = COMPONENT_HEALTH
-max_health = 1000
+max_health = 10
 
 [sprite]
 component_type = COMPONENT_SPRITE
 atlas = atlas1
-sprite = player_ship
-layer = 1
+sprite = meteorBrown_big4
 
 [collider]
 component_type = COMPONENT_COLLIDER
 collider = collider.config
 
 [collider.config]
-layer = COLLIDER_LAYER_PLAYER
+layer = COLLIDER_LAYER_ENEMY
 offset = [0, 0]
-type = BOUNDING_VOLUME_O_BOX
-width = 37
-height = 56
-orientation = 0
+type = BOUNDING_VOLUME_CIRCLE
+radius = 48
 
 [screen_wrap]
 component_type = COMPONENT_SCREEN_WRAP
 horizontal_buffer = 64
 vertical_buffer = 64
 
-[particle_emitter]
-component_type = COMPONENT_PARTICLE
-emitters = particles|fire
+[asteroid]
+component_type = COMPONENT_ASTEROID_CONTROLLER
+asteroid_size = 5

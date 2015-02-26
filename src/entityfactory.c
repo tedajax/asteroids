@@ -1,104 +1,24 @@
 #include "entityfactory.h"
 
-Entity entity_create_player(EntityManager* entityManager, Vec2 position, Atlas* atlas, char* spriteName) {
-    Entity entity = entities_create_entity(entityManager);
+Entity entity_create_player(EntityManager* entityManager, Vec2 position) {
+    return prefab_instantiate_at(prefab_get("player_ship.prefab"), position, 0.f);
+}
 
-    // Transform
-    entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, position, 0.f, vec2_init(0.5f, 0.5f)));
+Entity entity_create_bullet(EntityManager* entityManager, Vec2 position, f32 baseAngle) {
+    Entity entity = prefab_instantiate_at(prefab_get("player_bullet.prefab"), position, 0.f);
 
-    // entities_add_component(entityManager,
-    //     (Component*)gravity_component_world(),
-    //     entity);
+    BulletControllerComponent* bullet =
+        (BulletControllerComponent*)entities_get_component(entityManager,
+        COMPONENT_BULLET_CONTROLLER,
+        entity);
 
-    MovementComponent* movement = movement_component_new(entity, vec2_zero(), 0.f);
-    //movement->constrainToCamera = true;
-
-    entities_add_component(entityManager,
-        (Component*)movement);
-
-    entities_add_component(entityManager,
-        (Component*)controller_component_new(entity, config_get("player.ini"), "player"));
-
-    entities_add_component(entityManager,
-        (Component*)health_component_new(entity, 100000));
-
-    entities_add_component(entityManager,
-        (Component*)sprite_component_new(entity, atlas, spriteName, 1));
-
-    Collider collider;
-    collider_init_obb(&collider,
-        entity,
-        COLLIDER_LAYER_PLAYER,
-        vec2_zero(),
-        37.f,
-        56.f,
-        0.f);
-
-    entities_add_component(entityManager,
-        (Component*)collider_component_new(entity, &collider));
-
-    entities_add_component(entityManager,
-        (Component*)screen_wrap_component_new(entity, 64, 64));
-
-    ParticleEmitterConfig* emitterConfig = 
-        CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "fire_particle");
-
-    entities_add_component(entityManager,
-        (Component*)particle_component_new(entity, &emitterConfig, 1));
-
-    //entities_add_component(entityManager,
-    //    (Component*)lua_component_new(entity, "assets/scripts/test_component.lua"));
+    bullet->baseAngle = baseAngle;
 
     return entity;
 }
 
-Entity entity_create_bullet(EntityManager* entityManager, BulletConfig* bulletConfig, ColliderConfig* colliderConfig, Vec2 position, Atlas* atlas, char* spriteName) {
-    Entity entity = entities_create_entity(entityManager);
-
-    entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, position, 0.f, vec2_init(0.5f, 0.5f)));
-
-    entities_add_component(entityManager,
-        (Component*)movement_component_new(entity, vec2_zero(), 0.f));
-
-    entities_add_component(entityManager,
-        (Component*)bullet_controller_component_new(entity, bulletConfig));
-
-    entities_add_component(entityManager,
-        (Component*)sprite_component_new(entity, atlas, spriteName, 1));
-
-    Collider collider;
-    collider_init_config(&collider, entity, colliderConfig);
-
-    entities_add_component(entityManager,
-        (Component*)collider_component_new(entity, &collider));
-
-    entities_add_component(entityManager,
-        (Component*)screen_wrap_component_new(entity, 16, 16));
-
-    return entity;
-}
-
-Entity entity_create_bg_tile(EntityManager* entityManager, Atlas* atlas, char* spriteName) {
-    Entity entity = entities_create_entity(entityManager);
-
-    entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, vec2_zero(), 0.f, vec2_one()));
-
-    entities_add_component(entityManager,
-        (Component*)sprite_component_new(entity, atlas, spriteName, -10));
-
-    return entity;
-}
-
-Entity entity_create_bg_manager(EntityManager* entityManager, u32 twidth, u32 theight) {
-    Entity entity = entities_create_entity(entityManager);
-
-    entities_add_component(entityManager,
-        (Component*)bg_manager_component_new(entity, twidth, theight));
-
-    return entity;
+Entity entity_create_bg_manager(EntityManager* entityManager) {
+    return prefab_instantiate(prefab_get("background.prefab"));
 }
 
 Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
@@ -139,41 +59,14 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
 }
 
 Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 size) {
-    Entity entity = entities_create_entity(entityManager);
+    Entity entity = prefab_instantiate_at(prefab_get("asteroid.prefab"), position, 0.f);
 
-    entities_add_component(entityManager,
-        (Component*)transform_component_new(entity, position, 0.f, vec2_one()));
+    AsteroidControllerComponent* asteroid =
+        (AsteroidControllerComponent*)entities_get_component(entityManager,
+        COMPONENT_ASTEROID_CONTROLLER,
+        entity);
 
-    entities_add_component(entityManager,
-        (Component*)movement_component_new(entity, vec2_zero(), 0.f));
-
-    entities_add_component(entityManager,
-        (Component*)health_component_new(entity, 100));
-
-    entities_add_component(entityManager,
-        (Component*)sprite_component_new(entity, atlas_get("atlas1"), "meteorBrown_big4", 2));
-
-    Collider collider;
-    collider_init_bcircle(&collider,
-        entity,
-        COLLIDER_LAYER_ENEMY,
-        vec2_zero(),
-        48.f);
-
-    entities_add_component(entityManager,
-        (Component*)collider_component_new(entity, &collider));
-
-    entities_add_component(entityManager,
-        (Component*)screen_wrap_component_new(entity, 64, 64));
-
-    entities_add_component(entityManager,
-        (Component*)asteroid_controller_component_new(entity, size));
-
-    /*LuaComponent* lua = (LuaComponent*)entities_add_component(entityManager,
-        (Component*)lua_component_new(entity, "assets/scripts/timedlife.lua"));
-
-    lua_component_add_bind(lua, "set_time", 1, LUA_ARG_FLOAT);
-    lua_component_call(lua, "set_time", 2.f);*/
+    asteroid->asteroidSize = size;
 
     return entity;
 }

@@ -3,9 +3,11 @@
 
 #include "core.h"
 #include "collider.h"
+#include "prefab.h"
 
 typedef struct bullet_source_t {
     BulletSourceConfig* configSource;
+    Prefab* prefab;
     BulletSourceConfig config;
     f32 fireTimer;
     f32 burstTimer;

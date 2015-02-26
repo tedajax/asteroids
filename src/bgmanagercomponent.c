@@ -1,33 +1,40 @@
 #include "bgmanagercomponent.h"
+#include "prefab.h"
+#include "spritecomponent.h"
+#include "entitymanager.h"
+#include "gamescene.h"
+#include "game.h"
 
-BgManagerComponent* bg_manager_component_new(Entity entity, u32 twidth, u32 theight) {
+BgManagerComponent* bg_manager_component_new(Entity entity) {
     BgManagerComponent* self = CALLOC(1, BgManagerComponent);
 
     component_init((Component*)self, COMPONENT_BG_MANAGER, sizeof(BgManagerComponent), entity);
 
-    self->tileWidth = twidth;
-    self->tileHeight = theight;
+    self->tileWidth = 0;
+    self->tileHeight = 0;
 
-    u32 x = globals.world.width / self->tileWidth + 2;
-    u32 y = globals.world.height / self->tileHeight + 2;
+    /*u32 x = globals.world.width / self->tileWidth + 2;
+    u32 y = globals.world.height / self->tileHeight + 2;*/
 
-    self->rows = y;
-    self->columns = x;
+    self->rows = 0;
+    self->columns = 0;
 
-    self->capacity= x * y;
-    self->transforms = CALLOC(self->capacity, TransformComponent*);
+    self->capacity = 0;
+    self->transforms = NULL;
     self->count = 0;
 
     return self;
 }
 
 COMPONENT_DESERIALIZE(COMPONENT_BG_MANAGER) {
-    char* textureName = CONFIG_GET(string)(config, table, "texture");
-    SDL_Texture* texture = textures_get(textureName);
-    ASSERT(texture, "Failed to load texture.");
-    int width = 1, height = 1;
-    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
-    return (Component*)bg_manager_component_new(0, (u32)width, (u32)height);
+    char* prefabName = CONFIG_GET(string)(config, table, "prefab");
+    Prefab* prefab = prefab_get(prefabName);
+    ASSERT(prefab, "Unable to load prefab.");
+
+    BgManagerComponent* bg = bg_manager_component_new(0);
+    bg->tilePrefab = prefab;
+
+    return (Component*)bg;
 }
 
 COMPONENT_FREE(COMPONENT_BG_MANAGER) {
@@ -43,10 +50,17 @@ COMPONENT_COPY(COMPONENT_BG_MANAGER) {
     memcpy(bgDest->transforms, bgSrc->transforms, bgSrc->count * sizeof(TransformComponent*));
 }
 
-bool bg_manager_component_add_entity(BgManagerComponent* self, TransformComponent* transform) {
+bool bg_manager_component_add_entity(BgManagerComponent* self, EntityManager* entityManager, Entity entity) {
     if (self->count >= self->capacity) {
         return false;
     }
+
+    TransformComponent* transform =
+        (TransformComponent*)entities_get_component(entityManager,
+        COMPONENT_TRANSFORM,
+        entity);
+
+    ASSERT(transform, "");
 
     self->transforms[self->count] = transform;
     ++self->count;

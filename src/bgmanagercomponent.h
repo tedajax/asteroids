@@ -9,6 +9,7 @@
 
 typedef struct bg_manager_component_t {
     Component super;
+    Prefab* tilePrefab;
     u32 rows;
     u32 columns;
     u32 tileWidth;
@@ -18,8 +19,8 @@ typedef struct bg_manager_component_t {
     u32 count;
 } BgManagerComponent;
 
-BgManagerComponent* bg_manager_component_new(Entity entity, u32 twidth, u32 theight);
+BgManagerComponent* bg_manager_component_new(Entity entity);
 COMPONENT_DEFINE(COMPONENT_BG_MANAGER);
-bool bg_manager_component_add_entity(BgManagerComponent* self, TransformComponent* transform);
+bool bg_manager_component_add_entity(BgManagerComponent* self, EntityManager* entityManager, Entity entity);
 
 #endif

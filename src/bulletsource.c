@@ -17,23 +17,17 @@ void bullet_source_init(BulletSource* self, BulletSourceConfig* config) {
     
     dynf32_start(&self->config.burstShotDelay, &globals.tweens);
     dynf32_start(&self->config.spread, &globals.tweens);
-    dynf32_start(&self->config.lifetime, &globals.tweens);
-    dynf32_start(&self->config.speed, &globals.tweens);
-    dynf32_start(&self->config.angle, &globals.tweens);
     dynf32_start(&self->config.fireDelay, &globals.tweens);
     dynf32_start(&self->config.startAngle, &globals.tweens);
-    dynf32_start(&self->config.damage, &globals.tweens);
+
+    self->prefab = prefab_get(self->config.bulletPrefabName);
 }
 
 void bullet_source_release(BulletSource* self) {
     dynf32_release(&self->config.burstShotDelay);
     dynf32_release(&self->config.spread);
-    dynf32_release(&self->config.lifetime);
-    dynf32_release(&self->config.speed);
-    dynf32_release(&self->config.angle);
     dynf32_release(&self->config.fireDelay);
     dynf32_release(&self->config.startAngle);
-    dynf32_release(&self->config.damage);
 }
 
 void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, TransformComponent* anchor) {
@@ -79,15 +73,13 @@ void bullet_source_fire(BulletSource* self, EntityManager* entityManager, Transf
     for (i32 i = 0; i < self->config.count; ++i) {
         Vec2 pos;
         vec2_add(&anchor->position, &transformedOffset, &pos);
-        BulletConfig config;        
-        config.speed = self->config.speed;
-        config.angle = self->config.angle;
         f32 sa = anchor->rotation;
         sa += (i - (self->config.count / 2)) * dynf32_get(&self->config.spread);
         sa += dynf32_get(&self->config.startAngle);
-        config.baseAngle = sa;
-        config.lifetime = dynf32_get(&self->config.lifetime);
-        config.damage = (i32)dynf32_get(&self->config.damage);
-        entity_create_bullet(entityManager, &config, self->config.colliderConfig, pos, atlas_get("atlas1"), self->config.textureName);
+
+        Entity entity = prefab_instantiate_at(self->prefab, pos, 0);
+        BulletControllerComponent* bullet =
+            (BulletControllerComponent*)entities_get_component(entityManager, COMPONENT_BULLET_CONTROLLER, entity);
+        bullet->baseAngle = sa;
     }
 }

@@ -4,16 +4,9 @@
 #include "core.h"
 #include "component.h"
 
-typedef struct bullet_config_t {
-    dynf32 speed;
-    dynf32 angle;
-    f32 baseAngle;
-    f32 lifetime;
-    i32 damage;
-} BulletConfig;
-
 typedef struct bullet_controller_component_t {
     Component super;
+    BulletConfig* configSource;
     BulletConfig config;
     dynf32 speed;
     dynf32 angle;
@@ -23,6 +16,7 @@ typedef struct bullet_controller_component_t {
 } BulletControllerComponent;
 
 BulletControllerComponent* bullet_controller_component_new(Entity entity, BulletConfig* config);
+void bullet_controller_component_set_config(BulletControllerComponent* self, BulletConfig* config);
 COMPONENT_DEFINE(COMPONENT_BULLET_CONTROLLER);
 
 #endif

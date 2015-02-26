@@ -9,6 +9,7 @@
 
 typedef enum type_config_type_e {
     TYPE_CONFIG_COLLIDER = 0,
+    TYPE_CONFIG_BULLET,
     TYPE_CONFIG_BULLET_SOURCE,
     TYPE_CONFIG_TWEEN,
     TYPE_CONFIG_PARTICLE_EMITTER,
@@ -56,18 +57,24 @@ typedef struct bullet_source_config_t {
     i32 burstCount;         // number of bursts fired before requiring a release of fire button.
     dynf32 burstShotDelay;     // amount of time between shots in burst (defaults to 0)
     dynf32 spread;         // the spread angle of this source
-    dynf32 lifetime;       // how long the bullet lives before they are destroyed
-    dynf32 speed;          // how fast the bullet moves
-    dynf32 angle;          // individual bullet angle adjustment (should be 0 unless it's dynamic)
     dynf32 fireDelay;      // Time between shots
     dynf32 startAngle;     // Direction to fire
-    dynf32 damage;         // Damage done by bullet
-    char* textureName;  // bullet texture
-    ColliderConfig* colliderConfig;
+    char* bulletPrefabName;
 } BulletSourceConfig;
 
 void bullet_source_config_deserialize(TypeConfig* super, Config* config, char* table);
 void bullet_source_config_copy(const BulletSourceConfig* source, BulletSourceConfig* dest);
+
+typedef struct bullet_config_t {
+    TypeConfig super;
+    dynf32 speed;
+    dynf32 angle;
+    f32 lifetime;
+    i32 damage;
+} BulletConfig;
+
+void bullet_config_deserialize(TypeConfig* super, Config* config, char* table);
+void bullet_config_copy(const BulletConfig* source, BulletConfig* dest);
 
 typedef f32(*tween_func)(f32, f32, f32, f32);
 

@@ -6,8 +6,17 @@
 ConfigSystem prefabConfigs;
 Hashtable prefabTable;
 
+void prefab_load(const char* filename) {
+    config_system_load(&prefabConfigs, filename);
+    Config* cfg = config_system_get(&prefabConfigs, filename);
+    Prefab* newPrefab = CALLOC(1, Prefab);
+    newPrefab->config = cfg;
+    prefab_reload(newPrefab);
+    hashtable_insert(&prefabTable, filename, (void*)newPrefab);
+}
+
 void prefab_system_init(const char* prefabRoot) {
-    config_system_init(&prefabConfigs, (char*)prefabRoot);
+    config_system_init(&prefabConfigs, (char*)prefabRoot, "prefab");
     hashtable_init(&prefabTable, 32, prefab_free_void);
 
     Directory* prefabDir = directory_open(prefabRoot);
@@ -16,12 +25,7 @@ void prefab_system_init(const char* prefabRoot) {
         size_t len = strlen(currentFile->filename);
         // Only add the file if it has the '.prefab' extensions
         if (len > 7 && strcmp(&currentFile->filename[len - 7], ".prefab") == 0) {
-            config_system_load(&prefabConfigs, currentFile->filename);
-            Config* cfg = config_system_get(&prefabConfigs, currentFile->filename);
-            Prefab* newPrefab = CALLOC(1, Prefab);
-            newPrefab->config = cfg;
-            prefab_reload(newPrefab);
-            hashtable_insert(&prefabTable, currentFile->filename, (void*)newPrefab);
+            prefab_load(currentFile->filename);
         }
     }
     directory_close(prefabDir);
@@ -53,11 +57,18 @@ void prefab_free_void(void* self) {
 }
 
 void prefab_reload(Prefab* self) {
-    u32 count = (u32)config_get_array_count(self->config, CONFIG_DEFAULT_SECTION, "components");
-    component_batch_init(&self->components, count);
+    u32 dependencyCount = (u32)config_get_array_count(self->config, CONFIG_DEFAULT_SECTION, "dependencies");
+    // So many potential issues here, should clean this up
+    for (u32 i = 0; i < dependencyCount; ++i) {
+        char* name = CONFIG_GET_AT(string)(self->config, CONFIG_DEFAULT_SECTION, "dependencies", i);
+        prefab_load(name);
+    }
 
-    for (u32 i = 0; i < count; ++i) {
-        char* name = config_get_string_at(self->config, CONFIG_DEFAULT_SECTION, "components", i);
+    u32 componentCount = (u32)config_get_array_count(self->config, CONFIG_DEFAULT_SECTION, "components");
+    component_batch_init(&self->components, componentCount);
+
+    for (u32 i = 0; i < componentCount; ++i) {
+        char* name = CONFIG_GET_AT(string)(self->config, CONFIG_DEFAULT_SECTION, "components", i);
         Component* component = component_deserialize(self->config, name);
         component_batch_add(&self->components, component);
     }
@@ -67,10 +78,10 @@ Prefab* prefab_get(const char* name) {
     return (Prefab*)hashtable_get(&prefabTable, name);
 }
 
-void prefab_instantiate(Prefab* self) {
-    prefab_instantiate_at(self, vec2_zero(), 0.f);
+Entity prefab_instantiate(Prefab* self) {
+    return prefab_instantiate_at(self, vec2_zero(), 0.f);
 }
 
-void prefab_instantiate_at(Prefab* self, Vec2 position, f32 rotation) {
-    entities_instantiate_prefab(globals.game->activeScene->entityManager, self, position, rotation);
+Entity prefab_instantiate_at(Prefab* self, Vec2 position, f32 rotation) {
+    return entities_instantiate_prefab(globals.game->activeScene->entityManager, self, position, rotation);
 }

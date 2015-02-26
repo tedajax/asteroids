@@ -1,0 +1,42 @@
+components = [
+    transform,
+    movement,
+    bullet,
+    sprite,
+    collider,
+    screen_wrap
+]
+
+[transform]
+component_type = COMPONENT_TRANSFORM
+position = [0, 0]
+rotation = 0
+scale = [0.5, 0.5]
+
+[movement]
+component_type = COMPONENT_MOVEMENT
+
+[bullet]
+component_type = COMPONENT_BULLET_CONTROLLER
+config = bullet.config
+
+[bullet.config]
+lifetime = 1
+damage = 1000
+speed = 1000
+angle = 0
+
+[sprite]
+component_type = COMPONENT_SPRITE
+atlas = atlas1
+sprite = player_bullet_2
+layer = 1
+
+[collider]
+component_type = COMPONENT_COLLIDER
+collider = player|collider.basicbullet
+
+[screen_wrap]
+component_type = COMPONENT_SCREEN_WRAP
+horizontal_buffer = 16
+vertical_buffer = 16

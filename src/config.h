@@ -19,9 +19,10 @@
 typedef struct config_system_t {
     Hashtable configTable;
     char* rootDir;
+    char* fileDescriptor;
 } ConfigSystem;
 
-void config_system_init(ConfigSystem* self, char* rootDir);
+void config_system_init(ConfigSystem* self, char* rootDir, char* fileDescriptor);
 void config_system_terminate(ConfigSystem* self);
 
 ConfigSystem defaultConfigs;
@@ -40,10 +41,10 @@ void config_type_reload(Config* self);
 
 void config_init();
 void config_terminate();
-void config_load(const char* filename);
+bool config_load(const char* filename);
 void config_reload_all();
 Config* config_get(const char* name);
-void config_system_load(ConfigSystem* self, const char* filename);
+bool config_system_load(ConfigSystem* self, const char* filename);
 void config_system_reload_all(ConfigSystem* self);
 Config* config_system_get(ConfigSystem* self, const char* name);
 time_t config_get_mtime(const char* path);
@@ -101,6 +102,7 @@ CONFIG_REGISTER_TYPE(DynamicVec2);
 CONFIG_REGISTER_TYPE(DynamicColor);
 CONFIG_REGISTER_TYPE_NAMED(char*, string);
 CONFIG_REGISTER_TYPE_NAMED(ColliderConfig*, ColliderConfig);
+CONFIG_REGISTER_TYPE_NAMED(BulletConfig*, BulletConfig);
 CONFIG_REGISTER_TYPE_NAMED(BulletSourceConfig*, BulletSourceConfig);
 CONFIG_REGISTER_TYPE_NAMED(TweenConfig*, TweenConfig);
 CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);

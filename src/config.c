@@ -1,8 +1,9 @@
 #include "config.h"
 #include "snprintf.h"
 
-void config_system_init(ConfigSystem* self, char* rootDir) {
+void config_system_init(ConfigSystem* self, char* rootDir, char* fileDescriptor) {
     self->rootDir = rootDir;
+    self->fileDescriptor = fileDescriptor;
     hashtable_init(&self->configTable, 32, config_type_free_void);
 }
 
@@ -58,9 +59,10 @@ void config_type_reload(Config* self) {
 }
 
 void config_init() {
-    config_system_init(&defaultConfigs, "assets/data/");
+    config_system_init(&defaultConfigs, "assets/data/", "config file");
 
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_COLLIDER, collider_config_deserialize);
+    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_BULLET, bullet_config_deserialize);
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_BULLET_SOURCE, bullet_source_config_deserialize);
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_TWEEN, tween_config_deserialize);
     REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_PARTICLE_EMITTER, particle_emitter_config_deserialize);
@@ -70,8 +72,8 @@ void config_terminate() {
     config_system_terminate(&defaultConfigs);
 }
 
-void config_load(const char* filename) {
-    config_system_load(&defaultConfigs, filename);
+bool config_load(const char* filename) {
+    return config_system_load(&defaultConfigs, filename);
 }
 
 void config_reload_all() {
@@ -82,16 +84,20 @@ Config* config_get(const char* name) {
     return config_system_get(&defaultConfigs, name);
 }
 
-void config_system_load(ConfigSystem* self, const char* filename) {
+bool config_system_load(ConfigSystem* self, const char* filename) {
     ASSERT(self->rootDir, "Call config_init() before attempting to load configs!");
 
     char fullPath[256];
     IF_DEBUG(bool concatResult = )path_concat(self->rootDir, filename, fullPath, 256);
     ASSERT(concatResult, "Failed to concatenate paths, destination string not long enough.");
 
-    IF_DEBUG(void* element = hashtable_get(&self->configTable, filename);)
-        ASSERT(element == NULL, "Config already loaded.");
+    void* element = hashtable_get(&self->configTable, filename);
+    if (element) {
+        // Already loaded so lets exit
+        return false;
+    }
 
+    log_info_format("Config", "Loaded %s: %s", self->fileDescriptor, filename);
     Config* newConfig = CALLOC(1, Config);
     ini_load(&newConfig->data, fullPath);
     newConfig->path = CALLOC(strlen(fullPath) + 1, char);
@@ -100,6 +106,8 @@ void config_system_load(ConfigSystem* self, const char* filename) {
 
     hashtable_init(&newConfig->typeConfigs, 32, type_config_free_void);
     hashtable_insert(&self->configTable, filename, (void*)newConfig);
+
+    return true;
 }
 
 void config_system_reload_all(ConfigSystem* self) {
@@ -462,6 +470,7 @@ CONFIG_TRY_GET_AT_PROTO(DynamicColor) {
 }
 
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(ColliderConfig, TYPE_CONFIG_COLLIDER);
+CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(BulletConfig, TYPE_CONFIG_BULLET);
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(BulletSourceConfig, TYPE_CONFIG_BULLET_SOURCE);
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(TweenConfig, TYPE_CONFIG_TWEEN);
 CONFIG_TYPE_CONFIG_IMPLEMENTATIONS(ParticleEmitterConfig, TYPE_CONFIG_PARTICLE_EMITTER);

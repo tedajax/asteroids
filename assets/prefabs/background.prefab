@@ -1,0 +1,6 @@
+dependencies = [background_tile.prefab]
+components = [bgmanager]
+
+[bgmanager]
+component_type = COMPONENT_BG_MANAGER
+prefab = background_tile.prefab

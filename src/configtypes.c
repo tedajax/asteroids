@@ -55,39 +55,36 @@ void bullet_source_config_deserialize(TypeConfig* super, Config* config, char* t
 
     self->offset = config_get_Vec2(config, table, "offset");
     self->count = config_get_int(config, table, "count");
-    
     self->burstShotCount = config_try_get_int(config, table, "burst_shot_count", 1);
     self->burstCount = config_try_get_int(config, table, "burst_count", INT32_MAX);
     dynf32 defaultBurstDelay = { 0.f, DYN_F32_VALUE, NULL, NULL };
     self->burstShotDelay = config_try_get_dynf32(config, table, "burst_shot_delay", defaultBurstDelay);
     self->spread = config_get_dynf32(config, table, "spread");
-    self->lifetime = config_get_dynf32(config, table, "lifetime");
-    self->speed = config_get_dynf32(config, table, "speed");
-    self->angle = config_get_dynf32(config, table, "angle");
     self->fireDelay = config_get_dynf32(config, table, "fire_delay");
     self->startAngle = config_get_dynf32(config, table, "start_angle");
-    self->damage = config_get_dynf32(config, table, "damage");
-    
-    self->textureName = config_get_string(config, table, "texture_name");
-
-    self->colliderConfig = config_get_ColliderConfig(config, table, "collider");
+    self->bulletPrefabName = CONFIG_GET(string)(config, table, "prefab");
 }
 
 void bullet_source_config_copy(const BulletSourceConfig* source, BulletSourceConfig* dest) {
-    dest->offset = source->offset;
-    dest->count = source->count;
-    dest->burstShotCount = source->burstShotCount;
-    dest->burstCount = source->burstCount;
+    memcpy(dest, source, sizeof(BulletSourceConfig));
     dynf32_copy(&source->burstShotDelay, &dest->burstShotDelay);
     dynf32_copy(&source->spread, &dest->spread);
-    dynf32_copy(&source->lifetime, &dest->lifetime);
-    dynf32_copy(&source->speed, &dest->speed);
-    dynf32_copy(&source->angle, &dest->angle);
     dynf32_copy(&source->fireDelay, &dest->fireDelay);
     dynf32_copy(&source->startAngle, &dest->startAngle);
-    dynf32_copy(&source->damage, &dest->damage);
-    dest->textureName = source->textureName;
-    dest->colliderConfig = source->colliderConfig;
+}
+
+void bullet_config_deserialize(TypeConfig* super, Config* config, char* table) {
+    BulletConfig* self = (BulletConfig*)super;
+    self->lifetime = CONFIG_GET(float)(config, table, "lifetime");
+    self->speed = CONFIG_GET(dynf32)(config, table, "speed");
+    self->angle = CONFIG_GET(dynf32)(config, table, "angle");
+    self->damage = (i32)CONFIG_GET(int)(config, table, "damage");
+}
+
+void bullet_config_copy(const BulletConfig* source, BulletConfig* dest) {
+    memcpy(dest, source, sizeof(BulletConfig));
+    dynf32_copy(&source->speed, &dest->speed);
+    dynf32_copy(&source->angle, &dest->angle);
 }
 
 void tween_config_deserialize(TypeConfig* super, Config* config, char* table) {

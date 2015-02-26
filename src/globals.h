@@ -17,6 +17,7 @@
 // Try to limit total number of globals
 
 typedef struct game_t Game;
+typedef struct game_scene_t GameScene;
 
 typedef struct globals {
     u32 randomSeed;
@@ -65,6 +66,8 @@ bool textures_load(const char* filename);
 bool textures_unload(const char* filename);
 bool textures_unload_all();
 SDL_Texture* textures_get(const char* name);
+
+GameScene* active_scene();
 
 extern Globals globals;
 

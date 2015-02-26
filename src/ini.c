@@ -667,6 +667,7 @@ void _ini_parse_value(char* value, IniKvpValueList* dest) {
         if (chunkLen) {
             char* v = calloc(chunkLen + 1, sizeof(char));
             strncpy(v, slide, chunkLen);
+            _ini_strim(v);
             dest->values[dest->count].string = v;
             ++dest->count;
         }
@@ -681,11 +682,11 @@ u32 ini_get_array_count(Ini* self, const char* section, const char* key) {
 
     int sectionIndex = ini_section_index(self, targetSection);
 
-    ASSERT(sectionIndex > -1, "Invalid section.");
+    if (sectionIndex < 0) { return 0; }
 
     int keyIndex = ini_index(self, section, key);
 
-    ASSERT(keyIndex > -1, "Key not found in section.");
+    if (keyIndex < 0) { return 0; }
 
     return self->table[sectionIndex][keyIndex].values.count;
 }

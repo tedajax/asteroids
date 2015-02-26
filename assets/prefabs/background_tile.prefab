@@ -1,0 +1,16 @@
+components = [
+    transform,
+    sprite
+]
+
+[transform]
+component_type = COMPONENT_TRANSFORM
+position = [0, 0]
+rotation = 0
+scale = [1, 1]
+
+[sprite]
+component_type = COMPONENT_SPRITE
+atlas = atlas1
+sprite = bg_dark_purple
+layer = -10

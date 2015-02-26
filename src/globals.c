@@ -1,4 +1,6 @@
 #include "globals.h"
+#include "gamescene.h"
+#include "game.h"
 #include <time.h>
 
 Globals globals;
@@ -49,3 +51,7 @@ bool textures_load(const char* filename) { return texture_manager_load(&globals.
 bool textures_unload(const char* filename) { return texture_manager_unload(&globals.textures, filename); }
 bool textures_unload_all() { return texture_manager_unload_all(&globals.textures); }
 SDL_Texture* textures_get(const char* name) { return texture_manager_get(&globals.textures, name); }
+
+GameScene* active_scene() {
+    return globals.game->activeScene;
+}
