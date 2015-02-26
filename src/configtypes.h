@@ -112,5 +112,6 @@ typedef struct particle_emitter_config_t {
 } ParticleEmitterConfig;
 
 void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char* table);
+void particle_emitter_config_copy(const ParticleEmitterConfig* source, ParticleEmitterConfig* dest);
 
 #endif

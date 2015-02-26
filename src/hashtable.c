@@ -1,4 +1,5 @@
 #include "hashtable.h"
+#include "debug.h"
 
 Hashtable *hashtable_new(u32 buckets, hashtable_free_f freeFunc) {
     Hashtable *self = (Hashtable *)calloc(1, sizeof(Hashtable));
@@ -58,8 +59,8 @@ bool hashtable_insert(Hashtable *self, const char *key, void *data) {
 }
 
 void *hashtable_get(Hashtable *self, const char *key) {
-    assert(self);
-    assert(key);
+    ASSERT(self, "");
+    ASSERT(key, "");
 
     u64 hash = _hashtable_djb2(key);
     u32 index = _hashtable_index(self, key);

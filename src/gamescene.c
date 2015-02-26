@@ -19,7 +19,7 @@ void game_scene_init(GameScene* self) {
     asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
     ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
 
-    prefab_instantiate(prefab_get("player_ship.prefab"));
+    prefab_instantiate_at(prefab_get("player_ship.prefab"), vec2_init(globals.world.width / 2.f, globals.world.height / 2.f), 0.f);
 }
 
 void game_scene_quit(GameScene* self) {

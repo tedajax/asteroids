@@ -49,4 +49,4 @@ vertical_buffer = 64
 
 [particle_emitter]
 component_type = COMPONENT_PARTICLE
-emitters = particles|bullet_explosion
+emitters = particles|fire

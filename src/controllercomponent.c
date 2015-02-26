@@ -55,5 +55,7 @@ COMPONENT_COPY(COMPONENT_CONTROLLER) {
 
     destController->bulletSources = CALLOC(sourceController->bulletSourceCount, BulletSource);
 
-
+    for (u32 i = 0; i < destController->bulletSourceCount; ++i) {
+        bullet_source_init(&destController->bulletSources[i], sourceController->bulletSources[i].configSource);
+    }
 }

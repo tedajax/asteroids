@@ -73,8 +73,6 @@ void controller_system_update(ControllerSystem* self) {
             movement->velocity = vec2_zero();
         }
 
-        //vec2_negate(&movement->velocity, &particle->emitters[0].emitterVelocity);
-
         if (input_key_down(SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
                 bullet_source_on(&controller->bulletSources[i]);

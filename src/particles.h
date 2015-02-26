@@ -36,7 +36,8 @@ typedef struct particle_config_t {
 } ParticleConfig;
 
 typedef struct particle_emitter_t {
-    ParticleEmitterConfig* config;
+    ParticleEmitterConfig* configSource;
+    ParticleEmitterConfig config;
     Particle* particles;
     Particle** sortedParticles;
     Atlas* atlas;

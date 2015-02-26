@@ -49,6 +49,6 @@ COMPONENT_COPY(COMPONENT_PARTICLE) {
     particleDest->emitterCount = particleSource->emitterCount;
 
     for (u32 i = 0; i < particleDest->emitterCount; ++i) {
-        emitter_init(&particleDest->emitters[i], particleSource->emitters[i].config);
+        emitter_init(&particleDest->emitters[i], particleSource->emitters[i].configSource);
     }
 }

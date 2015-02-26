@@ -130,3 +130,15 @@ void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char
     self->spawnArea = CONFIG_TRY_GET(Vec2)(config, table, "spawn_area", vec2_zero());
     self->worldSpace = CONFIG_TRY_GET(bool)(config, table, "world_space", false);
 }
+
+void particle_emitter_config_copy(const ParticleEmitterConfig* source, ParticleEmitterConfig* dest) {
+    memcpy(dest, source, sizeof(ParticleEmitterConfig));
+
+    dynf32_copy(&source->startingRotation, &dest->startingRotation);
+    dynf32_copy(&source->rotationSpeed, &dest->rotationSpeed);
+    dynf32_copy(&source->speed, &dest->speed);
+    dynamic_vec2_copy(&source->acceleration, &dest->acceleration);
+    dynamic_vec2_copy(&source->scale, &dest->scale);
+    dynamic_vec2_copy(&source->offset, &dest->offset);
+    dynamic_color_copy(&source->color, &dest->color);
+}
