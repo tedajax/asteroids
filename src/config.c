@@ -223,7 +223,6 @@ bool config_extract_key(const char* path, char* dest, size_t n) {
 Config* config_get_from_key(const char* key) {
     char configName[128];
     if (config_extract_config_file(key, configName, 128)) {
-        printf("loading config: %s\n", configName);
         return config_get(configName);
     } else {
         return NULL;

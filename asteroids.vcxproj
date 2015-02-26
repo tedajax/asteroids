@@ -240,6 +240,7 @@
     <ClCompile Include="src\entityfactory.c" />
     <ClCompile Include="src\entitymanager.c" />
     <ClCompile Include="src\game.c" />
+    <ClCompile Include="src\gamescene.c" />
     <ClCompile Include="src\gametime.c" />
     <ClCompile Include="src\globals.c" />
     <ClCompile Include="src\gravitycomponent.c" />
@@ -292,6 +293,8 @@
     <ClCompile Include="src\transformcomponent.c" />
     <ClCompile Include="src\transformsystem.c" />
     <ClCompile Include="src\tween.c" />
+    <ClCompile Include="src\ufocontrollercomponent.c" />
+    <ClCompile Include="src\ufocontrollersystem.c" />
     <ClCompile Include="src\vector.c" />
     <ClCompile Include="src\window.c" />
     <ClCompile Include="src\Win\windirectory.c" />
@@ -336,6 +339,7 @@
     <ClInclude Include="src\entityfactory.h" />
     <ClInclude Include="src\entitymanager.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\gamescene.h" />
     <ClInclude Include="src\gametime.h" />
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\gravitycomponent.h" />
@@ -382,6 +386,8 @@
     <ClInclude Include="src\transformsystem.h" />
     <ClInclude Include="src\tween.h" />
     <ClInclude Include="src\types.h" />
+    <ClInclude Include="src\ufocontrollercomponent.h" />
+    <ClInclude Include="src\ufocontrollersystem.h" />
     <ClInclude Include="src\vector.h" />
     <ClInclude Include="src\window.h" />
   </ItemGroup>
@@ -391,6 +397,7 @@
     <None Include="assets\data\player.ini" />
     <None Include="assets\data\test.ini" />
     <None Include="assets\prefabs\bullet_explosion.prefab" />
+    <None Include="assets\prefabs\player_ship.prefab" />
     <None Include="assets\prefabs\test.prefab" />
     <None Include="assets\scripts\api.lua" />
     <None Include="assets\scripts\component.lua" />

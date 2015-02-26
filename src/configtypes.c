@@ -70,16 +70,24 @@ void bullet_source_config_deserialize(TypeConfig* super, Config* config, char* t
     
     self->textureName = config_get_string(config, table, "texture_name");
 
-    dynf32_start(&self->burstShotDelay, &globals.tweens);
-    dynf32_start(&self->spread, &globals.tweens);
-    dynf32_start(&self->lifetime, &globals.tweens);
-    dynf32_start(&self->speed, &globals.tweens);
-    dynf32_start(&self->angle, &globals.tweens);
-    dynf32_start(&self->fireDelay, &globals.tweens);
-    dynf32_start(&self->startAngle, &globals.tweens);
-    dynf32_start(&self->damage, &globals.tweens);
-
     self->colliderConfig = config_get_ColliderConfig(config, table, "collider");
+}
+
+void bullet_source_config_copy(const BulletSourceConfig* source, BulletSourceConfig* dest) {
+    dest->offset = source->offset;
+    dest->count = source->count;
+    dest->burstShotCount = source->burstShotCount;
+    dest->burstCount = source->burstCount;
+    dynf32_copy(&source->burstShotDelay, &dest->burstShotDelay);
+    dynf32_copy(&source->spread, &dest->spread);
+    dynf32_copy(&source->lifetime, &dest->lifetime);
+    dynf32_copy(&source->speed, &dest->speed);
+    dynf32_copy(&source->angle, &dest->angle);
+    dynf32_copy(&source->fireDelay, &dest->fireDelay);
+    dynf32_copy(&source->startAngle, &dest->startAngle);
+    dynf32_copy(&source->damage, &dest->damage);
+    dest->textureName = source->textureName;
+    dest->colliderConfig = source->colliderConfig;
 }
 
 void tween_config_deserialize(TypeConfig* super, Config* config, char* table) {

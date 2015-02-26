@@ -11,10 +11,9 @@ ColliderComponent* collider_component_new(Entity entity, Collider* collider) {
 }
 
 COMPONENT_DESERIALIZE(COMPONENT_COLLIDER) {
-    ColliderConfig colliderConfig;
-    collider_config_deserialize((TypeConfig*)&colliderConfig, config, (char*)table);
+    ColliderConfig* colliderConfig = CONFIG_GET(ColliderConfig)(config, table, "collider");
     Collider collider;
-    collider_init_config(&collider, 0, &colliderConfig);
+    collider_init_config(&collider, 0, colliderConfig);
     return (Component*)collider_component_new(0, &collider);
 }
 

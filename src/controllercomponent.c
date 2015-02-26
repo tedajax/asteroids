@@ -19,14 +19,26 @@ ControllerComponent* controller_component_new(Entity entity, Config* config, cha
     self->bulletSources = CALLOC(self->bulletSourceCount, BulletSource);
 
     for (u32 i = 0; i < self->bulletSourceCount; ++i) {
-        bullet_source_init(&self->bulletSources[i], config_get_BulletSourceConfig_at(config, section, "bullet_sources", i));
+        bullet_source_init(&self->bulletSources[i], CONFIG_GET_AT(BulletSourceConfig)(config, section, "bullet_sources", i));
     }
 
     return self;
 }
 
 COMPONENT_DESERIALIZE(COMPONENT_CONTROLLER) {
-    return (Component*)controller_component_new(0, config, (char*)table);
+    char* configPath = CONFIG_GET(string)(config, table, "config_path");
+    
+    char configName[128];
+    config_extract_config_file(configPath, configName, 128);
+
+    char sectionName[128];
+    config_extract_section(configPath, sectionName, 128);
+
+    Config* cfg = config_get(configName);
+
+    ASSERT(cfg, "Could not find specified config file.");
+
+    return (Component*)controller_component_new(0, cfg, (char*)sectionName);
 }
 
 COMPONENT_FREE(COMPONENT_CONTROLLER) {
@@ -38,5 +50,10 @@ COMPONENT_FREE(COMPONENT_CONTROLLER) {
 }
 
 COMPONENT_COPY(COMPONENT_CONTROLLER) {
-    //TODO
+    ControllerComponent* sourceController = (ControllerComponent*)source;
+    ControllerComponent* destController = (ControllerComponent*)dest;
+
+    destController->bulletSources = CALLOC(sourceController->bulletSourceCount, BulletSource);
+
+
 }

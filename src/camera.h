@@ -9,16 +9,11 @@
 typedef struct camera_t {
     Vec2 position;
     Vec2* target;
-
-    //If the target moves outside of these constraints the camera will
-    //move to follow it.  This rectangle is relative to the position of the camera.
-    SDL_Rect constraints;
-
     Rect cameraView;
     Rect worldView;
 } Camera;
 
-void camera_init(Camera* self, Vec2* target, SDL_Rect* constraints);
+void camera_init(Camera* self, Vec2* target);
 void camera_contrain(Camera* self, Vec2* point);
 void camera_update(Camera* self);
 

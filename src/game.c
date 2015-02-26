@@ -21,28 +21,15 @@ void game_init(Game* self) {
 
     textures_init("assets/textures");
     atlases_init();
-
     atlas_load("atlas1");
 
-    prefab_system_init(self->entityManager, "assets/prefabs");
+    prefab_system_init("assets/prefabs");
 
-    self->entityManager = entity_manager_new();
-    transform_system_init(&self->transformSystem, self->entityManager);
-    health_system_init(&self->healthSystem, self->entityManager);
-    sprite_system_init(&self->spriteSystem, self->entityManager);
-    movement_system_init(&self->movementSystem, self->entityManager);
-    gravity_system_init(&self->gravitySystem, self->entityManager);
-    controller_system_init(&self->controllerSystem, self->entityManager);
-    bullet_controller_system_init(&self->bulletControllerSystem, self->entityManager);
-    bg_manager_system_init(&self->bgManagerSystem, self->entityManager);
-    enemy_system_init(&self->enemySystem, self->entityManager);
-    collision_system_init(&self->collisionSystem, self->entityManager);
-    particle_system_init(&self->particleSystem, self->entityManager);
-    lua_system_init(&self->luaSystem, self->entityManager);
-    screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
-    asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
+    self->activeScene = &self->playScene;
 
-    SpriteFrame* bgFrame = atlas_get_frame(atlas_get("atlas1"), "bg_dark_purple");
+    game_scene_init(self->activeScene);
+
+    /*SpriteFrame* bgFrame = atlas_get_frame(atlas_get("atlas1"), "bg_dark_purple");
 
     Entity bgManagerEntity = entity_create_bg_manager(self->entityManager,
         (u32)bgFrame->frame.width,
@@ -73,18 +60,11 @@ void game_init(Game* self) {
 
     globals.player = self->player;
 
-    SDL_Rect cameraConstraints = {
-        32,
-        32,
-        400,
-        563
-    };
-
     for (u32 i = 0; i < 6; ++i) {
         entity_create_asteroid(self->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
-    }
+    }*/
 
-    camera_init(&globals.camera, NULL, &cameraConstraints);
+    camera_init(&globals.camera, NULL);
 
     {
         debug_hud_init(&self->debugHud, "assets/fonts/terminus.ttf", 12);
@@ -97,7 +77,7 @@ void game_init(Game* self) {
 
         debug_hud_add_watch(&self->debugHud, "Timescale", WATCH_TYPE_FLOAT, &globals.time.timescale);
 
-        DebugHudWatch* entityWatch = debug_hud_add_watch(&self->debugHud, "Entities", WATCH_TYPE_INT, &self->entityManager->entities.count);
+        DebugHudWatch* entityWatch = debug_hud_add_watch(&self->debugHud, "Entities", WATCH_TYPE_INT, &self->activeScene->entityManager->entities.count);
         debug_hud_watch_set_warnings(entityWatch, true, 900, 1000);
 
         debug_hud_add_watch(&self->debugHud, "Level Position", WATCH_TYPE_FLOAT, &globals.levelPosition);
@@ -107,18 +87,18 @@ void game_init(Game* self) {
     }
 
     //////////////////////////////
-    emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));
+    //emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));
     //////////////////////////////
 }
 
 void game_quit(Game* self) {
     prefab_system_terminate();
-    entity_manager_free(self->entityManager);
+    game_scene_quit(self->activeScene);
     atlases_terminate();
     textures_terminate();
 
     //////////////////////////////
-    emitter_free(&testParticle);
+    //emitter_free(&testParticle);
     //////////////////////////////
     
     tween_manager_terminate(&globals.tweens);
@@ -127,9 +107,7 @@ void game_quit(Game* self) {
 }
 
 void game_start(Game* self) {
-    bg_manager_system_start(&self->bgManagerSystem);
-    collision_system_start(&self->collisionSystem);
-    lua_system_start(&self->luaSystem);
+    game_scene_start(self->activeScene);
 }
 
 void game_update(Game* self) {
@@ -143,31 +121,14 @@ void game_update(Game* self) {
 
     globals.levelPosition += globals.scrollSpeed * globals.time.delta;
 
-    health_system_update(&self->healthSystem);
-    sprite_system_update(&self->spriteSystem);
-    controller_system_update(&self->controllerSystem);
-    bullet_controller_system_update(&self->bulletControllerSystem);
-    gravity_system_update(&self->gravitySystem);
-    enemy_system_update(&self->enemySystem);
-    bg_manager_system_update(&self->bgManagerSystem);
-    lua_system_update(&self->luaSystem);
-    asteroid_controller_system_update(&self->asteroidControllerSystem);
-    particle_system_update(&self->particleSystem);
-
-    movement_system_update(&self->movementSystem);
-
-    screen_wrap_system_update(&self->screenWrapSystem);
-
-    profiler_tick("collision");
-    collision_system_update(&self->collisionSystem);
-    profiler_tock("collision");
+    game_scene_update(self->activeScene);
 
     camera_update(&globals.camera);
 
     //////////////////////////////
-    testParticleTransform.position.x = 500;
-    testParticleTransform.position.y = 300;
-    emitter_update(&testParticle, &testParticleTransform);
+    //testParticleTransform.position.x = 500;
+    //testParticleTransform.position.y = 300;
+    //emitter_update(&testParticle, &testParticleTransform);
     //////////////////////////////
     
     debug_hud_update_surfaces(&self->debugHud, globals.renderer);
@@ -203,21 +164,15 @@ void game_debug_keys(Game* self) {
 }
 
 void game_render(Game* self) {
-    sprite_system_render(&self->spriteSystem);
-    particle_system_render(&self->particleSystem);
-
     /////////////////////////////////
     //emitter_render(&testParticle, &testParticleTransform);
     /////////////////////////////////
 
-    if (drawCollision) {
-        collision_system_render(&self->collisionSystem);
-    }
-    lua_system_render(&self->luaSystem);
+    game_scene_render(self->activeScene);
 
     debug_hud_render(&self->debugHud, globals.renderer, 5, 5);
 }
 
 void game_frame_end(Game* self) {
-    entities_update(self->entityManager);
+    game_scene_frame_end(self->activeScene);
 }

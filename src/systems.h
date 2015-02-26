@@ -13,3 +13,4 @@
 #include "screenwrapsystem.h"
 #include "asteroidcontrollersystem.h"
 #include "particlesystem.h"
+#include "ufocontrollersystem.h"

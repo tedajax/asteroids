@@ -5,7 +5,8 @@
 #include "collider.h"
 
 typedef struct bullet_source_t {
-    BulletSourceConfig* config;
+    BulletSourceConfig* configSource;
+    BulletSourceConfig config;
     f32 fireTimer;
     f32 burstTimer;
     i32 burstsRemaining;
@@ -23,7 +24,7 @@ static inline void bullet_source_on(BulletSource* self) {
     self->active = true;
     self->fireTimer = 0.f;
     self->burstTimer = 0.f;
-    self->burstsRemaining = self->config->burstCount;
+    self->burstsRemaining = self->config.burstCount;
 }
 
 static inline void bullet_source_off(BulletSource* self) {

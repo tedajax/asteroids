@@ -13,3 +13,4 @@
 #include "screenwrapcomponent.h"
 #include "asteroidcontrollercomponent.h"
 #include "particlecomponent.h"
+#include "ufocontrollercomponent.h"

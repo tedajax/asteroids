@@ -6,7 +6,7 @@
 ConfigSystem prefabConfigs;
 Hashtable prefabTable;
 
-void prefab_system_init(EntityManager* entityManager, const char* prefabRoot) {
+void prefab_system_init(const char* prefabRoot) {
     config_system_init(&prefabConfigs, (char*)prefabRoot);
     hashtable_init(&prefabTable, 32, prefab_free_void);
 
@@ -72,5 +72,5 @@ void prefab_instantiate(Prefab* self) {
 }
 
 void prefab_instantiate_at(Prefab* self, Vec2 position, f32 rotation) {
-    entities_instantiate_prefab(globals.game->entityManager, self, position, rotation);
+    entities_instantiate_prefab(globals.game->activeScene->entityManager, self, position, rotation);
 }

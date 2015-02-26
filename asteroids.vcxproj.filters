@@ -348,6 +348,15 @@
     <ClCompile Include="src\Win\winterminal.c">
       <Filter>Source Files\Core\Application\Win</Filter>
     </ClCompile>
+    <ClCompile Include="src\ufocontrollercomponent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ufocontrollersystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gamescene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -608,6 +617,15 @@
     <ClInclude Include="src\terminal.h">
       <Filter>Header Files\Core\Application</Filter>
     </ClInclude>
+    <ClInclude Include="src\ufocontrollercomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ufocontrollersystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gamescene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\game.ini">
@@ -641,6 +659,9 @@
       <Filter>Assets\Scripts</Filter>
     </None>
     <None Include="assets\prefabs\bullet_explosion.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="assets\prefabs\player_ship.prefab">
       <Filter>Assets\Prefabs</Filter>
     </None>
   </ItemGroup>

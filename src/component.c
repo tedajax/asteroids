@@ -49,6 +49,7 @@ void component_system_init() {
     COMPONENT_REGISTER(COMPONENT_LUA);
     COMPONENT_REGISTER(COMPONENT_SCREEN_WRAP);
     COMPONENT_REGISTER(COMPONENT_ASTEROID_CONTROLLER);
+    COMPONENT_REGISTER(COMPONENT_UFO_CONTROLLER);
 
     ASSERT(COMPONENT_NAME_TABLE.size == COMPONENT_LAST - 1, "Unregistered component type detected.  Did you add a new component recently?");
 }

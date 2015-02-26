@@ -67,6 +67,7 @@ typedef struct bullet_source_config_t {
 } BulletSourceConfig;
 
 void bullet_source_config_deserialize(TypeConfig* super, Config* config, char* table);
+void bullet_source_config_copy(const BulletSourceConfig* source, BulletSourceConfig* dest);
 
 typedef f32(*tween_func)(f32, f32, f32, f32);
 

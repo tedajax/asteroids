@@ -1,0 +1,52 @@
+components = [transform,
+    movement,
+    controller,
+    health,
+    sprite,
+    collider,
+    screen_wrap,
+    particle_emitter]
+
+[transform]
+component_type = COMPONENT_TRANSFORM
+position = [640, 360]
+rotation = 0
+scale = [1, 1]
+
+[movement]
+component_type = COMPONENT_MOVEMENT
+
+[controller]
+component_type = COMPONENT_CONTROLLER
+config_path = player|player
+
+[health]
+component_type = COMPONENT_HEALTH
+max_health = 1000
+
+[sprite]
+component_type = COMPONENT_SPRITE
+atlas = atlas1
+sprite = player_ship
+layer = 1
+
+[collider]
+component_type = COMPONENT_COLLIDER
+collider = collider.config
+
+[collider.config]
+layer = COLLIDER_LAYER_PLAYER
+offset = [0, 0]
+type = BOUNDING_VOLUME_O_BOX
+width = 37
+height = 56
+orientation = 0
+
+[screen_wrap]
+component_type = COMPONENT_SCREEN_WRAP
+horizontal_buffer = 64
+vertical_buffer = 64
+
+[particle_emitter]
+component_type = COMPONENT_PARTICLE
+emitters = particles|bullet_explosion

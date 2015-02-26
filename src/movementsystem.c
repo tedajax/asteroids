@@ -24,8 +24,7 @@ void movement_system_update(MovementSystem* self) {
         transform->rotation += movement->angularVelocity * globals.time.delta;
 
         if (movement->constrainToCamera) {
-            camera_contrain(&globals.camera, &transform->position);
-            transform->position.x += globals.scrollSpeed * globals.time.delta;
+            log_error("Movement", "What does constrain to camera actually mean?");
         }
     }
 }

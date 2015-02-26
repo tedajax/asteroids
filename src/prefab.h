@@ -8,7 +8,7 @@
 #include "component.h"
 #include "entitymanager.h"
 
-void prefab_system_init(EntityManager* entityManager, const char* prefabRoot);
+void prefab_system_init(const char* prefabRoot);
 void prefab_system_terminate();
 
 typedef struct prefab_t {

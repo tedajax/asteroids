@@ -24,10 +24,14 @@ void sprite_component_set_sprite(SpriteComponent* self, char* spriteName) {
 }
 
 COMPONENT_DESERIALIZE(COMPONENT_SPRITE) {
-    /*char* textureStr = CONFIG_GET(string)(config, table, "texture");
+    char* atlasName = CONFIG_GET(string)(config, table, "atlas");
+    char* spriteName = CONFIG_GET(string)(config, table, "sprite");
     i32 layer = (i32)CONFIG_TRY_GET(int)(config, table, "layer", 0);
-    return (Component*)sprite_component_new(0, textures_get(textureStr), layer);*/
-    return NULL;
+    
+    Atlas* atlas = atlas_get(atlasName);
+    ASSERT(atlas, "Unable to find atlas.");
+
+    return (Component*)sprite_component_new(0, atlas, spriteName, layer);
 }
 
 COMPONENT_FREE(COMPONENT_SPRITE) {}

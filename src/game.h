@@ -7,23 +7,12 @@
 #include "components.h"
 #include "systems.h"
 #include "debughud.h"
+#include "gamescene.h"
 
 typedef struct game_t {
-    EntityManager* entityManager;
-    TransformSystem transformSystem;
-    MovementSystem movementSystem;
-    ControllerSystem controllerSystem;
-    BulletControllerSystem bulletControllerSystem;
-    GravitySystem gravitySystem;
-    HealthSystem healthSystem;
-    SpriteSystem spriteSystem;
-    BgManagerSystem bgManagerSystem;
-    EnemySystem enemySystem;
-    CollisionSystem collisionSystem;
-    ParticleSystem particleSystem;
-    LuaSystem luaSystem;
-    ScreenWrapSystem screenWrapSystem;
-    AsteroidControllerSystem asteroidControllerSystem;
+    GameScene* activeScene;
+    GameScene playScene;
+
     Entity player;
 
     DebugHud debugHud;

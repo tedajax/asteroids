@@ -41,7 +41,7 @@ LUA_EXPORT void instantiate_at(const char* name, Vec2 position, f32 rotation) {
 }
 
 LUA_EXPORT void destroy(Entity entity) {
-    entities_remove_entity(globals.game->entityManager, entity);
+    entities_remove_entity(globals.game->activeScene->entityManager, entity);
 }
 
 LUA_EXPORT void get_transform(Entity entity) {
