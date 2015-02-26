@@ -374,3 +374,12 @@ BoundingVolumeType bounding_volume_type_parse(char* str) {
         return 0;
     }
 }
+
+size_t physics_volume_type_mem_size(BoundingVolumeType type) {
+    switch (type) {
+        case BOUNDING_VOLUME_AA_BOX: return sizeof(AABoundingBox);
+        case BOUNDING_VOLUME_O_BOX: return sizeof(OBoundingBox);
+        case BOUNDING_VOLUME_CIRCLE: return sizeof(BoundingCircle);
+        default: ASSERT(false, "Invalid volume type.  Maybe size property was not implemented?"); return 0;
+    }
+}

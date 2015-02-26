@@ -77,4 +77,6 @@ void bcircle_update(BoundingCircle* self, Vec2* center, f32 rotation, Vec2* scal
 
 BoundingVolumeType bounding_volume_type_parse(char* str);
 
+size_t physics_volume_type_mem_size(BoundingVolumeType type);
+
 #endif

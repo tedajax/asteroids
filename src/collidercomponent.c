@@ -22,7 +22,15 @@ COMPONENT_FREE(COMPONENT_COLLIDER) {
     free(self->collider.volume);
 }
 
-COMPONENT_COPY(COMPONENT_COLLIDER) {}
+COMPONENT_COPY(COMPONENT_COLLIDER) {
+    ColliderComponent* colliderSource = (ColliderComponent*)source;
+    ColliderComponent* colliderDest = (ColliderComponent*)dest;
+
+    size_t colliderSize = physics_volume_type_mem_size(colliderSource->collider.volume->type);
+    ASSERT(colliderSize > 0, "Invalid size for collider.");
+    colliderDest->collider.volume = (BoundingVolume*)malloc(colliderSize);
+    bounding_volume_copy(colliderSource->collider.volume, colliderDest->collider.volume);
+}
 
 int collider_component_compare(Component* c1, Component* c2) {
     ColliderComponent* cc1 = (ColliderComponent*)c1;
