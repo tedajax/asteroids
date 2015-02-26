@@ -46,8 +46,10 @@ COMPONENT_COPY(COMPONENT_BG_MANAGER) {
     BgManagerComponent* bgSrc = (BgManagerComponent*)source;
     BgManagerComponent* bgDest = (BgManagerComponent*)dest;
 
-    bgDest->transforms = CALLOC(bgDest->capacity, TransformComponent*);
-    memcpy(bgDest->transforms, bgSrc->transforms, bgSrc->count * sizeof(TransformComponent*));
+    if (bgSrc->capacity) {
+        bgDest->transforms = CALLOC(bgDest->capacity, TransformComponent*);
+        memcpy(bgDest->transforms, bgSrc->transforms, bgSrc->count * sizeof(TransformComponent*));
+    }
 }
 
 bool bg_manager_component_add_entity(BgManagerComponent* self, EntityManager* entityManager, Entity entity) {

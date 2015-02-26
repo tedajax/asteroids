@@ -7,12 +7,13 @@ ConfigSystem prefabConfigs;
 Hashtable prefabTable;
 
 void prefab_load(const char* filename) {
-    config_system_load(&prefabConfigs, filename);
-    Config* cfg = config_system_get(&prefabConfigs, filename);
-    Prefab* newPrefab = CALLOC(1, Prefab);
-    newPrefab->config = cfg;
-    prefab_reload(newPrefab);
-    hashtable_insert(&prefabTable, filename, (void*)newPrefab);
+    if (config_system_load(&prefabConfigs, filename)) {
+        Config* cfg = config_system_get(&prefabConfigs, filename);
+        Prefab* newPrefab = CALLOC(1, Prefab);
+        newPrefab->config = cfg;
+        prefab_reload(newPrefab);
+        hashtable_insert(&prefabTable, filename, (void*)newPrefab);
+    }
 }
 
 void prefab_system_init(const char* prefabRoot) {
