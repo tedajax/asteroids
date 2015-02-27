@@ -1,0 +1,30 @@
+components = [levelmanager]
+
+[levelmanager]
+component_type = COMPONENT_LEVEL_MANAGER
+config = levelmanager.config
+
+[levelmanager.config]
+levels = [
+    levelmanager.level1,
+    levelmanager.level2,
+    levelmanager.level3
+]
+
+[levelmanager.level1]
+asteroids = 3
+metal_asteroids = 0
+max_small_ufo = 0
+max_large_ufo = 0
+
+[levelmanager.level2]
+asteroids = 4
+metal_asteroids = 0
+max_small_ufo = 0
+max_large_ufo = 0
+
+[levelmanager.level3]
+asteroids = 4
+metal_asteroids = 0
+max_small_ufo = 0
+max_large_ufo = 0

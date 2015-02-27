@@ -40,6 +40,8 @@ typedef struct globals {
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    SDL_Color clearColor;
+
     Camera camera;
 
     TextureManager textures;

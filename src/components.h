@@ -14,3 +14,4 @@
 #include "asteroidcontrollercomponent.h"
 #include "particlecomponent.h"
 #include "ufocontrollercomponent.h"
+#include "levelmanagercomponent.h"

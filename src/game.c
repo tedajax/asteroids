@@ -31,49 +31,11 @@ void game_init(Game* self) {
 
     game_scene_init(self->activeScene);
 
-    /*SpriteFrame* bgFrame = atlas_get_frame(atlas_get("atlas1"), "bg_dark_purple");
-
-    Entity bgManagerEntity = entity_create_bg_manager(self->entityManager,
-        (u32)bgFrame->frame.width,
-        (u32)bgFrame->frame.height);
-
-    BgManagerComponent* bgManager = 
-        (BgManagerComponent*)entities_get_component(self->entityManager,
-        COMPONENT_BG_MANAGER,
-        bgManagerEntity);
-
-    for (u32 i = 0; i < bgManager->capacity; ++i) {
-        Entity tile = entity_create_bg_tile(self->entityManager,
-            atlas_get("atlas1"),
-            "bg_dark_purple");
-
-        TransformComponent* tx =
-            (TransformComponent*)entities_get_component(self->entityManager,
-            COMPONENT_TRANSFORM,
-            tile);
-
-        bg_manager_component_add_entity(bgManager, tx);
-    }
-
-    self->player = entity_create_player(self->entityManager,
-        vec2_init(globals.world.width / 2.f, globals.world.height / 2.f),
-        atlas_get("atlas1"),
-        "player_ship");
-
-    globals.player = self->player;
+    scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
 
     for (u32 i = 0; i < 6; ++i) {
-        entity_create_asteroid(self->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
-    }*/
-
-    scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
-    /*entity_create_bg_manager(active_scene()->entityManager);
-
-    entity_create_player(active_scene()->entityManager, vec2_init(globals.world.width / 2.f, globals.world.height / 2.f));*/
-
-    /*for (u32 i = 0; i < 6; ++i) {
         entity_create_asteroid(self->activeScene->entityManager, (i / 2) + 3);
-    }*/
+    }
 
     camera_init(&globals.camera, NULL);
 

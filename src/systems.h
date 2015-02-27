@@ -14,3 +14,4 @@
 #include "asteroidcontrollersystem.h"
 #include "particlesystem.h"
 #include "ufocontrollersystem.h"
+#include "levelmanagersystem.h"

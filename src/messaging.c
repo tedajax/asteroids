@@ -1,5 +1,31 @@
 #include "messaging.h"
 
+void messaging_system_init(MessagingSystem* self) {
+    for (u32 i = 0; i < MESSAGE_LAST; ++i) {
+        self->subscriberLists[i].count = 0;
+        u32 capacity = 32;
+        self->subscriberLists[i].capacity = capacity;
+        self->subscriberLists[i].subscribers = CALLOC(capacity, Entity);
+    }
+}
+
+void messaging_system_terminate(MessagingSystem* self) {
+    for (u32 i = 0; i < MESSAGE_LAST; ++i) {
+        free(self->subscriberLists[i].subscribers);
+    }
+}
+
+void messaging_system_add_subscriber(MessagingSystem* self, MessageType type, Entity entity) {
+    SubscriberList* list = &self->subscriberLists[type];
+    if (list->count >= list->capacity) {
+        list->capacity *= 2;
+        list->subscribers = (Entity*)realloc(list->subscribers, list->capacity * sizeof(Entity));
+    }
+
+    list->subscribers[list->count] = entity;
+    ++list->count;
+}
+
 void message_queue_init(MessageQueue* self) {
     self->size = 0;
     self->head = 0;

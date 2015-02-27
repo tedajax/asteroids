@@ -99,12 +99,6 @@ void tween_config_deserialize(TypeConfig* super, Config* config, char* table) {
     self->loops = config_try_get_int(config, table, "loops", TWEEN_LOOP_INFINITE);
 }
 
-void level_config_deserialize(TypeConfig* super, Config* config, char* table) {
-    LevelConfig* self = (LevelConfig*)super;
-
-    self->remove_this_later = 0;
-}
-
 void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char* table) {
     ParticleEmitterConfig* self = (ParticleEmitterConfig*)super;
 
@@ -138,4 +132,26 @@ void particle_emitter_config_copy(const ParticleEmitterConfig* source, ParticleE
     dynamic_vec2_copy(&source->scale, &dest->scale);
     dynamic_vec2_copy(&source->offset, &dest->offset);
     dynamic_color_copy(&source->color, &dest->color);
+}
+
+void level_config_deserialize(TypeConfig* super, Config* config, char* table) {
+    LevelConfig* self = (LevelConfig*)super;
+
+    self->asteroidCount = (u32)CONFIG_GET(int)(config, table, "asteroids");
+    self->metalAsteroidCount = (u32)CONFIG_TRY_GET(int)(config, table, "metal_asteroids", 0);
+    self->maxSmallUfos = (u32)CONFIG_TRY_GET(int)(config, table, "max_small_ufo", 0);
+    self->maxLargeUfos = (u32)CONFIG_TRY_GET(int)(config, table, "max_large_ufo", 0);
+}
+
+void level_manager_config_deserialize(TypeConfig* super, Config* config, char* table) {
+    LevelManagerConfig* self = (LevelManagerConfig*)super;
+    
+    self->levelCount = (u32)config_get_array_count(config, table, "levels");
+    self->levels = CALLOC(self->levelCount, LevelConfig*);
+
+    for (u32 i = 0; i < self->levelCount; ++i) {
+        LevelConfig* level = CONFIG_GET_AT(LevelConfig)(config, table, "levels", i);
+        ASSERT(level, "");
+        self->levels[i] = level;
+    }
 }

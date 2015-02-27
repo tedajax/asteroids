@@ -32,6 +32,7 @@ typedef struct game_scene_t {
     ScreenWrapSystem screenWrapSystem;
     AsteroidControllerSystem asteroidControllerSystem;
     UfoControllerSystem ufoControllerSystem;
+    LevelManagerSystem levelManagerSystem;
 } GameScene;
 
 void game_scene_init(GameScene* self);

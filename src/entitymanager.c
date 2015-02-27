@@ -68,12 +68,14 @@ EntityManager* entity_manager_new() {
 
     entity_queue_init(&self->removeQueue);
     message_event_queue_init(&self->eventQueue);
+    messaging_system_init(&self->messagingSystem);
 
     return self;
 }
 
 void entity_manager_free(EntityManager* self) {
     entities_remove_all_entities(self);
+    messaging_system_terminate(&self->messagingSystem);
     for (ComponentType t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
         component_list_free(&self->componentsMap[t]);
     }
@@ -106,6 +108,25 @@ i32 entities_gen_entity_id(EntityManager* self) {
 Entity entities_create_entity(EntityManager* self) {
     Entity entity = entities_gen_entity_id(self);
     POOL_INSERT(Entity)(&self->entities, (entity));
+
+    Message msg;
+    msg.type = MESSAGE_ENTITY_ADDED;
+
+    MessageOnAddedParams params;
+    params.addedEntity = entity;
+    MESSAGE_SET_PARAM_BLOCK(msg, params);
+
+    SubscriberList* list = &self->messagingSystem.subscriberLists[msg.type];
+    for (u32 i = 0; i < list->count; ++i) {
+        for (u32 t = 0; t < COMPONENT_LAST; ++t) {
+            if (self->systems[t]) {
+                aspect_system_send_message((AspectSystem*)self->systems[t],
+                    list->subscribers[i],
+                    msg);
+            }
+        }
+    }
+
     return entity;
 }
 
@@ -190,6 +211,10 @@ bool entities_has_component(EntityManager* self, ComponentType type, Entity enti
 void entities_internal_remove_entity(EntityManager* self, Entity entity, bool isShutDown) {
     Message msg;
     msg.type = MESSAGE_ENTITY_REMOVED;
+    
+    MessageOnRemovedParams params;
+    params.removedEntity = entity;
+    MESSAGE_SET_PARAM_BLOCK(msg, params);
 
     // Send on_remove message
     // but only if this is an individual remove and not all entities being removed
@@ -261,6 +286,24 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
                 message.target,
                 message.message);
         }
+
+        // Send message to all subscribers of this type of message
+        // IMPORTANT NOTE: If the entity in the subscriber list is the same
+        // as the targeted entity then the message will NOT be fired a second time
+        // to avoid the weird kinds of things that could happen if an entity received
+        // the same message twice.
+        MessageType mtype = message.message.type;
+        SubscriberList* subList = &self->messagingSystem.subscriberLists[mtype];
+        for (u32 i = 0; i < subList->count; ++i) {
+            Entity entity = subList->subscribers[i];
+            if (entity == message.target) { continue; }
+
+            if (self->systems[type]) {
+                aspect_system_send_message((AspectSystem*)self->systems[type],
+                    entity,
+                    message.message);
+            }
+        }
     }
 }
 
@@ -272,8 +315,12 @@ void entities_send_message_deferred(EntityManager* self, Entity entity, Message 
     message_event_queue_push_deferred(&self->eventQueue, entity, message);
 }
 
+void entities_subscribe(EntityManager* self, MessageType messageType, Entity subscriber) {
+    messaging_system_add_subscriber(&self->messagingSystem, messageType, subscriber);
+}
+
 void entities_update(EntityManager* self) {
-    const i32 maxMessages = 0xFFFFFF;
+    const i32 maxMessages = 0xF;
     i32 messageCount = 0;
     message_event_queue_processing_lock(&self->eventQueue);
     while (message_event_queue_size(&self->eventQueue) > 0 && messageCount < maxMessages) {

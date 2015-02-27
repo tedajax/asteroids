@@ -19,6 +19,7 @@ void game_scene_init(GameScene* self) {
     screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
     asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
     ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
+    level_manager_system_init(&self->levelManagerSystem, self->entityManager);
 }
 
 void game_scene_load(GameScene* self, const char* sceneName) {
@@ -34,6 +35,7 @@ void game_scene_start(GameScene* self) {
     collision_system_start(&self->collisionSystem);
     asteroid_controller_system_start(&self->asteroidControllerSystem);
     lua_system_start(&self->luaSystem);
+    level_manager_system_start(&self->levelManagerSystem);
 }
 
 void game_scene_update(GameScene* self) {
@@ -50,6 +52,7 @@ void game_scene_update(GameScene* self) {
     particle_system_update(&self->particleSystem);
     movement_system_update(&self->movementSystem);
     screen_wrap_system_update(&self->screenWrapSystem);
+    level_manager_system_update(&self->levelManagerSystem);
     collision_system_update(&self->collisionSystem);
 }
 

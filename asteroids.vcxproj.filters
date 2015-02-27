@@ -363,6 +363,12 @@
     <ClCompile Include="src\scene.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\levelmanagercomponent.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\levelmanagersystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -635,6 +641,15 @@
     <ClInclude Include="src\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\levelmanagercomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\levelmanagersystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\levelmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\game.ini">
@@ -687,6 +702,9 @@
     </None>
     <None Include="assets\scenes\play.scene">
       <Filter>Assets\Scenes</Filter>
+    </None>
+    <None Include="assets\prefabs\level_manager.prefab">
+      <Filter>Assets\Prefabs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

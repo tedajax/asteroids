@@ -105,8 +105,9 @@ CONFIG_REGISTER_TYPE_NAMED(ColliderConfig*, ColliderConfig);
 CONFIG_REGISTER_TYPE_NAMED(BulletConfig*, BulletConfig);
 CONFIG_REGISTER_TYPE_NAMED(BulletSourceConfig*, BulletSourceConfig);
 CONFIG_REGISTER_TYPE_NAMED(TweenConfig*, TweenConfig);
-CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);
 CONFIG_REGISTER_TYPE_NAMED(ParticleEmitterConfig*, ParticleEmitterConfig);
+CONFIG_REGISTER_TYPE_NAMED(LevelManagerConfig*, LevelManagerConfig);
+CONFIG_REGISTER_TYPE_NAMED(LevelConfig*, LevelConfig);
 
 #define CONFIG_GET_KEY(charptr, data, section, key, index) \
     charptr = CONFIG_GET_AT(string)(data, section, key, index);

@@ -31,6 +31,7 @@ typedef enum component_type_e {
     COMPONENT_SCREEN_WRAP,
     COMPONENT_ASTEROID_CONTROLLER,
 
+    COMPONENT_LEVEL_MANAGER,
 
     COMPONENT_LAST,
 } ComponentType;

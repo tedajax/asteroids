@@ -22,7 +22,7 @@ typedef enum message_type_e {
     MESSAGE_ON_COLLISION_EXIT,
 
     // Entity created, NULL, NULL
-    MESSAGE_ENTITY_CREATED,
+    MESSAGE_ENTITY_ADDED,
 
     // Entity removed, NULL, NULL
     MESSAGE_ENTITY_REMOVED,
@@ -43,6 +43,14 @@ typedef struct message_on_damage_params_t {
     i32 damage;
 } MessageOnDamageParams;
 
+typedef struct message_on_added_params_t {
+    Entity addedEntity;
+} MessageOnAddedParams;
+
+typedef struct message_on_removed_params_t {
+    Entity removedEntity;
+} MessageOnRemovedParams;
+
 // TODO: Figure out some way of enforcing a schema on message params.  Right now it's really just built on trust.
 typedef struct message_t {
     MessageType type;
@@ -61,12 +69,26 @@ typedef struct message_queue_t {
     i32 tail;
 } MessageQueue;
 
+typedef struct message_subscriber_list_t {
+    u32 count;
+    u32 capacity;
+    Entity* subscribers;
+} SubscriberList;
+
+typedef struct messaging_system_t {
+    SubscriberList subscriberLists[MESSAGE_LAST];
+} MessagingSystem;
+
 typedef struct message_event_queue_t {
     MessageQueue messageQueue;
     MessageQueue immediateQueue;
     MessageType processingType;
     bool processingLock;
 } MessageEventQueue;
+
+void messaging_system_init(MessagingSystem* self);
+void messaging_system_terminate(MessagingSystem* self);
+void messaging_system_add_subscriber(MessagingSystem* self, MessageType type, Entity entity);
 
 void message_queue_init(MessageQueue* self);
 
@@ -85,6 +107,9 @@ static inline void message_event_queue_processing_unlock(MessageEventQueue* self
 
 #define MESSAGE_SET_PARAM_BLOCK(msg, params)                    \
     memcpy(msg.paramBlock, ((u8*)((void*)&params)), MESSAGE_PARAM_BLOCK_SIZE)
+
+#define MESSAGE_GET_PARAM_BLOCK(msg, dest) \
+    memcpy(((u8*)((void*)&dest)), &msg.paramBlock, MESSAGE_PARAM_BLOCK_SIZE)
 
 typedef void(*message_cb)(Component*, const Message);
 typedef void(*system_message_cb)(AspectSystem*, Entity, const Message);

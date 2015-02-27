@@ -31,6 +31,9 @@ COMPONENT_DESERIALIZE(COMPONENT_BG_MANAGER) {
     Prefab* prefab = prefab_get(prefabName);
     ASSERT(prefab, "Unable to load prefab.");
 
+    Color clearColor = CONFIG_TRY_GET(Color)(config, table, "clear_color", color_make_rgba(globals.clearColor.r, globals.clearColor.g, globals.clearColor.b, globals.clearColor.a));
+    memcpy(&globals.clearColor, &clearColor, sizeof(u8) * 4);
+
     BgManagerComponent* bg = bg_manager_component_new(0);
     bg->tilePrefab = prefab;
 

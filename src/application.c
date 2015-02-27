@@ -67,7 +67,7 @@ void _app_update(App* self) {
 }
 
 void _app_render(App* self) {
-    SDL_SetRenderDrawColor(globals.renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(globals.renderer, globals.clearColor.r, globals.clearColor.g, globals.clearColor.b, 255);
     SDL_RenderClear(globals.renderer);
 
     game_render(&self->game);

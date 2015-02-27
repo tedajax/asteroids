@@ -13,6 +13,8 @@ typedef enum type_config_type_e {
     TYPE_CONFIG_BULLET_SOURCE,
     TYPE_CONFIG_TWEEN,
     TYPE_CONFIG_PARTICLE_EMITTER,
+    TYPE_CONFIG_LEVEL,
+    TYPE_CONFIG_LEVEL_MANAGER,
     TYPE_CONFIG_LAST
 } TypeConfigType;
 
@@ -90,12 +92,6 @@ typedef struct tween_config_t {
 
 void tween_config_deserialize(TypeConfig* super, Config* config, char* table);
 
-typedef struct level_config_t {
-    u8 remove_this_later;
-} LevelConfig;
-
-void level_config_deserialize(TypeConfig* super, Config* config, char* table);
-
 typedef struct particle_emitter_config_t {
     TypeConfig super;
     f32 lifetime;
@@ -120,5 +116,23 @@ typedef struct particle_emitter_config_t {
 
 void particle_emitter_config_deserialize(TypeConfig* super, Config* config, char* table);
 void particle_emitter_config_copy(const ParticleEmitterConfig* source, ParticleEmitterConfig* dest);
+
+typedef struct level_config_t {
+    TypeConfig super;
+    u32 asteroidCount;
+    u32 metalAsteroidCount;
+    u32 maxSmallUfos;
+    u32 maxLargeUfos;
+} LevelConfig;
+
+void level_config_deserialize(TypeConfig* super, Config* config, char* table);
+
+typedef struct level_manager_config_t {
+    TypeConfig super;
+    u32 levelCount;
+    LevelConfig** levels;
+} LevelManagerConfig;
+
+void level_manager_config_deserialize(TypeConfig* super, Config* config, char* table);
 
 #endif
