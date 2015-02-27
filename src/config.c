@@ -61,13 +61,14 @@ void config_type_reload(Config* self) {
 void config_init() {
     config_system_init(&defaultConfigs, "assets/data/", "config file");
 
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_COLLIDER, collider_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_BULLET, bullet_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_BULLET_SOURCE, bullet_source_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_TWEEN, tween_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_PARTICLE_EMITTER, particle_emitter_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_LEVEL_MANAGER, level_manager_config_deserialize);
-    REGISTER_DESERIALIZE_FUNCTION(TYPE_CONFIG_LEVEL, level_config_deserialize);
+    
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_COLLIDER, collider_config_deserialize, NULL);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_BULLET, bullet_config_deserialize, NULL);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_BULLET_SOURCE, bullet_source_config_deserialize, NULL);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_TWEEN, tween_config_deserialize, NULL);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_PARTICLE_EMITTER, particle_emitter_config_deserialize, NULL);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_LEVEL_MANAGER, level_manager_config_deserialize, level_manager_config_cleanup);
+    REGISTER_CONFIG_TYPE_FUNCTIONS(TYPE_CONFIG_LEVEL, level_config_deserialize, NULL);
 }
 
 void config_terminate() {

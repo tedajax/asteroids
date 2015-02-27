@@ -22,7 +22,7 @@ config = bullet.config
 
 [bullet.config]
 lifetime = 1
-damage = 1000
+damage = 1
 speed = 1000
 angle = 0
 

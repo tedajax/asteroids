@@ -12,6 +12,6 @@ Entity entity_create_player(EntityManager* entityManager, Vec2 position);
 Entity entity_create_bullet(EntityManager* entityManager, Vec2 position, f32 baseAngle);
 Entity entity_create_bg_manager(EntityManager* entityManager);
 Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position);
-Entity entity_create_asteroid(EntityManager* entityManager, i32 size);
+Entity entity_create_asteroid(EntityManager* entityManager, char* prefabName, i32 size);
 
 #endif

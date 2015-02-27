@@ -19,12 +19,12 @@ component_type = COMPONENT_MOVEMENT
 
 [health]
 component_type = COMPONENT_HEALTH
-max_health = 1
+max_health = 5
 
 [sprite]
 component_type = COMPONENT_SPRITE
 atlas = atlas1
-sprite = meteorBrown_big4
+sprite = meteorGrey_big4
 
 [collider]
 component_type = COMPONENT_COLLIDER
@@ -44,3 +44,4 @@ vertical_buffer = 64
 [asteroid]
 component_type = COMPONENT_ASTEROID_CONTROLLER
 asteroid_size = 5
+asteroid_prefab = asteroid_metal.prefab

@@ -34,7 +34,7 @@ void game_init(Game* self) {
     scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
 
     for (u32 i = 0; i < 6; ++i) {
-        entity_create_asteroid(self->activeScene->entityManager, (i / 2) + 3);
+        entity_create_asteroid(self->activeScene->entityManager, (i > 3) ? "asteroid_metal.prefab" : "asteroid.prefab", (i / 2) + 3);
     }
 
     camera_init(&globals.camera, NULL);

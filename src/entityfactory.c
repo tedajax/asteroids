@@ -52,14 +52,14 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
     entities_add_component(entityManager,
         (Component*)screen_wrap_component_new(entity, 64, 64));
 
-    entities_add_component(entityManager,
-        (Component*)asteroid_controller_component_new(entity, 5));
-
     return entity;
 }
 
-Entity entity_create_asteroid(EntityManager* entityManager, i32 size) {
-    Entity entity = prefab_instantiate(prefab_get("asteroid.prefab"), entityManager);
+Entity entity_create_asteroid(EntityManager* entityManager, char* prefabName, i32 size) {
+    Prefab* prefab = prefab_get(prefabName);
+    ASSERT(prefab, "");
+
+    Entity entity = prefab_instantiate(prefab, entityManager);
 
     AsteroidControllerComponent* asteroid =
         (AsteroidControllerComponent*)entities_get_component(entityManager,
@@ -67,6 +67,7 @@ Entity entity_create_asteroid(EntityManager* entityManager, i32 size) {
         entity);
 
     asteroid->asteroidSize = size;
+    asteroid->asteroidPrefabName = prefabName;
 
     return entity;
 }

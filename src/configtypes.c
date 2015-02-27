@@ -155,3 +155,11 @@ void level_manager_config_deserialize(TypeConfig* super, Config* config, char* t
         self->levels[i] = level;
     }
 }
+
+void level_manager_config_cleanup(TypeConfig* super) {
+    LevelManagerConfig* self = (LevelManagerConfig*)super;
+
+    if (self->levels) {
+        free(self->levels);
+    }
+}

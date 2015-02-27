@@ -66,7 +66,7 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
 
     if (asteroid->asteroidSize > 1) {
         for (int i = 0; i < 2; ++i) {
-            Entity e = prefab_instantiate_at(prefab_get("asteroid.prefab"), self->super.entityManager, transform->position, 0.f);
+            Entity e = prefab_instantiate_at(prefab_get(asteroid->asteroidPrefabName), self->super.entityManager, transform->position, 0.f);
             AsteroidControllerComponent* a = (AsteroidControllerComponent*)entities_get_component(
                 system->entityManager,
                 COMPONENT_ASTEROID_CONTROLLER,

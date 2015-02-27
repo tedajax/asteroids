@@ -25,14 +25,26 @@ typedef struct type_config_t {
 
 typedef struct config_t Config;
 typedef void(*deserialize_type_f)(TypeConfig*, Config*, char*);
+typedef void(*cleanup_type_f)(TypeConfig*);
 
 deserialize_type_f deserializeFunctions[TYPE_CONFIG_LAST];
+cleanup_type_f cleanupFunctions[TYPE_CONFIG_LAST];
 
 #define REGISTER_DESERIALIZE_FUNCTION(type, func) \
     deserializeFunctions[type] = func;
 
+#define REGISTER_CLEANUP_FUNCTION(type, func) \
+    cleanupFunctions[type] = func;
+
+#define REGISTER_CONFIG_TYPE_FUNCTIONS(type, deserialize, cleanup)  \
+    REGISTER_DESERIALIZE_FUNCTION(type, deserialize);               \
+    REGISTER_CLEANUP_FUNCTION(type, cleanup);                       \
+
 #define DESERIALIZE(type, typeconfig, config, table) \
     deserializeFunctions[type](typeconfig, config, table);
+
+#define CLEANUP(type, typeconfig)   \
+    if (cleanupFunctions[type]) { cleanupFunctions[type](typeconfig); }
 
 typedef enum collider_layer_e ColliderLayer;
 typedef enum bounding_volume_type_e BoundingVolumeType;
@@ -134,5 +146,6 @@ typedef struct level_manager_config_t {
 } LevelManagerConfig;
 
 void level_manager_config_deserialize(TypeConfig* super, Config* config, char* table);
+void level_manager_config_cleanup(TypeConfig* super);
 
 #endif

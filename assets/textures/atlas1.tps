@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.6.0</string>
         <key>fileName</key>
-        <string>C:/Users/Ted/Projects/asteroids/assets/textures/atlas1.tps</string>
+        <string>C:/Users/ajax/Projects/asteroids/assets/textures/atlas1.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
