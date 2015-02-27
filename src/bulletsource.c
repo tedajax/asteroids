@@ -77,7 +77,7 @@ void bullet_source_fire(BulletSource* self, EntityManager* entityManager, Transf
         sa += (i - (self->config.count / 2)) * dynf32_get(&self->config.spread);
         sa += dynf32_get(&self->config.startAngle);
 
-        Entity entity = prefab_instantiate_at(self->prefab, pos, 0);
+        Entity entity = prefab_instantiate_at(self->prefab, entityManager, pos, 0);
         BulletControllerComponent* bullet =
             (BulletControllerComponent*)entities_get_component(entityManager, COMPONENT_BULLET_CONTROLLER, entity);
         bullet->baseAngle = sa;

@@ -109,12 +109,37 @@ Entity entities_create_entity(EntityManager* self) {
     return entity;
 }
 
-Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab, Vec2 position, f32 rotation) {
+Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab) {
     Entity entity = entities_create_entity(self);
 
     for (u32 i = 0; i < prefab->components.count; ++i) {
         Component* source = prefab->components.components[i];
         
+        // Copy into newly allocated block that will actually go into entity manager
+        Component* component = (Component*)malloc((size_t)source->size);
+        component_copy(source, component);
+
+        // TODO: generalize these special cases somewhat?
+        if (component->type == COMPONENT_COLLIDER) {
+            ColliderComponent* collider = (ColliderComponent*)component;
+            collider->collider.entity = entity;
+        }
+
+        // Set the entity
+        component->entity = entity;
+
+        entities_add_component(self, component);
+    }
+
+    return entity;
+}
+
+Entity entities_instantiate_prefab_at(EntityManager* self, Prefab* prefab, Vec2 position, f32 rotation) {
+    Entity entity = entities_create_entity(self);
+
+    for (u32 i = 0; i < prefab->components.count; ++i) {
+        Component* source = prefab->components.components[i];
+
         // Copy into newly allocated block that will actually go into entity manager
         Component* component = (Component*)malloc((size_t)source->size);
         component_copy(source, component);

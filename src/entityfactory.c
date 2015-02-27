@@ -1,11 +1,11 @@
 #include "entityfactory.h"
 
 Entity entity_create_player(EntityManager* entityManager, Vec2 position) {
-    return prefab_instantiate_at(prefab_get("player_ship.prefab"), position, 0.f);
+    return prefab_instantiate_at(prefab_get("player_ship.prefab"), entityManager, position, 0.f);
 }
 
 Entity entity_create_bullet(EntityManager* entityManager, Vec2 position, f32 baseAngle) {
-    Entity entity = prefab_instantiate_at(prefab_get("player_bullet.prefab"), position, 0.f);
+    Entity entity = prefab_instantiate_at(prefab_get("player_bullet.prefab"), entityManager, position, 0.f);
 
     BulletControllerComponent* bullet =
         (BulletControllerComponent*)entities_get_component(entityManager,
@@ -18,7 +18,7 @@ Entity entity_create_bullet(EntityManager* entityManager, Vec2 position, f32 bas
 }
 
 Entity entity_create_bg_manager(EntityManager* entityManager) {
-    return prefab_instantiate(prefab_get("background.prefab"));
+    return prefab_instantiate(prefab_get("background.prefab"), entityManager);
 }
 
 Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
@@ -58,8 +58,8 @@ Entity entity_create_basic_enemy(EntityManager* entityManager, Vec2 position) {
     return entity;
 }
 
-Entity entity_create_asteroid(EntityManager* entityManager, Vec2 position, i32 size) {
-    Entity entity = prefab_instantiate_at(prefab_get("asteroid.prefab"), position, 0.f);
+Entity entity_create_asteroid(EntityManager* entityManager, i32 size) {
+    Entity entity = prefab_instantiate(prefab_get("asteroid.prefab"), entityManager);
 
     AsteroidControllerComponent* asteroid =
         (AsteroidControllerComponent*)entities_get_component(entityManager,

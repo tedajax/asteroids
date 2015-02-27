@@ -35,6 +35,7 @@ typedef struct game_scene_t {
 } GameScene;
 
 void game_scene_init(GameScene* self);
+void game_scene_load(GameScene* self, const char* sceneName);
 void game_scene_quit(GameScene* self);
 void game_scene_start(GameScene* self);
 void game_scene_update(GameScene* self);

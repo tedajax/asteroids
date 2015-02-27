@@ -2,6 +2,7 @@
 #include "prefab.h"
 #include "atlas.h"
 #include "particles.h"
+#include "scene.h"
 
 #include <SDL2/SDL_image.h>
 
@@ -24,6 +25,7 @@ void game_init(Game* self) {
     atlas_load("atlas1");
 
     prefab_system_init("assets/prefabs");
+    scene_system_init("assets/scenes");
 
     self->activeScene = &self->playScene;
 
@@ -64,13 +66,14 @@ void game_init(Game* self) {
         entity_create_asteroid(self->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
     }*/
 
-    entity_create_bg_manager(active_scene()->entityManager);
+    scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
+    /*entity_create_bg_manager(active_scene()->entityManager);
 
-    entity_create_player(active_scene()->entityManager, vec2_init(globals.world.width / 2.f, globals.world.height / 2.f));
+    entity_create_player(active_scene()->entityManager, vec2_init(globals.world.width / 2.f, globals.world.height / 2.f));*/
 
-    for (u32 i = 0; i < 6; ++i) {
-        entity_create_asteroid(self->activeScene->entityManager, vec2_init(randf((f32)globals.world.width), randf((f32)globals.world.height)), (i / 2) + 3);
-    }
+    /*for (u32 i = 0; i < 6; ++i) {
+        entity_create_asteroid(self->activeScene->entityManager, (i / 2) + 3);
+    }*/
 
     camera_init(&globals.camera, NULL);
 
@@ -100,6 +103,7 @@ void game_init(Game* self) {
 }
 
 void game_quit(Game* self) {
+    scene_system_terminate();
     prefab_system_terminate();
     game_scene_quit(self->activeScene);
     atlases_terminate();

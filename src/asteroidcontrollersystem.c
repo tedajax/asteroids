@@ -7,6 +7,18 @@ void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManag
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
 }
 
+void asteroid_controller_system_start(AsteroidControllerSystem* self) {
+    GET_SYSTEM_COMPONENTS(self);
+
+    for (u32 i = 0; i < components->count; ++i) {
+        TransformComponent* transform =
+            (TransformComponent*)GET_COMPONENT(GET_ENTITY(i), COMPONENT_TRANSFORM);
+
+        transform->position.x = randf_range(0.f, (f32)globals.world.width);
+        transform->position.y = randf_range(0.f, (f32)globals.world.height);
+    }
+}
+
 void asteroid_controller_system_update(AsteroidControllerSystem* self) {
     GET_SYSTEM_COMPONENTS(self);
 
@@ -54,7 +66,12 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
 
     if (asteroid->asteroidSize > 1) {
         for (int i = 0; i < 2; ++i) {
-            entity_create_asteroid(self->super.entityManager, transform->position, asteroid->asteroidSize - 1);
+            Entity e = prefab_instantiate_at(prefab_get("asteroid.prefab"), self->super.entityManager, transform->position, 0.f);
+            AsteroidControllerComponent* a = (AsteroidControllerComponent*)entities_get_component(
+                system->entityManager,
+                COMPONENT_ASTEROID_CONTROLLER,
+                e);
+            a->asteroidSize = asteroid->asteroidSize - 1;
         }
     }
 }

@@ -54,7 +54,8 @@ void entity_manager_register_system(EntityManager* self, AspectSystem* system, u
 void entity_manager_set_system_compare_function(EntityManager* self, AspectSystem* system, component_compare_f compareFunc);
 i32 entities_gen_entity_id(EntityManager* self);
 Entity entities_create_entity(EntityManager* self);
-Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab, Vec2 position, f32 rotation);
+Entity entities_instantiate_prefab(EntityManager* self, Prefab* prefab);
+Entity entities_instantiate_prefab_at(EntityManager* self, Prefab* prefab, Vec2 position, f32 rotation);
 Component* entities_add_component(EntityManager* self, Component* component);
 Component* entities_get_component(EntityManager* self, ComponentType type, Entity entity);
 ComponentList* entities_get_all_components(EntityManager* self, ComponentType type);

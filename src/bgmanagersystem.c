@@ -16,7 +16,8 @@ void bg_manager_system_start(BgManagerSystem* self) {
 
         u32 width = 0, height = 0;
         {
-            Entity entity = prefab_instantiate(bg->tilePrefab);
+            // Better way to get the width and height would be cool...
+            Entity entity = prefab_instantiate(bg->tilePrefab, self->super.entityManager);
             SpriteComponent* sprite = (SpriteComponent*)entities_get_component(self->super.entityManager,
                 COMPONENT_SPRITE,
                 entity);
@@ -35,7 +36,7 @@ void bg_manager_system_start(BgManagerSystem* self) {
         bg->transforms = CALLOC(bg->capacity, TransformComponent*);
 
         for (u32 j = 0; j < bg->capacity; ++j) {
-            Entity entity = prefab_instantiate(bg->tilePrefab);
+            Entity entity = prefab_instantiate(bg->tilePrefab, self->super.entityManager);
             bg_manager_component_add_entity(bg, self->super.entityManager, entity);
 
             TransformComponent* tx = bg->transforms[j];

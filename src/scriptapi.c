@@ -36,7 +36,7 @@ LUA_EXPORT void instantiate_at(const char* name, Vec2 position, f32 rotation) {
     snprintf(prefabName, 128, "%s.prefab", name);
     Prefab* prefab = prefab_get(prefabName);
     if (prefab) {
-        prefab_instantiate_at(prefab, position, rotation);
+        prefab_instantiate_at(prefab, globals.game->activeScene->entityManager, position, rotation);
     }
 }
 

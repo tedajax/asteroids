@@ -79,10 +79,14 @@ Prefab* prefab_get(const char* name) {
     return (Prefab*)hashtable_get(&prefabTable, name);
 }
 
-Entity prefab_instantiate(Prefab* self) {
-    return prefab_instantiate_at(self, vec2_zero(), 0.f);
+Entity prefab_instantiate(Prefab* self, EntityManager* entityManager) {
+    return entities_instantiate_prefab(entityManager, self);
 }
 
-Entity prefab_instantiate_at(Prefab* self, Vec2 position, f32 rotation) {
-    return entities_instantiate_prefab(globals.game->activeScene->entityManager, self, position, rotation);
+Entity prefab_instantiate_at(Prefab* self, EntityManager* entityManager, Vec2 position, f32 rotation) {
+    return entities_instantiate_prefab_at(entityManager, self, position, rotation);
+}
+
+Entity prefab_instantiate_with(PrefabInstantiation* instantiation, EntityManager* entityManager) {
+    return prefab_instantiate_at(instantiation->prefab, entityManager, instantiation->position, instantiation->rotation);
 }

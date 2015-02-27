@@ -100,6 +100,9 @@
     <Filter Include="Assets\Textures">
       <UniqueIdentifier>{28ac0209-9b94-4ceb-987c-fa65c4de5985}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes">
+      <UniqueIdentifier>{6a0dd27b-5b93-4041-943f-778acdb4e8c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.c">
@@ -355,6 +358,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gamescene.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -626,6 +632,9 @@
     <ClInclude Include="src\gamescene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\data\game.ini">
@@ -675,6 +684,9 @@
     </None>
     <None Include="assets\prefabs\background.prefab">
       <Filter>Assets\Prefabs</Filter>
+    </None>
+    <None Include="assets\scenes\play.scene">
+      <Filter>Assets\Scenes</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

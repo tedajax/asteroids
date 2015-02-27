@@ -21,6 +21,10 @@ void game_scene_init(GameScene* self) {
     ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
 }
 
+void game_scene_load(GameScene* self, const char* sceneName) {
+
+}
+
 void game_scene_quit(GameScene* self) {
     entity_manager_free(self->entityManager);
 }
@@ -28,6 +32,7 @@ void game_scene_quit(GameScene* self) {
 void game_scene_start(GameScene* self) {
     bg_manager_system_start(&self->bgManagerSystem);
     collision_system_start(&self->collisionSystem);
+    asteroid_controller_system_start(&self->asteroidControllerSystem);
     lua_system_start(&self->luaSystem);
 }
 

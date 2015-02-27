@@ -40,7 +40,7 @@ void bullet_controller_system_update(BulletControllerSystem* self) {
         }
 
         if (bullet->destroyFlag) {
-            prefab_instantiate_at(prefab_get("bullet_explosion.prefab"), transform->position, 0.f);
+            prefab_instantiate_at(prefab_get("bullet_explosion.prefab"), self->super.entityManager, transform->position, 0.f);
             entities_remove_entity(self->super.entityManager, entity);
         }
     }

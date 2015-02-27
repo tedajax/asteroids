@@ -1,0 +1,14 @@
+instantiations = [
+    background,
+    player
+]
+
+[background]
+prefab = background.prefab
+position = [0, 0]
+rotation = 0
+
+[player]
+prefab = player_ship.prefab
+position = [640, 360]
+rotation = 0
