@@ -7,8 +7,8 @@
 
 typedef struct asteroid_component_t {
     Component super;
-    i32 asteroidSize;
-    char* asteroidPrefabName;
+    i32 size;
+    char* prefabName;
 } AsteroidControllerComponent;
 
 AsteroidControllerComponent* asteroid_controller_component_new(Entity entity, char* asteroidPrefabName, i32 size);

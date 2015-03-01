@@ -37,6 +37,7 @@ typedef enum message_type_e {
 
 typedef struct message_on_collision_params_t {
     Entity other;
+    Vec2 position;
 } MessageOnCollisionParams;
 
 typedef struct message_on_damage_params_t {

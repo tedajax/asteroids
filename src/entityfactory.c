@@ -66,7 +66,7 @@ Entity entity_create_asteroid(EntityManager* entityManager, char* prefabName) {
         COMPONENT_ASTEROID_CONTROLLER,
         entity);
 
-    asteroid->asteroidPrefabName = prefabName;
+    asteroid->prefabName = prefabName;
 
     return entity;
 }

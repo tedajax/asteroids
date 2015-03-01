@@ -5,15 +5,15 @@ AsteroidControllerComponent* asteroid_controller_component_new(Entity entity, ch
 
     component_init((Component*)self, COMPONENT_ASTEROID_CONTROLLER, sizeof(AsteroidControllerComponent), entity);
 
-    self->asteroidSize = size;
-    self->asteroidPrefabName = asteroidPrefabName;
+    self->size = size;
+    self->prefabName = asteroidPrefabName;
 
     return self;
 }
 
 COMPONENT_DESERIALIZE(COMPONENT_ASTEROID_CONTROLLER) {
-    i32 size = CONFIG_GET(int)(config, table, "asteroid_size");
-    char* prefabName = CONFIG_TRY_GET(string)(config, table, "asteroid_prefab", "asteroid.prefab");
+    i32 size = CONFIG_GET(int)(config, table, "size");
+    char* prefabName = CONFIG_TRY_GET(string)(config, table, "prefab", "asteroid.prefab");
     return (Component*)asteroid_controller_component_new(0, prefabName, size);
 }
 

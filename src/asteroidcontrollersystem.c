@@ -1,13 +1,20 @@
 #include "asteroidcontrollersystem.h"
 #include "entityfactory.h"
 
+f32 get_speed(i32 maxSize, i32 size, f32 speedMult) {
+    return (maxSize - size + 1) * speedMult;
+}
+
 void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager, Config* config, const char* table) {
     aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
+    REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER, asteroid_controller_system_on_collision_enter);
 
     self->maxSize = CONFIG_GET(i32)(config, table, "max_size");
-    self->speedMultiplier = CONFIG_GET(f32)(config, table, "speed_multiplier");
+    self->normalSpeedMultiplier = CONFIG_GET(f32)(config, table, "normal_speed_multiplier");
+    self->maxSpeedMultiplier = CONFIG_GET(f32)(config, table, "max_speed_multiplier");
+    self->friction = CONFIG_GET(f32)(config, table, "friction");
 }
 
 void asteroid_controller_system_start(AsteroidControllerSystem* self) {
@@ -19,6 +26,15 @@ void asteroid_controller_system_start(AsteroidControllerSystem* self) {
 
         transform->position.x = randf_range(0.f, (f32)globals.world.width);
         transform->position.y = randf_range(0.f, (f32)globals.world.height);
+
+        MovementComponent* movement =
+            (MovementComponent*)GET_COMPONENT(GET_ENTITY(i), COMPONENT_MOVEMENT);
+
+        AsteroidControllerComponent* asteroid =
+            (AsteroidControllerComponent*)GET_COMPONENT(GET_ENTITY(i), COMPONENT_ASTEROID_CONTROLLER);
+
+        f32 speed = get_speed(self->maxSize, asteroid->size, self->normalSpeedMultiplier);
+        vec2_set_angle(&movement->velocity, randf(360.f), speed);
     }
 }
 
@@ -41,13 +57,21 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
 
         REQUIRED_COMPONENTS(asteroid, movement, transform);
 
-        if (is_approx_zero(vec2_length(&movement->velocity))) {
-            f32 speed = (self->maxSize - asteroid->asteroidSize + 1) * self->speedMultiplier;
-            movement->velocity.x = randf_range(-speed, speed);
-            movement->velocity.y = randf_range(-speed, speed);
+        f32 normalSpeed = get_speed(self->maxSize, asteroid->size, self->normalSpeedMultiplier);
+        f32 maxSpeed = get_speed(self->maxSize, asteroid->size, self->maxSpeedMultiplier);
+
+        f32 currentSpeed = vec2_length(&movement->velocity);
+        if (currentSpeed > normalSpeed) {
+            Vec2 currentDirection;
+            vec2_normalize(&movement->velocity, &currentDirection);
+            f32 angle = vec2_direction_angle(&currentDirection);
+            f32 velocityMag = vec2_length(&movement->velocity);
+            Vec2 acceleration;
+            vec2_set_angle(&acceleration, angle, velocityMag * self->friction * globals.time.delta);
+            vec2_add(&movement->velocity, &acceleration, &movement->velocity);
         }
 
-        f32 scale = (f32)asteroid->asteroidSize / (f32)self->maxSize;
+        f32 scale = (f32)asteroid->size / (f32)self->maxSize;
         vec2_set(&transform->scale, scale, scale);
 
         // TODO: Collision system should handle the scaling from the transform so this shouldn't be necessary
@@ -67,14 +91,40 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
     TransformComponent* transform =
         (TransformComponent*)GET_COMPONENT(entity, COMPONENT_TRANSFORM);
 
-    if (asteroid->asteroidSize > 1) {
+    if (asteroid->size > 1) {
         for (int i = 0; i < 2; ++i) {
-            Entity e = prefab_instantiate_at(prefab_get(asteroid->asteroidPrefabName), self->super.entityManager, transform->position, 0.f);
+            Entity e = prefab_instantiate_at(prefab_get(asteroid->prefabName), self->super.entityManager, transform->position, 0.f);
+            
             AsteroidControllerComponent* a = (AsteroidControllerComponent*)entities_get_component(
                 system->entityManager,
                 COMPONENT_ASTEROID_CONTROLLER,
                 e);
-            a->asteroidSize = asteroid->asteroidSize - 1;
+
+            a->size = asteroid->size - 1;
+
+            MovementComponent* movement =
+                (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, e);
+
+            f32 speed = get_speed(self->maxSize, a->size, self->maxSpeedMultiplier);
+            //log_info_format("Asteroid", "Asteroid speed %f", speed);
+            vec2_set_angle(&movement->velocity, randf(360.f), speed);
         }
     }
+}
+
+void asteroid_controller_system_on_collision_enter(AspectSystem* system, Entity entity, const Message msg) {
+    MessageOnCollisionParams params;
+    MESSAGE_GET_PARAM_BLOCK(msg, params);
+
+    TransformComponent* tx = (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
+    MovementComponent* movement = (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
+
+    Vec2 direction;
+    vec2_sub(&params.position, &tx->position, &direction);
+    vec2_normalize(&direction, &direction);
+    
+    Vec2 force;
+    vec2_scale(&direction, -50.f, &force);
+    vec2_add(&force, &movement->velocity, &movement->velocity);
+    log_warning_format("Asteroid", "collision enter");
 }

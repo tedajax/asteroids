@@ -101,14 +101,19 @@ void collision_system_update(CollisionSystem* self) {
             Entity e1 = c1->entity;
             Entity e2 = c2->entity;
 
+            TransformComponent* tx1 = (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, e1);
+            TransformComponent* tx2 = (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, e2);
+
             Message msg1;
             MessageOnCollisionParams params1;
             params1.other = e2;
+            params1.position = tx2->position;
             MESSAGE_SET_PARAM_BLOCK(msg1, params1);
 
             Message msg2;
             MessageOnCollisionParams params2;
             params2.other = e1;
+            params2.position = tx1->position;
             MESSAGE_SET_PARAM_BLOCK(msg2, params2);
 
             if (collider_is_colliding(c1, c2)) {
