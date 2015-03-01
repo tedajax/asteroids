@@ -241,6 +241,10 @@ Config* config_get_from_key(const char* key) {
     }
 }
 
+CONFIG_IMPLEMENT_TYPE_ALIAS(i32, int);
+CONFIG_IMPLEMENT_TYPE_ALIAS(u32, int);
+CONFIG_IMPLEMENT_TYPE_ALIAS(f32, float);
+
 CONFIG_GET_AT_PROTO_NAMED(char*, string) {
     return ini_get_string_at(&self->data, section, key, index);
 }
