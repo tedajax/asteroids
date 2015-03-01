@@ -52,15 +52,21 @@ void bullet_controller_system_on_collision_enter(AspectSystem* system, Entity en
         COMPONENT_BULLET_CONTROLLER,
         entity);
 
+    MovementComponent* movement =
+        (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
+
     REQUIRED_COMPONENTS(bullet);
 
     bullet->destroyFlag = true;
 
     i32 damage = bullet->config.damage;
+    Vec2 direction;
+    vec2_normalize(&movement->velocity, &direction);
 
     Message damageMsg;
     MessageOnDamageParams damageParams;
     damageParams.damage = damage;
+    damageParams.direction = direction;
     message_init(&damageMsg, MESSAGE_DAMAGE);
     MESSAGE_SET_PARAM_BLOCK(damageMsg, damageParams);
 

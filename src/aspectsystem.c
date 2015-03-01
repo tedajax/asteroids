@@ -17,6 +17,9 @@ ComponentList* aspect_system_components(AspectSystem* self) {
 
 void aspect_system_send_message(AspectSystem* self, Entity entity, const Message message) {
     if (self->handlers[message.type]) {
+        if (message.type == MESSAGE_ON_COLLISION_ENTER) {
+            int p = 0;
+        }
         self->handlers[message.type](self, entity, message);
     }
 }

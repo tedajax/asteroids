@@ -21,6 +21,6 @@ void asteroid_controller_system_start(AsteroidControllerSystem* self);
 void asteroid_controller_system_update(AsteroidControllerSystem* self);
 
 void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity entity, const Message msg);
-void asteroid_controller_system_on_collision_enter(AspectSystem* system, Entity entity, const Message msg);
+void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, const Message msg);
 
 #endif

@@ -282,6 +282,7 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
         }
 
         if (self->systems[type]) {
+            
             aspect_system_send_message((AspectSystem*)self->systems[type],
                 message.target,
                 message.message);

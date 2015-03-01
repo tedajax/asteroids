@@ -37,11 +37,11 @@ typedef enum message_type_e {
 
 typedef struct message_on_collision_params_t {
     Entity other;
-    Vec2 position;
 } MessageOnCollisionParams;
 
 typedef struct message_on_damage_params_t {
     i32 damage;
+    Vec2 direction;
 } MessageOnDamageParams;
 
 typedef struct message_on_added_params_t {
@@ -107,6 +107,7 @@ static inline void message_event_queue_processing_lock(MessageEventQueue* self) 
 static inline void message_event_queue_processing_unlock(MessageEventQueue* self) { self->processingLock = false; }
 
 #define MESSAGE_SET_PARAM_BLOCK(msg, params)                    \
+    memset(msg.paramBlock, 0, MESSAGE_PARAM_BLOCK_SIZE);        \
     memcpy(msg.paramBlock, ((u8*)((void*)&params)), MESSAGE_PARAM_BLOCK_SIZE)
 
 #define MESSAGE_GET_PARAM_BLOCK(msg, dest) \

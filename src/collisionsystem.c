@@ -107,13 +107,11 @@ void collision_system_update(CollisionSystem* self) {
             Message msg1;
             MessageOnCollisionParams params1;
             params1.other = e2;
-            params1.position = tx2->position;
             MESSAGE_SET_PARAM_BLOCK(msg1, params1);
 
             Message msg2;
             MessageOnCollisionParams params2;
             params2.other = e1;
-            params2.position = tx1->position;
             MESSAGE_SET_PARAM_BLOCK(msg2, params2);
 
             if (collider_is_colliding(c1, c2)) {

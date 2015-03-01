@@ -9,7 +9,7 @@ void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManag
     aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
-    REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER, asteroid_controller_system_on_collision_enter);
+    REGISTER_SYSTEM_HANDLER(MESSAGE_DAMAGE, asteroid_controller_system_on_damage);
 
     self->maxSize = CONFIG_GET(i32)(config, table, "max_size");
     self->normalSpeedMultiplier = CONFIG_GET(f32)(config, table, "normal_speed_multiplier");
@@ -112,19 +112,15 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
     }
 }
 
-void asteroid_controller_system_on_collision_enter(AspectSystem* system, Entity entity, const Message msg) {
-    MessageOnCollisionParams params;
+void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, const Message msg) {
+    MessageOnDamageParams params;
     MESSAGE_GET_PARAM_BLOCK(msg, params);
 
     TransformComponent* tx = (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
     MovementComponent* movement = (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
-
-    Vec2 direction;
-    vec2_sub(&params.position, &tx->position, &direction);
-    vec2_normalize(&direction, &direction);
-    
+   
     Vec2 force;
-    vec2_scale(&direction, -50.f, &force);
+    vec2_scale(&params.direction, 50.f, &force);
     vec2_add(&force, &movement->velocity, &movement->velocity);
     log_warning_format("Asteroid", "collision enter");
 }
