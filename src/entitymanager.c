@@ -109,7 +109,7 @@ Entity entities_create_entity(EntityManager* self) {
     Entity entity = entities_gen_entity_id(self);
     POOL_INSERT(Entity)(&self->entities, (entity));
 
-    /*Message msg;
+    Message msg;
     msg.type = MESSAGE_ENTITY_ADDED;
 
     MessageOnAddedParams params;
@@ -125,7 +125,7 @@ Entity entities_create_entity(EntityManager* self) {
                     msg);
             }
         }
-    }*/
+    }
 
     return entity;
 }
@@ -276,22 +276,12 @@ void entities_get_all_of(EntityManager* self, ComponentType type, EntityList* de
 
 void entities_internal_send_message(EntityManager* self, TargetedMessage message) {
     for (u32 type = COMPONENT_INVALID + 1; type < COMPONENT_LAST; ++type) {
-        if (!entities_has_component(self, type, message.target)) {
-            continue;
-        }
-
-        if (self->systems[type]) {
-            aspect_system_send_message((AspectSystem*)self->systems[type],
-                message.target,
-                message.message);
-        }
-
         // Send message to all subscribers of this type of message
         // IMPORTANT NOTE: If the entity in the subscriber list is the same
         // as the targeted entity then the message will NOT be fired a second time
         // to avoid the weird kinds of things that could happen if an entity received
         // the same message twice.
-        /*MessageType mtype = message.message.type;
+        MessageType mtype = message.message.type;
         SubscriberList* subList = &self->messagingSystem.subscriberLists[mtype];
         for (u32 i = 0; i < subList->count; ++i) {
             Entity entity = subList->subscribers[i];
@@ -302,7 +292,17 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
                     entity,
                     message.message);
             }
-        }*/
+        }
+
+        if (!entities_has_component(self, type, message.target)) {
+            continue;
+        }
+
+        if (self->systems[type]) {
+            aspect_system_send_message((AspectSystem*)self->systems[type],
+                message.target,
+                message.message);
+        }
     }
 }
 
