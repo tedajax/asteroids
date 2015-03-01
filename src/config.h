@@ -92,7 +92,8 @@ static inline bool config_is_array(Config* self, const char* section, const char
     static inline CONFIG_TRY_GET_AT_PROTO(type) { return (type)CONFIG_TRY_GET_AT(basetype)(self, section, key, index, defaultValue); }
 
 #define CONFIG_REGISTER_TYPE_ALIAS(type, basetype)  \
-    CONFIG_REGISTER_TYPE(type)                      \
+    CONFIG_GET_PROTO(type)                          \
+    CONFIG_TRY_GET_PROTO(type)                      \
     CONFIG_IMPLEMENT_TYPE_ALIAS(type, basetype)
 
 CONFIG_REGISTER_TYPE(int);
