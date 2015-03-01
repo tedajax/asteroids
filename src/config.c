@@ -24,6 +24,7 @@ void config_type_free_void(void* pself) {
 }
 
 void type_config_free(TypeConfig* self) {
+    CLEANUP(self->type, self);
     free(self->tableName);
     free(self);
 }

@@ -1,10 +1,13 @@
 #include "asteroidcontrollersystem.h"
 #include "entityfactory.h"
 
-void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager) {
+void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager, Config* config, const char* table) {
     aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
+
+    self->maxSize = CONFIG_GET(i32)(config, table, "max_size");
+    self->speedMultiplier = CONFIG_GET(f32)(config, table, "speed_multiplier");
 }
 
 void asteroid_controller_system_start(AsteroidControllerSystem* self) {
@@ -39,12 +42,12 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
         REQUIRED_COMPONENTS(asteroid, movement, transform);
 
         if (is_approx_zero(vec2_length(&movement->velocity))) {
-            f32 speed = (5 - asteroid->asteroidSize + 1) * 25.f;
+            f32 speed = (self->maxSize - asteroid->asteroidSize + 1) * self->speedMultiplier;
             movement->velocity.x = randf_range(-speed, speed);
             movement->velocity.y = randf_range(-speed, speed);
         }
 
-        f32 scale = asteroid->asteroidSize / 5.f;
+        f32 scale = (f32)asteroid->asteroidSize / (f32)self->maxSize;
         vec2_set(&transform->scale, scale, scale);
 
         // TODO: Collision system should handle the scaling from the transform so this shouldn't be necessary

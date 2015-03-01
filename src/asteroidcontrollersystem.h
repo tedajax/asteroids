@@ -6,12 +6,15 @@
 #include "transformcomponent.h"
 #include "movementcomponent.h"
 #include "asteroidcontrollercomponent.h"
+#include "config.h"
 
 typedef struct asteroid_controller_system_t {
     AspectSystem super;
+    i32 maxSize;
+    f32 speedMultiplier;
 } AsteroidControllerSystem;
 
-void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager);
+void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager, Config* config, const char* table);
 void asteroid_controller_system_start(AsteroidControllerSystem* self);
 void asteroid_controller_system_update(AsteroidControllerSystem* self);
 

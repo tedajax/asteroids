@@ -17,7 +17,7 @@ void game_scene_init(GameScene* self) {
     particle_system_init(&self->particleSystem, self->entityManager);
     lua_system_init(&self->luaSystem, self->entityManager);
     screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
-    asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager);
+    asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager, config_get("game.ini"), "asteroid_config");
     ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
     level_manager_system_init(&self->levelManagerSystem, self->entityManager);
 }

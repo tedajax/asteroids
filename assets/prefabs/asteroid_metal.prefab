@@ -43,5 +43,5 @@ vertical_buffer = 64
 
 [asteroid]
 component_type = COMPONENT_ASTEROID_CONTROLLER
-asteroid_size = 5
+asteroid_size = 3
 asteroid_prefab = asteroid_metal.prefab

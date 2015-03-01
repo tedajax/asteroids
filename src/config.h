@@ -87,8 +87,19 @@ static inline bool config_is_array(Config* self, const char* section, const char
 #define CONFIG_REGISTER_TYPE_NAMED(type, name) \
     CONFIG_GET_AT_PROTO_NAMED(type, name);CONFIG_TRY_GET_AT_PROTO_NAMED(type, name);CONFIG_GET_PROTO_NAMED(type, name);CONFIG_TRY_GET_PROTO_NAMED(type, name)
 
+#define CONFIG_IMPLEMENT_TYPE_ALIAS(type, basetype)                                             \
+    static inline CONFIG_GET_AT_PROTO(type) { return (type)CONFIG_GET_AT(basetype)(self, section, key, index); }    \
+    static inline CONFIG_TRY_GET_AT_PROTO(type) { return (type)CONFIG_TRY_GET_AT(basetype)(self, section, key, index, defaultValue); }
+
+#define CONFIG_REGISTER_TYPE_ALIAS(type, basetype)  \
+    CONFIG_REGISTER_TYPE(type)                      \
+    CONFIG_IMPLEMENT_TYPE_ALIAS(type, basetype)
+
 CONFIG_REGISTER_TYPE(int);
+CONFIG_REGISTER_TYPE_ALIAS(i32, int);
+CONFIG_REGISTER_TYPE_ALIAS(u32, int);
 CONFIG_REGISTER_TYPE(float);
+CONFIG_REGISTER_TYPE_ALIAS(f32, float);
 CONFIG_REGISTER_TYPE(bool);
 CONFIG_REGISTER_TYPE(Vec2);
 CONFIG_REGISTER_TYPE(Range);

@@ -24,7 +24,7 @@ config_path = player|player
 
 [health]
 component_type = COMPONENT_HEALTH
-max_health = 1000
+max_health = 100
 
 [sprite]
 component_type = COMPONENT_SPRITE
