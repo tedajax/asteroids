@@ -109,7 +109,7 @@ Entity entities_create_entity(EntityManager* self) {
     Entity entity = entities_gen_entity_id(self);
     POOL_INSERT(Entity)(&self->entities, (entity));
 
-    Message msg;
+    /*Message msg;
     msg.type = MESSAGE_ENTITY_ADDED;
 
     MessageOnAddedParams params;
@@ -125,7 +125,7 @@ Entity entities_create_entity(EntityManager* self) {
                     msg);
             }
         }
-    }
+    }*/
 
     return entity;
 }
@@ -209,23 +209,22 @@ bool entities_has_component(EntityManager* self, ComponentType type, Entity enti
 }
 
 void entities_internal_remove_entity(EntityManager* self, Entity entity, bool isShutDown) {
-    Message msg;
-    msg.type = MESSAGE_ENTITY_REMOVED;
-    
-    MessageOnRemovedParams params;
-    params.removedEntity = entity;
-    MESSAGE_SET_PARAM_BLOCK(msg, params);
-
     // Send on_remove message
     // but only if this is an individual remove and not all entities being removed
     if (!isShutDown) {
-        for (u32 t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
-            if (self->systems[t]) {
-                aspect_system_send_message((AspectSystem*)self->systems[t],
-                    entity,
-                    msg);
-            }
-        }
+        Message msg;
+        msg.type = MESSAGE_ENTITY_REMOVED;
+
+        MessageOnRemovedParams params;
+        params.removedEntity = entity;
+        MESSAGE_SET_PARAM_BLOCK(msg, params);
+
+        TargetedMessage targetedMsg = {
+            entity,
+            msg
+        };
+
+        entities_internal_send_message(self, targetedMsg);
     }
 
     // Actually remove the components
@@ -282,7 +281,6 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
         }
 
         if (self->systems[type]) {
-            
             aspect_system_send_message((AspectSystem*)self->systems[type],
                 message.target,
                 message.message);
@@ -293,7 +291,7 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
         // as the targeted entity then the message will NOT be fired a second time
         // to avoid the weird kinds of things that could happen if an entity received
         // the same message twice.
-        MessageType mtype = message.message.type;
+        /*MessageType mtype = message.message.type;
         SubscriberList* subList = &self->messagingSystem.subscriberLists[mtype];
         for (u32 i = 0; i < subList->count; ++i) {
             Entity entity = subList->subscribers[i];
@@ -304,7 +302,7 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
                     entity,
                     message.message);
             }
-        }
+        }*/
     }
 }
 

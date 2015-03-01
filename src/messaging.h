@@ -31,7 +31,7 @@ typedef enum message_type_e {
     MESSAGE_LAST
 } MessageType;
 
-#define MESSAGE_PARAM_BLOCK_SIZE 64
+#define MESSAGE_PARAM_BLOCK_SIZE 16
 #define MESSAGE_QUEUE_CAPACITY 64
 #define MESSAGE_IMMEDIATE_QUEUE_CAPACITY 64
 
