@@ -21,7 +21,7 @@ component_type = COMPONENT_BULLET_CONTROLLER
 config = bullet.config
 
 [bullet.config]
-lifetime = 1
+lifetime = 0.5
 damage = 1
 speed = 1000
 angle = 0

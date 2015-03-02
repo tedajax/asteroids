@@ -106,8 +106,8 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
                 (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, e);
 
             f32 speed = get_speed(self->maxSize, a->size, self->maxSpeedMultiplier);
-            //log_info_format("Asteroid", "Asteroid speed %f", speed);
-            vec2_set_angle(&movement->velocity, randf(360.f), speed);
+            f32 angle = asteroid->lastHitAngle + (30.f * powf(-1, (i + 1))) + 180.f;
+            vec2_set_angle(&movement->velocity, angle + (30.f * powf(-1.f, (i + 1))), speed);
         }
     }
 }
@@ -116,11 +116,12 @@ void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, c
     MessageOnDamageParams params;
     MESSAGE_GET_PARAM_BLOCK(msg, params);
 
+    AsteroidControllerComponent* asteroid = (AsteroidControllerComponent*)entities_get_component(system->entityManager, COMPONENT_ASTEROID_CONTROLLER, entity);
     TransformComponent* tx = (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
     MovementComponent* movement = (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
    
     Vec2 force;
     vec2_scale(&params.direction, 50.f, &force);
+    asteroid->lastHitAngle = vec2_direction_angle(&params.direction);
     vec2_add(&force, &movement->velocity, &movement->velocity);
-    log_warning_format("Asteroid", "collision enter");
 }

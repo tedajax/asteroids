@@ -8,6 +8,7 @@
 typedef struct asteroid_component_t {
     Component super;
     i32 size;
+    f32 lastHitAngle;
     char* prefabName;
 } AsteroidControllerComponent;
 
