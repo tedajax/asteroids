@@ -121,6 +121,7 @@ void controller_system_on_collision_enter(AspectSystem* system, Entity entity, M
         Message damageMsg;
         MessageOnDamageParams damageParams;
         damageParams.damage = 100000;
+        damageParams.direction = vec2_init(0.f, 0.f);
         message_init(&damageMsg, MESSAGE_DAMAGE);
         MESSAGE_SET_PARAM_BLOCK(damageMsg, damageParams);
 

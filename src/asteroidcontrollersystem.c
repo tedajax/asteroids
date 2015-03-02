@@ -117,6 +117,9 @@ void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, c
     MESSAGE_GET_PARAM_BLOCK(msg, params);
 
     AsteroidControllerComponent* asteroid = (AsteroidControllerComponent*)entities_get_component(system->entityManager, COMPONENT_ASTEROID_CONTROLLER, entity);
+
+    if (!asteroid) { return; }
+
     TransformComponent* tx = (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
     MovementComponent* movement = (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
    

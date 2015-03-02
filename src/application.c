@@ -12,8 +12,10 @@ int app_run(int argc, char* argv[]) {
     IF_DEBUG(bool appInit = )_app_initialize(&self);
     ASSERT(appInit, "Application failed to initialize");
 
-    game_init(&self.game);
-    game_start(&self.game);
+    self.game = CALLOC(1, Game);
+
+    game_init(self.game);
+    game_start(self.game);
 
     while (!self.shouldQuit) {
         SDL_Event event;
@@ -32,7 +34,9 @@ int app_run(int argc, char* argv[]) {
         _app_frame_end(&self);
     }
 
-    game_quit(&self.game);
+    game_quit(self.game);
+
+    free(self.game);
 
     profiler_dump_log();
 
@@ -61,7 +65,7 @@ void _app_update(App* self) {
         self->shouldQuit = true;
     }
 
-    game_update(&self->game);
+    game_update(self->game);
 
     input_update();
 }
@@ -70,7 +74,7 @@ void _app_render(App* self) {
     SDL_SetRenderDrawColor(globals.renderer, globals.clearColor.r, globals.clearColor.g, globals.clearColor.b, 255);
     SDL_RenderClear(globals.renderer);
 
-    game_render(&self->game);
+    game_render(self->game);
 
     profiler_tick("buffer swap");
     SDL_RenderPresent(globals.renderer);
@@ -78,7 +82,7 @@ void _app_render(App* self) {
 }
 
 void _app_frame_end(App* self) {
-    game_frame_end(&self->game);
+    game_frame_end(self->game);
 }
 
 void app_quit(App* self) {

@@ -16,7 +16,7 @@
 
 typedef struct app_t {
     bool shouldQuit;
-    Game game;
+    Game* game;
 } App;
 
 
