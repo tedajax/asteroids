@@ -1,10 +1,40 @@
 #include "log.h"
 #include "terminal.h"
+#include "snprintf.h"
+#include "debug.h"
+#include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include "directory.h"
+#include "globals.h"
+
+FILE* logFile = NULL;
+
+void log_init() {
+    // Check that a logs directory exists and if not make one.
+    struct stat logDirStat = { 0 };
+    if (stat("logs", &logDirStat) == -1) {
+        directory_create("logs");
+    }
+
+    char filename[128];
+    snprintf(filename, 128, "logs/log_%ld.txt", time(NULL));
+    logFile = fopen(filename, "w");
+    ASSERT(logFile, "Failed to open logging file.");
+}
+
+void log_terminate() {
+    fclose(logFile);
+}
 
 void log_log(LogLevel level, const char* context, const char* msg) {
     _set_console_color_level(level);
 
-    fprintf(stdout, "[%s] %s\n\n", context, msg);
+    char buffer[1024];
+    snprintf(buffer, 1024, "[%s] %s\n", context, msg);
+
+    fprintf(stdout, buffer);
+    fprintf(logFile, "%lld %s", game_time_nano_to_milli(globals.time.since_start_ns), buffer);
 
     _reset_console_color();
 

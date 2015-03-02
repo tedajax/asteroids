@@ -6,6 +6,8 @@ int app_run(int argc, char* argv[]) {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
+    log_init();
+
     App self;
     _app_init(&self);
 
@@ -41,6 +43,8 @@ int app_run(int argc, char* argv[]) {
     profiler_dump_log();
 
     _app_terminate(&self);
+
+    log_terminate();
 
     return 0;
 }

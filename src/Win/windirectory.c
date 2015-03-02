@@ -52,3 +52,7 @@ Directory* platform_directory_open(const char* path) {
 
     return result;
 }
+
+bool directory_create(const char* path) {
+    return (bool)CreateDirectory(path, NULL);
+}

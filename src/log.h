@@ -15,6 +15,9 @@ typedef enum log_level_e {
 } LogLevel;
 
 // Public
+void log_init();
+void log_terminate();
+
 void log_log(LogLevel level, const char* context, const char* msg);
 void log_log_format(LogLevel level, const char* context, const char* format, ...);
 

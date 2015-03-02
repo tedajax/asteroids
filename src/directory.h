@@ -20,5 +20,6 @@ Directory* platform_directory_open(const char* path);
 Directory* directory_open(const char* path);
 void directory_close(Directory* self);
 FileDescriptor* directory_next(Directory* self);
+bool directory_create(const char* path);
 
 #endif

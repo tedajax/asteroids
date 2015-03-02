@@ -63,7 +63,5 @@ void level_manager_on_entity_removed(AspectSystem* system, Entity entity, const 
         COMPONENT_LEVEL_MANAGER,
         entity);
 
-    if (levelManager) {
-        level_manager_update_asteroid_count(self->super.entityManager, levelManager);
-    }
+    level_manager_update_asteroid_count(self->super.entityManager, levelManager);
 }
