@@ -709,6 +709,9 @@
     <None Include="assets\prefabs\asteroid_metal.prefab">
       <Filter>Assets\Prefabs</Filter>
     </None>
+    <None Include="assets\prefabs\ufo_big.prefab">
+      <Filter>Assets\Prefabs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png">

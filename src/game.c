@@ -37,6 +37,8 @@ void game_init(Game* self) {
         entity_create_asteroid(self->activeScene->entityManager, (i > 3) ? "asteroid_metal.prefab" : "asteroid.prefab");
     }
 
+    prefab_instantiate(prefab_get("ufo_big.prefab"), self->activeScene->entityManager);
+
     camera_init(&globals.camera, NULL);
 
     {

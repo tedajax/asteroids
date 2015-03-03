@@ -1,5 +1,6 @@
 #include "ufocontrollersystem.h"
 #include "ufocontrollercomponent.h"
+#include "movementcomponent.h"
 
 void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_UFO_CONTROLLER, 16);
@@ -13,6 +14,12 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
         UfoControllerComponent* ufo =
             (UfoControllerComponent*)GET_SYSTEM_COMPONENT(i);
 
-        REQUIRED_COMPONENTS(ufo);
+        MovementComponent* movement =
+            (MovementComponent*)GET_COMPONENT(entity, COMPONENT_MOVEMENT);
+        
+        REQUIRED_COMPONENTS(ufo, movement);
+
+        movement->velocity.x = 100.f;
+        movement->velocity.y = 30.f;
     }
 }

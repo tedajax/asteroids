@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:487f99ef80011df32a94e953073397c8:cf755d8b888a09ea7488f0b8f03fdb69:6e8b9a77246f5d0993e4e1efb176f461$ -->
+<!-- $TexturePacker:SmartUpdate:c67723b6ecc67721f2671be3c3b26839:d84f231e2dd305bada96ed7d3e52876b:6e8b9a77246f5d0993e4e1efb176f461$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -15,16 +15,17 @@ oW => sprite's original width (only available if trimmed)
 oH => sprite's original height (only available if trimmed)
 r => 'y' only set if sprite is rotated
 -->
-<TextureAtlas imagePath="atlas1.png" width="265" height="487">
+<TextureAtlas imagePath="atlas1.png" width="509" height="298">
     <sprite n="bg_dark_purple" x="2" y="2" w="256" h="256" pX="0.5" pY="0.5"/>
-    <sprite n="bullet" x="174" y="358" w="8" h="8" pX="0.5" pY="0.5"/>
-    <sprite n="enemy_red_1" x="2" y="374" w="84" h="103" pX="0.5" pY="0.5"/>
-    <sprite n="fireparticle" x="188" y="355" w="64" h="64" pX="0.5" pY="0.5"/>
-    <sprite n="meteorBrown_big4" x="79" y="260" w="98" h="96" pX="0.5" pY="0.5"/>
-    <sprite n="meteorGrey_big4" x="88" y="373" w="98" h="96" pX="0.5" pY="0.5"/>
-    <sprite n="player_bullet_1" x="118" y="358" w="54" h="9" pX="0.5" pY="0.5"/>
-    <sprite n="player_bullet_2" x="79" y="358" w="37" h="13" pX="0.5" pY="0.5"/>
-    <sprite n="player_ship" x="2" y="260" w="75" h="112" pX="0.5" pY="0.5"/>
-    <sprite n="test" x="179" y="260" w="84" h="93" pX="0.5" pY="0.5"/>
-    <sprite n="whitepuff" x="188" y="421" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="bullet" x="2" y="286" w="8" h="8" pX="0.5" pY="0.5"/>
+    <sprite n="enemy_red_1" x="337" y="100" w="84" h="103" pX="0.5" pY="0.5"/>
+    <sprite n="fireparticle" x="260" y="214" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="meteorBrown_big4" x="260" y="2" w="98" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="meteorGrey_big4" x="360" y="2" w="98" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="player_bullet_1" x="2" y="275" w="54" h="9" pX="0.5" pY="0.5"/>
+    <sprite n="player_bullet_2" x="2" y="260" w="37" h="13" pX="0.5" pY="0.5"/>
+    <sprite n="player_ship" x="260" y="100" w="75" h="112" pX="0.5" pY="0.5"/>
+    <sprite n="test" x="423" y="100" w="84" h="93" pX="0.5" pY="0.5"/>
+    <sprite n="ufoRed" x="392" y="205" w="91" h="91" pX="0.5" pY="0.5"/>
+    <sprite n="whitepuff" x="326" y="214" w="64" h="64" pX="0.5" pY="0.5"/>
 </TextureAtlas>
