@@ -25,6 +25,7 @@ void game_init(Game* self) {
     atlas_load("atlas1");
 
     prefab_system_init("assets/prefabs");
+    prefab_system_dump_names(stdout);
     scene_system_init("assets/scenes");
 
     self->activeScene = &self->playScene;
@@ -33,8 +34,12 @@ void game_init(Game* self) {
 
     scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
 
-    for (u32 i = 0; i < 6; ++i) {
-        entity_create_asteroid(self->activeScene->entityManager, (i > 3) ? "asteroid_metal.prefab" : "asteroid.prefab");
+    for (u32 i = 0; i < 1; ++i) {
+        entity_create_asteroid(self->activeScene->entityManager, "asteroid.prefab");
+    }
+
+    for (u32 i = 0; i < 1; ++i) {
+        entity_create_asteroid(self->activeScene->entityManager, "asteroid_metal.prefab");
     }
 
     prefab_instantiate(prefab_get("ufo_big.prefab"), self->activeScene->entityManager);

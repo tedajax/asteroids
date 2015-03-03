@@ -64,7 +64,7 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
         if (currentSpeed > normalSpeed) {
             Vec2 currentDirection;
             vec2_normalize(&movement->velocity, &currentDirection);
-            f32 angle = vec2_direction_angle(&currentDirection);
+            f32 angle = vec2_direction_angle(&currentDirection) - 180.f;
             f32 velocityMag = vec2_length(&movement->velocity);
             Vec2 acceleration;
             vec2_set_angle(&acceleration, angle, velocityMag * self->friction * globals.time.delta);
@@ -106,8 +106,8 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
                 (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, e);
 
             f32 speed = get_speed(self->maxSize, a->size, self->maxSpeedMultiplier);
-            f32 angle = asteroid->lastHitAngle + (30.f * powf(-1, (i + 1))) + 180.f;
-            vec2_set_angle(&movement->velocity, angle + (30.f * powf(-1.f, (i + 1))), speed);
+            f32 angle = asteroid->lastHitAngle + (30.f * powf(-1.f, (f32)(i + 1))) + 180.f;
+            vec2_set_angle(&movement->velocity, angle + (30.f * powf(-1.f, (f32)(i + 1))), speed);
         }
     }
 }
@@ -125,6 +125,6 @@ void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, c
    
     Vec2 force;
     vec2_scale(&params.direction, 50.f, &force);
-    asteroid->lastHitAngle = vec2_direction_angle(&params.direction);
+    asteroid->lastHitAngle = vec2_direction_angle(&params.direction) - 180.f;
     vec2_add(&force, &movement->velocity, &movement->velocity);
 }

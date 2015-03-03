@@ -42,6 +42,8 @@ ColliderLayer collider_layer_parse(char* str) {
         return COLLIDER_LAYER_ENVIRONMENT;
     } else if (STR_ENUM_CMP(str, COLLIDER_LAYER_PLAYER_PROJECTILE)) {
         return COLLIDER_LAYER_PLAYER_PROJECTILE;
+    } else if (STR_ENUM_CMP(str, COLLIDER_LAYER_ENEMY_PROJECTILE)) {
+        return COLLIDER_LAYER_ENEMY_PROJECTILE;
     } else if (STR_ENUM_CMP(str, COLLIDER_LAYER_LAST)) {
         return COLLIDER_LAYER_LAST;
     } else {

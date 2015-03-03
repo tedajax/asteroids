@@ -37,6 +37,19 @@ void prefab_system_terminate() {
     hashtable_free_contents(&prefabTable);
 }
 
+void prefab_system_dump_names(FILE* outFile) {
+    HashtableIter iter = hashtable_get_iter(&prefabConfigs.configTable);
+    Config* cfg;
+
+    fprintf(outFile, "\nPrefab system dump:\n");
+    do {
+        cfg = hashtable_next(&iter);
+        if (!cfg) { break; }
+        fprintf(outFile, "\t%s\n", cfg->path);
+    } while (cfg);
+    fprintf(outFile, "\n");
+}
+
 Prefab* prefab_new(char* filename) {
     Prefab* self = CALLOC(1, Prefab);
     prefab_init(self, filename);
@@ -76,7 +89,11 @@ void prefab_reload(Prefab* self) {
 }
 
 Prefab* prefab_get(const char* name) {
-    return (Prefab*)hashtable_get(&prefabTable, name);
+    Prefab* result = (Prefab*)hashtable_get(&prefabTable, name);
+    if (!result) {
+        log_error_format("Prefab", "Failed to load prefab with name \'%s\'!", name);
+    }
+    return result;
 }
 
 Entity prefab_instantiate(Prefab* self, EntityManager* entityManager) {

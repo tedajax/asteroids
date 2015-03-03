@@ -148,7 +148,7 @@ void vec2_transform(const Vec2* self, const f32 rotation, Vec2* dest) {
 }
 
 f32 vec2_direction_angle(const Vec2* direction) {
-    return atan2f(direction->y, direction->x) * RAD_TO_DEG + 180.f;
+    return atan2f(direction->y, direction->x) * RAD_TO_DEG;
 }
 
 f32 vec2_dot(const Vec2* lhs, const Vec2* rhs) {

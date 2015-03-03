@@ -30,5 +30,6 @@ UfoType ufo_type_parse(const char* str) {
         return UFO_SMALL;
     } else {
         ASSERT(false, "Unable to parse UfoType.");
+        return 0;
     }
 }

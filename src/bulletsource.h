@@ -37,5 +37,6 @@ static inline void bullet_source_off(BulletSource* self) {
 
 void bullet_source_update(BulletSource* self, f32 dt, EntityManager* entityManager, TransformComponent* anchor);
 void bullet_source_fire(BulletSource* self, EntityManager* entityManager, TransformComponent* anchor);
+void bullet_source_fire_direction(BulletSource* self, EntityManager* entityManager, TransformComponent* anchor, Vec2* direction);
 
 #endif

@@ -413,6 +413,7 @@
     <None Include="assets\prefabs\player_ship.prefab" />
     <None Include="assets\prefabs\test.prefab" />
     <None Include="assets\prefabs\ufo_big.prefab" />
+    <None Include="assets\prefabs\ufo_bullet.prefab" />
     <None Include="assets\prefabs\ufo_small.prefab" />
     <None Include="assets\scenes\play.scene" />
     <None Include="assets\scripts\api.lua" />

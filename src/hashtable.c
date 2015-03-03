@@ -182,3 +182,51 @@ u64 _hashtable_djb2(const char *key) {
 u32 _hashtable_index(Hashtable *self, const char *key) {
     return _hashtable_djb2(key) % self->bucketCount;
 }
+
+HashtableIter hashtable_get_iter(Hashtable* self) {
+    HashtableIter result = {
+        self,
+        NULL,
+        0,
+        0
+    };
+    return result;
+}
+
+void* hashtable_next(HashtableIter* self) {
+    Hashtable* hashtable = self->hashtable;
+    HashtableNode* result = NULL;
+    
+    Vector* bucket = hashtable->buckets[self->currentBucket];
+
+    if (bucket) {
+        if (self->currentIndex < bucket->size) {
+            result = (HashtableNode*)vector_index(bucket, self->currentIndex);
+            self->current = result;
+            ++self->currentIndex;
+            return self->current->value;
+        }
+    }
+
+    if (self->currentBucket == hashtable->bucketCount - 1) {
+        goto _done;
+    }
+
+    do {
+        ++self->currentBucket;
+        if (self->currentBucket >= hashtable->bucketCount) { break; }
+        self->currentIndex = 0;
+        bucket = hashtable->buckets[self->currentBucket];
+    } while (!bucket || bucket->size == 0);
+
+    if (bucket) {
+        result = (HashtableNode*)vector_index(bucket, self->currentIndex);
+        self->current = result;
+        ++self->currentIndex;
+        return self->current->value;
+    }
+    
+_done:
+    self->current = NULL;
+    return NULL;
+}

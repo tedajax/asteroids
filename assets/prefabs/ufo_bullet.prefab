@@ -1,57 +1,48 @@
 components = [
     transform,
     movement,
-    health,
+    bullet,
     sprite,
     collider,
-    ufo,
     screen_wrap
 ]
-
-dependencies = [ufo_bullet.prefab]
 
 [transform]
 component_type = COMPONENT_TRANSFORM
 position = [0, 0]
 rotation = 0
-scale [1, 1]
+scale = [1, 1]
 
 [movement]
 component_type = COMPONENT_MOVEMENT
 
-[health]
-component_type = COMPONENT_HEALTH
-max_health = 3
+[bullet]
+component_type = COMPONENT_BULLET_CONTROLLER
+config = bullet.config
+
+[bullet.config]
+lifetime = 0.5
+damage = 1
+speed = 1000
+angle = 0
 
 [sprite]
 component_type = COMPONENT_SPRITE
 atlas = atlas1
-sprite = ufoRed
+sprite = laserRed10
+layer = 1
 
 [collider]
 component_type = COMPONENT_COLLIDER
 collider = collider.config
 
 [collider.config]
-layer = COLLIDER_LAYER_ENEMY
+layer = COLLIDER_LAYER_ENEMY_PROJECTILE
 offset = [0, 0]
 type = BOUNDING_VOLUME_CIRCLE
-radius = 32
-
-[ufo]
-component_type = COMPONENT_UFO_CONTROLLER
-type = UFO_BIG
-bullet_source = ufo.bullet_source
-
-[ufo.bullet_source]
-offset = [0, 0]
-count = 1
-spread = 0
-fire_delay = 1
-start_angle = 0
-prefab = ufo_bullet.prefab
+radius = 8
 
 [screen_wrap]
 component_type = COMPONENT_SCREEN_WRAP
-horizontal_buffer = 64
-vertical_buffer = 64
+horizontal_buffer = 16
+vertical_buffer = 16

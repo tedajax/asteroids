@@ -7,9 +7,11 @@
 #include "config.h"
 #include "component.h"
 #include "entitymanager.h"
+#include <stdio.h>
 
 void prefab_system_init(const char* prefabRoot);
 void prefab_system_terminate();
+void prefab_system_dump_names(FILE* outFile);
 
 typedef struct prefab_t {
     Config* config;

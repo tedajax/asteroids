@@ -4,6 +4,7 @@
 #include "memory.h"
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 
 #include "types.h"
 #include "vector.h"
@@ -21,6 +22,13 @@ typedef struct hashtable_t {
     Vector **buckets;
     u32 size;
 } Hashtable;
+
+typedef struct hashtable_iter_t {
+    Hashtable* hashtable;
+    HashtableNode* current;
+    u32 currentBucket;
+    u32 currentIndex;
+} HashtableIter;
 
 Hashtable *hashtable_new(u32 buckets, hashtable_free_f freeFunc);
 void hashtable_init(Hashtable* self, u32 buckets, hashtable_free_f freeFunc);
@@ -44,5 +52,8 @@ void hashtable_free_contents(Hashtable* self);
 
 u64 _hashtable_djb2(const char *key);
 u32 _hashtable_index(Hashtable *self, const char *key);
+
+HashtableIter hashtable_get_iter(Hashtable* self);
+void* hashtable_next(HashtableIter* self);
 
 #endif

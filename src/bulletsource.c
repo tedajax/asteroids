@@ -83,3 +83,9 @@ void bullet_source_fire(BulletSource* self, EntityManager* entityManager, Transf
         bullet->baseAngle = sa;
     }
 }
+
+void bullet_source_fire_direction(BulletSource* self, EntityManager* entityManager, TransformComponent* anchor, Vec2* direction) {
+    TransformComponent dummyTransform = *anchor;
+    dummyTransform.rotation = vec2_direction_angle(direction);
+    bullet_source_fire(self, entityManager, &dummyTransform);
+}
