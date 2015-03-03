@@ -4,6 +4,10 @@
 
 void game_scene_init(GameScene* self) {
     self->entityManager = entity_manager_new();
+    
+    self->timerManager = CALLOC(1, TimerManager);
+    timer_manager_init(self->timerManager, self->entityManager);
+
     transform_system_init(&self->transformSystem, self->entityManager);
     health_system_init(&self->healthSystem, self->entityManager);
     sprite_system_init(&self->spriteSystem, self->entityManager);
@@ -27,6 +31,9 @@ void game_scene_load(GameScene* self, const char* sceneName) {
 }
 
 void game_scene_quit(GameScene* self) {
+    timer_manager_terminate(self->timerManager);
+    free(self->timerManager);
+
     entity_manager_free(self->entityManager);
 }
 
@@ -39,6 +46,8 @@ void game_scene_start(GameScene* self) {
 }
 
 void game_scene_update(GameScene* self) {
+    timer_manager_tick(self->timerManager, globals.time.delta);
+
     health_system_update(&self->healthSystem);
     sprite_system_update(&self->spriteSystem);
     controller_system_update(&self->controllerSystem);

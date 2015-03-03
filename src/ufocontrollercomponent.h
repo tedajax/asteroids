@@ -4,6 +4,7 @@
 #include "component.h"
 #include "transformcomponent.h"
 #include "bulletsource.h"
+#include "timer.h"
 
 typedef enum ufo_type_e {
     UFO_BIG,
@@ -15,6 +16,7 @@ typedef struct ufo_controller_component_t {
     UfoType ufoType;
     TransformComponent* playerTransform;
     BulletSource bulletSource;
+    Timer* fireTimer;
 } UfoControllerComponent;
 
 UfoControllerComponent* ufo_controller_component_new(Entity entity, UfoType ufoType, BulletSourceConfig* bulletSourceConfig);

@@ -51,7 +51,7 @@ void controller_system_update(ControllerSystem* self) {
             if (vec2_length(&movement->velocity) > 0.f) {
                 Vec2 currentDirection;
                 vec2_normalize(&movement->velocity, &currentDirection);
-                f32 angle = vec2_direction_angle(&currentDirection);
+                f32 angle = vec2_direction_angle(&currentDirection) - 180.f;
                 f32 velocityMag = vec2_length(&movement->velocity);
                 vec2_set_angle(&acceleration, angle, velocityMag * controller->friction * globals.time.delta);
             }

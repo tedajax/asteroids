@@ -7,6 +7,7 @@ UfoControllerComponent* ufo_controller_component_new(Entity entity, UfoType ufoT
 
     self->ufoType = ufoType;
     self->playerTransform = NULL;
+    self->fireTimer = NULL;
     bullet_source_init(&self->bulletSource, bulletSourceConfig);
 
     return self;

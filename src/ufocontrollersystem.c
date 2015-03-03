@@ -1,9 +1,12 @@
 #include "ufocontrollersystem.h"
 #include "ufocontrollercomponent.h"
 #include "movementcomponent.h"
+#include "messaging.h"
 
 void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_UFO_CONTROLLER, 16);
+
+    REGISTER_SYSTEM_HANDLER(MESSAGE_GENERIC_TICK, ufo_controller_system_on_tick);
 }
 
 void ufo_controller_system_update(UfoControllerSystem* self) {
@@ -26,6 +29,21 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
         movement->velocity.x = 100.f;
         movement->velocity.y = 30.f;
 
+        if (!ufo->fireTimer) {
+            Message msg;
+            msg.type = MESSAGE_GENERIC_TICK;
+            ufo->fireTimer = timer_add_interval(entity, msg, 0.f, 1.f);
+        }
+
+        switch (ufo->ufoType) {
+            default:
+            case UFO_BIG:
+                break;
+
+            case UFO_SMALL:
+                break;
+        }
+
         if (input_key_down(SDL_SCANCODE_E)) {
             Vec2 direction = { 1.f, 0.f };
             bullet_source_fire_direction(&ufo->bulletSource,
@@ -34,4 +52,28 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
                 &direction);
         }
     }
+}
+
+void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Message msg) {
+    UfoControllerSystem* self = (UfoControllerSystem*)system;
+
+    UfoControllerComponent* ufo =
+        (UfoControllerComponent*)entities_get_component(system->entityManager, COMPONENT_UFO_CONTROLLER, entity);
+
+    TransformComponent* tx =
+        (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
+
+    Vec2 fireDirection = vec2_unit_x();
+
+    switch (ufo->ufoType) {
+        default:
+        case UFO_BIG:
+            fireDirection = vec2_rand_direction();
+            break;
+
+        case UFO_SMALL:
+            break;
+    }
+
+    bullet_source_fire_direction(&ufo->bulletSource, system->entityManager, tx, &fireDirection);
 }

@@ -5,6 +5,7 @@
 #include "entitymanager.h"
 #include "components.h"
 #include "systems.h"
+#include "timer.h"
 
 typedef enum game_scene_state_e {
     GAME_SCENE_STATE_NONE       = 0x0,
@@ -14,6 +15,8 @@ typedef enum game_scene_state_e {
 
 typedef struct game_scene_t {
     GameSceneState state;
+
+    TimerManager* timerManager;
 
     EntityManager* entityManager;
 

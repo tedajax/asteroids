@@ -1,7 +1,15 @@
 #ifndef RUNNER_MESSAGING_H
 #define RUNNER_MESSAGING_H
 
-#include "core.h"
+#include "memory.h"
+#include "types.h"
+#include "dynf32.h"
+#include "debug.h"
+#include "log.h"
+#include "algebra.h"
+#include "input.h"
+#include "inline.h"
+#include "entity.h"
 
 //Forward declarations
 typedef struct component_t Component;
@@ -26,6 +34,8 @@ typedef enum message_type_e {
 
     // Entity removed, NULL, NULL
     MESSAGE_ENTITY_REMOVED,
+
+    MESSAGE_GENERIC_TICK,
 
     // N/A
     MESSAGE_LAST

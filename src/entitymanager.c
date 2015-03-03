@@ -80,7 +80,6 @@ void entity_manager_free(EntityManager* self) {
         component_list_free(&self->componentsMap[t]);
     }
     POOL_FREE(Entity)(&self->entities);
-    free(self->entities.data);
     free(self);
 }
 

@@ -61,7 +61,7 @@ typedef int(*pool_cmp_f)(void* a, void* b);
     pool_index_stack_init(&self->indexStack, self->capacity);                   \
     for (i32 i = self->capacity - 1; i >= 0; --i) {                             \
         pool_index_stack_push(&self->indexStack, i);                            \
-    }                                                                           \
+        }                                                                           \
     self->data = CALLOC(self->capacity, type);                                  \
     self->invalidValue = invalid;
 
@@ -85,6 +85,7 @@ typedef int(*pool_cmp_f)(void* a, void* b);
     return result;
 
 #define POOL_FREE_BODY(type)                                                    \
+    free(self->data);                                                           \
     free(self->indexStack.indices);
 
 #define POOL_INIT_IMPL(type) POOL_INIT_PROTO(type) { POOL_INIT_BODY(type); }

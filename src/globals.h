@@ -10,6 +10,7 @@
 #include "config.h"
 #include "tween.h"
 #include "entity.h"
+#include "messaging.h"
 
 #include <SDL2/SDL.h>
 
@@ -18,6 +19,7 @@
 
 typedef struct game_t Game;
 typedef struct game_scene_t GameScene;
+typedef struct timer_t Timer;
 
 typedef struct globals {
     u32 randomSeed;
@@ -72,5 +74,8 @@ SDL_Texture* textures_get(const char* name);
 GameScene* active_scene();
 
 extern Globals globals;
+
+Timer* timer_add(Entity target, Message message, f32 delay);
+Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interval);
 
 #endif

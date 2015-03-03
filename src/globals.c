@@ -55,3 +55,11 @@ SDL_Texture* textures_get(const char* name) { return texture_manager_get(&global
 GameScene* active_scene() {
     return globals.game->activeScene;
 }
+
+Timer* timer_add(Entity target, Message message, f32 delay) {
+    return timer_manager_add(active_scene()->timerManager, message, target, delay);
+}
+
+Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interval) {
+    return timer_manager_add_interval(active_scene()->timerManager, message, target, delay, interval);
+}

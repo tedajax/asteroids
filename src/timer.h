@@ -4,18 +4,32 @@
 #include "types.h"
 #include "gametime.h"
 #include "debug.h"
+#include "messaging.h"
+#include "entitymanager.h"
+#include "pool.h"
 
-typedef void(*timer_cb)(void*);
+#define TIMER_MAX_TIMERS 128
 
 typedef struct timer_t {
+    TargetedMessage message;
     f32 interval;
-    i32 count;
     f32 timer;
-    i32 remaining;
-    timer_cb callback;
 } Timer;
 
-void timer_init(Timer* self, f32 interval, i32 count, timer_cb callback);
-void timer_tick(Timer* self, f32 dt, void* payload);
+POOL_REGISTER(Timer);
+
+typedef struct timer_manager_t {
+    EntityManager* entityManager;
+    POOL(Timer) timers;
+} TimerManager;
+
+void timer_manager_init(TimerManager* self, EntityManager* entityManager);
+void timer_manager_terminate(TimerManager* self);
+
+Timer* timer_manager_add(TimerManager* self, Message message, Entity target, f32 delay);
+Timer* timer_manager_add_interval(TimerManager* self, Message message, Entity target, f32 delay, f32 interval);
+void timer_manager_remove(TimerManager* self, Timer* timer);
+
+void timer_manager_tick(TimerManager* self, f32 dt);
 
 #endif
