@@ -14,7 +14,8 @@ void log_init() {
     // Check that a logs directory exists and if not make one.
     struct stat logDirStat = { 0 };
     if (stat("logs", &logDirStat) == -1) {
-        directory_create("logs");
+        IF_DEBUG(bool result = )directory_create("logs");
+        ASSERT(result, "Failed to create logs directory.");
     }
 
     char filename[128];

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "memory.h"
+#include <sys/stat.h>
 
 //TODO: need to implement this on the linux side and get the makefile ignoring the \Win directory
 
@@ -43,4 +44,8 @@ Directory* platform_directory_open(const char* path) {
         fprintf(stderr, "Directory not found: \'%s\'\n", path);
         return NULL;
     }
+}
+
+bool directory_create(const char* path) {
+    return (mkdir(path, 0700) == 0);
 }
