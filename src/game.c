@@ -38,6 +38,7 @@ void game_init(Game* self) {
     }
 
     prefab_instantiate(prefab_get("ufo_big.prefab"), self->activeScene->entityManager);
+    prefab_instantiate_at(prefab_get("ufo_small.prefab"), self->activeScene->entityManager, vec2_init(200, 300), 0);
 
     camera_init(&globals.camera, NULL);
 

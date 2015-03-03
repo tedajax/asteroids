@@ -1,0 +1,55 @@
+components = [
+    transform,
+    movement,
+    health,
+    sprite,
+    collider,
+    ufo,
+    screen_wrap
+]
+
+[transform]
+component_type = COMPONENT_TRANSFORM
+position = [0, 0]
+rotation = 0
+scale [0.5, 0.5]
+
+[movement]
+component_type = COMPONENT_MOVEMENT
+
+[health]
+component_type = COMPONENT_HEALTH
+max_health = 3
+
+[sprite]
+component_type = COMPONENT_SPRITE
+atlas = atlas1
+sprite = ufoRed
+
+[collider]
+component_type = COMPONENT_COLLIDER
+collider = collider.config
+
+[collider.config]
+layer = COLLIDER_LAYER_ENEMY
+offset = [0, 0]
+type = BOUNDING_VOLUME_CIRCLE
+radius = 32
+
+[ufo]
+component_type = COMPONENT_UFO_CONTROLLER
+type = UFO_SMALL
+bullet_source = ufo.bullet_source
+
+[ufo.bullet_source]
+offset = [0, 0]
+count = 1
+spread = 0
+fire_delay = 1
+start_angle = 0
+prefab = player_bullet.prefab # todo... change this
+
+[screen_wrap]
+component_type = COMPONENT_SCREEN_WRAP
+horizontal_buffer = 64
+vertical_buffer = 64
