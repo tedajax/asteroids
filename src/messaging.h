@@ -1,13 +1,11 @@
 #ifndef RUNNER_MESSAGING_H
 #define RUNNER_MESSAGING_H
 
-#include "memory.h"
+#include <string.h>
 #include "types.h"
-#include "dynf32.h"
 #include "debug.h"
 #include "log.h"
 #include "algebra.h"
-#include "input.h"
 #include "inline.h"
 #include "entity.h"
 

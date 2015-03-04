@@ -105,5 +105,11 @@ Entity prefab_instantiate_at(Prefab* self, EntityManager* entityManager, Vec2 po
 }
 
 Entity prefab_instantiate_with(PrefabInstantiation* instantiation, EntityManager* entityManager) {
-    return prefab_instantiate_at(instantiation->prefab, entityManager, instantiation->position, instantiation->rotation);
+    Entity entity = prefab_instantiate_at(instantiation->prefab, entityManager, instantiation->position, instantiation->rotation);
+
+    if (instantiation->name) {
+        entities_add_named_entity(entityManager, instantiation->name, entity);
+    }
+
+    return entity;
 }

@@ -71,9 +71,13 @@ void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Me
             fireDirection = vec2_rand_direction();
             break;
 
-        case UFO_SMALL:
+        case UFO_SMALL: {
+
             break;
+        }
     }
+
+    log_info_format("Player Entity", "%d", entities_get_named_entity(system->entityManager, "player"));
 
     bullet_source_fire_direction(&ufo->bulletSource, system->entityManager, tx, &fireDirection);
 }

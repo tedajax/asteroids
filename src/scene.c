@@ -48,8 +48,10 @@ void scene_reload(Scene* self) {
         ASSERT(prefab, "Unable to find prefab.");
         Vec2 position = CONFIG_TRY_GET(Vec2)(self->config, section, "position", vec2_zero());
         f32 rotation = CONFIG_TRY_GET(float)(self->config, section, "rotation", 0.f);
+        char* instantiationName = CONFIG_TRY_GET(string)(self->config, section, "name", NULL);
 
         PrefabInstantiation* instantiation = &self->instantiations[i];
+        instantiation->name = instantiationName;
         instantiation->prefab = prefab;
         instantiation->position = position;
         instantiation->rotation = rotation;

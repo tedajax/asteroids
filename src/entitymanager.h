@@ -25,6 +25,24 @@ void entity_queue_init(EntityQueue* self);
 void entity_queue_push(EntityQueue* self, Entity entity);
 Entity entity_queue_pop(EntityQueue* self);
 
+typedef struct entity_dict_node_t {
+    u64 keyHash;
+    Entity entity;
+    struct entity_dict_node_t* next;
+    struct entity_dict_node_t* prev;
+} EntityDictNode;
+
+typedef struct entity_dict_t {
+    EntityDictNode** buckets;
+    u32 bucketCount;
+} EntityDict;
+
+void entity_dict_init(EntityDict* self, u32 bucketCount);
+void entity_dict_cleanup(EntityDict* self);
+void entity_dict_clear(EntityDict* self);
+void entity_dict_insert(EntityDict* self, const char* name, Entity entity);
+Entity entity_dict_get(EntityDict* self, const char* name);
+
 typedef struct entity_id_list_t {
     Entity* list;
     u32 size;
@@ -47,6 +65,7 @@ typedef struct entity_manager_t {
     EntityQueue removeQueue;
     MessageEventQueue eventQueue;
     MessagingSystem messagingSystem;
+    EntityDict namedEntities;
 } EntityManager;
 
 EntityManager* entity_manager_new();
@@ -67,6 +86,8 @@ void entities_remove_all_entities(EntityManager* self);
 void entities_send_message(EntityManager* self, Entity entity, Message message);
 void entities_send_message_deferred(EntityManager* self, Entity entity, Message message);
 void entities_subscribe(EntityManager* self, MessageType messageType, Entity subscriber);
+void entities_add_named_entity(EntityManager* self, const char* name, Entity entity);
+Entity entities_get_named_entity(EntityManager* self, const char* name);
 
 // Should be called AFTER update AND render calls have been made!
 void entities_update(EntityManager* self);

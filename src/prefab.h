@@ -19,6 +19,7 @@ typedef struct prefab_t {
 } Prefab;
 
 typedef struct prefab_instantiation_t {
+    char* name;
     Prefab* prefab;
     Vec2 position;
     f32 rotation;

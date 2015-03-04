@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "entitymanager.h"
 
 POOL_IMPLEMENTATION(Timer);
 

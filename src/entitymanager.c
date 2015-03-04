@@ -10,6 +10,10 @@ void entities_internal_send_message(EntityManager* self, TargetedMessage message
 
 POOL_IMPLEMENTATION(Entity);
 
+//////////////////
+// Entity Queue //
+//////////////////
+
 void entity_queue_init(EntityQueue* self) {
     self->length = 0;
     self->head = 0;
@@ -34,6 +38,10 @@ Entity entity_queue_pop(EntityQueue* self) {
     return result;
 }
 
+/////////////////
+// Entity List //
+/////////////////
+
 void entity_list_init(EntityList* self, u32 capacity) {
     self->list = (Entity *)calloc(capacity, sizeof(Entity));
     self->capacity = capacity;
@@ -53,6 +61,94 @@ void entity_list_free(EntityList* self) {
     free(self->list);
 }
 
+/////////////////
+// Entity Dict //
+/////////////////
+u64 _djb2(const char *key) {
+    u64 hash = 5381;
+    i32 c;
+    while ((c = *key++))
+    {
+        hash = ((hash << 5) + hash) + c; //hash * 33 + c
+    }
+    return hash;
+}
+
+void entity_dict_init(EntityDict* self, u32 bucketCount) {
+    self->bucketCount = bucketCount;
+    self->buckets = CALLOC(self->bucketCount, EntityDictNode*);
+}
+
+void entity_dict_cleanup(EntityDict* self) {
+    entity_dict_clear(self);
+    free(self->buckets);
+}
+
+void entity_dict_clear(EntityDict* self) {
+    for (u32 i = 0; i < self->bucketCount; ++i) {
+        EntityDictNode* node = self->buckets[i];
+        while (node) {
+            EntityDictNode* next = node->next;
+            free(node);
+            node = next;
+        }
+        self->buckets[i] = NULL;
+    }
+}
+
+void entity_dict_insert(EntityDict* self, const char* name, Entity entity) {
+    u64 hash = _djb2(name);
+    u32 index = hash % self->bucketCount;
+
+    EntityDictNode* node = self->buckets[index];
+
+    if (!node) {
+        node = CALLOC(1, EntityDictNode);
+        node->keyHash = hash;
+        node->entity = entity;
+        node->prev = NULL;
+        node->next = NULL;
+        self->buckets[index] = node;
+        return;
+    }
+
+    ASSERT(node->keyHash != hash, "Key already exists in EntityDict.");
+
+    while (node->next) {
+        ASSERT(node->keyHash != hash, "Key already exists in EntityDict.");
+        node = node->next;
+    }
+
+    EntityDictNode* newNode = CALLOC(1, EntityDictNode);
+    newNode->keyHash = hash;
+    newNode->entity = entity;
+    newNode->prev = node;
+    newNode->next = NULL;
+    node->next = newNode;
+
+    printf("%p %p %p\n", node->next, newNode, newNode->next);
+}
+
+Entity entity_dict_get(EntityDict* self, const char* name) {
+    u64 hash = _djb2(name);
+    u32 index = hash % self->bucketCount;
+
+    EntityDictNode* node = self->buckets[index];
+
+    while (node) {
+        if (node->keyHash == hash) {
+            return node->entity;
+        }
+        node = node->next;
+    }
+
+    return 0;
+}
+
+////////////////////
+// Entity Manager //
+////////////////////
+
 EntityManager* entity_manager_new() {
     EntityManager* self = (EntityManager*)calloc(1, sizeof(EntityManager));
 
@@ -69,6 +165,7 @@ EntityManager* entity_manager_new() {
     entity_queue_init(&self->removeQueue);
     message_event_queue_init(&self->eventQueue);
     messaging_system_init(&self->messagingSystem);
+    entity_dict_init(&self->namedEntities, 8);
 
     return self;
 }
@@ -79,6 +176,7 @@ void entity_manager_free(EntityManager* self) {
     for (ComponentType t = COMPONENT_INVALID + 1; t < COMPONENT_LAST; ++t) {
         component_list_free(&self->componentsMap[t]);
     }
+    entity_dict_cleanup(&self->namedEntities);
     POOL_FREE(Entity)(&self->entities);
     free(self);
 }
@@ -256,6 +354,7 @@ void entities_remove_all_entities(EntityManager* self) {
             entities_internal_remove_entity(self, e, true);
         }
     }
+    entity_dict_clear(&self->namedEntities);
 }
 
 void entities_get_all_of(EntityManager* self, ComponentType type, EntityList* dest) {
@@ -331,4 +430,13 @@ void entities_update(EntityManager* self) {
     while (self->removeQueue.length > 0) {
         entities_internal_remove_entity(self, entity_queue_pop(&self->removeQueue), false);
     }
+}
+
+void entities_add_named_entity(EntityManager* self, const char* name, Entity entity) {
+    log_info_format("Named Entity", "%s: %d", name, entity);
+    entity_dict_insert(&self->namedEntities, name, entity);
+}
+
+Entity entities_get_named_entity(EntityManager* self, const char* name) {
+    return entity_dict_get(&self->namedEntities, name);
 }

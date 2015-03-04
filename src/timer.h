@@ -5,10 +5,11 @@
 #include "gametime.h"
 #include "debug.h"
 #include "messaging.h"
-#include "entitymanager.h"
 #include "pool.h"
 
 #define TIMER_MAX_TIMERS 128
+
+typedef struct entity_manager_t EntityManager;
 
 typedef struct timer_t {
     TargetedMessage message;
