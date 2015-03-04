@@ -135,8 +135,8 @@ void vec2_lerp(const Vec2* start, const Vec2* end, const f32 t, Vec2* dest) {
 void vec2_direction(const f32 angle, Vec2* dest) {
     ASSERT(dest, "");
 
-    dest->x = cosf(angle);
-    dest->y = sinf(angle);
+    dest->x = cosf(angle * DEG_TO_RAD);
+    dest->y = sinf(angle * DEG_TO_RAD);
 }
 
 void vec2_transform(const Vec2* self, const f32 rotation, Vec2* dest) {

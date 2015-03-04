@@ -72,12 +72,21 @@ void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Me
             break;
 
         case UFO_SMALL: {
+            Entity player = entities_get_named_entity(system->entityManager, "player");
+            if (player) {
+                TransformComponent* playerTx =
+                    (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, player);
 
+                vec2_sub(&playerTx->position, &tx->position, &fireDirection);
+                vec2_normalize(&fireDirection, &fireDirection);
+                f32 angle = vec2_direction_angle(&fireDirection);
+                angle += randf_range(-30.f, 30.f);
+                vec2_direction(angle, &fireDirection);
+            }
             break;
         }
     }
 
-    log_info_format("Player Entity", "%d", entities_get_named_entity(system->entityManager, "player"));
 
     bullet_source_fire_direction(&ufo->bulletSource, system->entityManager, tx, &fireDirection);
 }
