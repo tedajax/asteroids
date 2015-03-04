@@ -84,7 +84,7 @@ void pduration(FILE* file, u64 time) {
         t = time / 1000000;
     }
 
-    fprintf(file, "%lu%s", t, units);
+    fprintf(file, "%llu%s", t, units);
 }
 
 void profile_dump(Profile* p, FILE* file, bool full) {

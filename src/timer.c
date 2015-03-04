@@ -5,7 +5,7 @@ POOL_IMPLEMENTATION(Timer);
 
 void timer_manager_init(TimerManager* self, EntityManager* entityManager) {
     self->entityManager = entityManager;
-    Timer invalidTimer = { 0 };
+    Timer invalidTimer = { {0, 0}, 0, 0 };
     POOL_INIT(Timer)(&self->timers, TIMER_MAX_TIMERS, invalidTimer);
 }
 

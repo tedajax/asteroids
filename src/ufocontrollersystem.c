@@ -55,8 +55,6 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
 }
 
 void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Message msg) {
-    UfoControllerSystem* self = (UfoControllerSystem*)system;
-
     UfoControllerComponent* ufo =
         (UfoControllerComponent*)entities_get_component(system->entityManager, COMPONENT_UFO_CONTROLLER, entity);
 

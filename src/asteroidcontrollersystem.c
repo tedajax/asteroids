@@ -58,7 +58,7 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
         REQUIRED_COMPONENTS(asteroid, movement, transform);
 
         f32 normalSpeed = get_speed(self->maxSize, asteroid->size, self->normalSpeedMultiplier);
-        f32 maxSpeed = get_speed(self->maxSize, asteroid->size, self->maxSpeedMultiplier);
+        // f32 maxSpeed = get_speed(self->maxSize, asteroid->size, self->maxSpeedMultiplier);
 
         f32 currentSpeed = vec2_length(&movement->velocity);
         if (currentSpeed > normalSpeed) {
@@ -120,7 +120,6 @@ void asteroid_controller_system_on_damage(AspectSystem* system, Entity entity, c
 
     if (!asteroid) { return; }
 
-    TransformComponent* tx = (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
     MovementComponent* movement = (MovementComponent*)entities_get_component(system->entityManager, COMPONENT_MOVEMENT, entity);
    
     Vec2 force;

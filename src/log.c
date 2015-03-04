@@ -34,7 +34,7 @@ void log_log(LogLevel level, const char* context, const char* msg) {
     char buffer[1024];
     snprintf(buffer, 1024, "[%s] %s\n", context, msg);
 
-    fprintf(stdout, buffer);
+    fprintf(stdout, "%s", buffer);
     fprintf(logFile, "%lld %s", game_time_nano_to_milli(globals.time.since_start_ns), buffer);
 
     _reset_console_color();

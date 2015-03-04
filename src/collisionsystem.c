@@ -101,9 +101,6 @@ void collision_system_update(CollisionSystem* self) {
             Entity e1 = c1->entity;
             Entity e2 = c2->entity;
 
-            TransformComponent* tx1 = (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, e1);
-            TransformComponent* tx2 = (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, e2);
-
             Message msg1;
             MessageOnCollisionParams params1;
             params1.other = e2;
