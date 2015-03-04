@@ -7,7 +7,9 @@ SpriteComponent* sprite_component_new(Entity entity, Atlas* atlas, char* spriteN
 
     self->atlas = atlas;
     self->layer = layer;
-
+    self->orientation = 0.f;
+    self->orientationSpin = 0.f;
+    self->orientToRotation = true;
     self->redTimer = 0.f;
 
     sprite_component_set_sprite(self, spriteName);
@@ -26,12 +28,19 @@ void sprite_component_set_sprite(SpriteComponent* self, char* spriteName) {
 COMPONENT_DESERIALIZE(COMPONENT_SPRITE) {
     char* atlasName = CONFIG_GET(string)(config, table, "atlas");
     char* spriteName = CONFIG_GET(string)(config, table, "sprite");
-    i32 layer = (i32)CONFIG_TRY_GET(int)(config, table, "layer", 0);
+    i32 layer = CONFIG_TRY_GET(i32)(config, table, "layer", 0);
+    bool orientToRotation = CONFIG_TRY_GET(bool)(config, table, "orient_to_rotation", true);
+    f32 orientation = CONFIG_TRY_GET(f32)(config, table, "orientation", 0.f);
+    f32 orientationSpin = CONFIG_TRY_GET(f32)(config, table, "orientation_spin", 0.f);
     
     Atlas* atlas = atlas_get(atlasName);
     ASSERT(atlas, "Unable to find atlas.");
 
-    return (Component*)sprite_component_new(0, atlas, spriteName, layer);
+    SpriteComponent* sprite = sprite_component_new(0, atlas, spriteName, layer);
+    sprite->orientToRotation = orientToRotation;
+    sprite->orientation = orientation;
+    sprite->orientationSpin = orientationSpin;
+    return (Component*)sprite;
 }
 
 COMPONENT_FREE(COMPONENT_SPRITE) {}

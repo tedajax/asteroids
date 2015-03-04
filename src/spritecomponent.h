@@ -22,6 +22,9 @@ typedef struct sprite_component_t {
     i32 layer;
     int width;
     int height;
+    f32 orientation;
+    f32 orientationSpin;
+    bool orientToRotation;
     SDL_Rect srcRect;
     f32 redTimer;
 } SpriteComponent;

@@ -11,7 +11,7 @@ components = [
 component_type = COMPONENT_TRANSFORM
 position = [0, 0]
 rotation = 0
-scale = [1, 1]
+scale = [0.5, 0.5]
 
 [movement]
 component_type = COMPONENT_MOVEMENT
@@ -23,7 +23,7 @@ config = bullet.config
 [bullet.config]
 lifetime = 0.5
 damage = 1
-speed = 1000
+speed = 500
 angle = 0
 
 [sprite]
@@ -31,6 +31,8 @@ component_type = COMPONENT_SPRITE
 atlas = atlas1
 sprite = laserRed10
 layer = 1
+orient_to_rotation = false
+orientation_spin = 1080
 
 [collider]
 component_type = COMPONENT_COLLIDER

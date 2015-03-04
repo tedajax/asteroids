@@ -202,7 +202,7 @@ Vec2 vec2_rand_range(f32 minx, f32 miny, f32 maxx, f32 maxy) {
 }
 
 Vec2 vec2_rand_direction() {
-    f32 angle = randf_range(0, TWO_PI);
+    f32 angle = randf_range(0, 360.f);
     Vec2 result;
     vec2_direction(angle, &result);
     return result;

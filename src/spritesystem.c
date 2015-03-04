@@ -18,6 +18,10 @@ void sprite_system_update(SpriteSystem* self) {
         if (sprite->redTimer > 0.f) {
             sprite->redTimer -= globals.time.delta;
         }
+
+        if (!sprite->orientToRotation) {
+            sprite->orientation += sprite->orientationSpin * globals.time.delta;
+        }
     }
 }
 
@@ -51,11 +55,13 @@ void sprite_system_render(SpriteSystem* self) {
                 SDL_SetTextureColorMod(sprite->atlas->texture, 255, 0, 0);
             }
 
+            if (sprite->orientToRotation) { sprite->orientation = transform->rotation; }
+
             SDL_RenderCopyEx(globals.renderer,
                 sprite->atlas->texture,
                 &source, //source
                 &dest, //destination
-                transform->rotation,
+                sprite->orientation,
                 NULL,
                 SDL_FLIP_NONE);
 

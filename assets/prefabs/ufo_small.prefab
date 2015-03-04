@@ -36,7 +36,7 @@ collider = collider.config
 layer = COLLIDER_LAYER_ENEMY
 offset = [0, 0]
 type = BOUNDING_VOLUME_CIRCLE
-radius = 32
+radius = 22
 
 [ufo]
 component_type = COMPONENT_UFO_CONTROLLER

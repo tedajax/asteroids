@@ -14,7 +14,7 @@ dependencies = [ufo_bullet.prefab]
 component_type = COMPONENT_TRANSFORM
 position = [0, 0]
 rotation = 0
-scale [1, 1]
+scale [0.75, 0.75]
 
 [movement]
 component_type = COMPONENT_MOVEMENT
