@@ -3,6 +3,11 @@
 
 #include "aspectsystem.h"
 
+typedef enum ufo_system_tick_flags_e {
+    UFO_TICK_FIRE_BULLET            = 0x1,
+    UFO_TICK_CHANGE_DIRECTION       = 0x2,
+} UfoSystemTickFlags;
+
 typedef struct ufo_controller_system_t {
     AspectSystem super;
 } UfoControllerSystem;

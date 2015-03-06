@@ -27,6 +27,8 @@ max_health = 3
 component_type = COMPONENT_SPRITE
 atlas = atlas1
 sprite = ufoRed
+orient_to_rotation = false
+orientation_spin = 720
 
 [collider]
 component_type = COMPONENT_COLLIDER
@@ -42,6 +44,7 @@ radius = 22
 component_type = COMPONENT_UFO_CONTROLLER
 type = UFO_SMALL
 bullet_source = ufo.bullet_source
+speed = 200
 
 [ufo.bullet_source]
 offset = [0, 0]

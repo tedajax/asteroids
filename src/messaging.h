@@ -12,6 +12,7 @@
 //Forward declarations
 typedef struct component_t Component;
 typedef struct aspect_system_t AspectSystem;
+typedef struct timer_t Timer;
 
 // Each comment refers to the types of the params in the message.
 typedef enum message_type_e {
@@ -59,6 +60,11 @@ typedef struct message_on_added_params_t {
 typedef struct message_on_removed_params_t {
     Entity removedEntity;
 } MessageOnRemovedParams;
+
+typedef struct message_on_tick_params_t {
+    Timer* timer;
+    u32 tickFlags;
+} MessageOnTick;
 
 // TODO: Figure out some way of enforcing a schema on message params.  Right now it's really just built on trust.
 typedef struct message_t {

@@ -1,6 +1,6 @@
 #include "ufocontrollercomponent.h"
 
-UfoControllerComponent* ufo_controller_component_new(Entity entity, UfoType ufoType, BulletSourceConfig* bulletSourceConfig) {
+UfoControllerComponent* ufo_controller_component_new(Entity entity, UfoType ufoType, f32 speed, BulletSourceConfig* bulletSourceConfig) {
     UfoControllerComponent* self = CALLOC(1, UfoControllerComponent);
 
     component_init(&self->super, COMPONENT_UFO_CONTROLLER, sizeof(UfoControllerComponent), entity);
@@ -8,6 +8,9 @@ UfoControllerComponent* ufo_controller_component_new(Entity entity, UfoType ufoT
     self->ufoType = ufoType;
     self->playerTransform = NULL;
     self->fireTimer = NULL;
+    self->changeDirectionTimer = NULL;
+    self->movementAngle = 45.f;
+    self->movementSpeed = speed;
     bullet_source_init(&self->bulletSource, bulletSourceConfig);
 
     return self;
@@ -17,8 +20,9 @@ COMPONENT_DESERIALIZE(COMPONENT_UFO_CONTROLLER) {
     char* ufoTypeStr = CONFIG_TRY_GET(string)(config, table, "type", "UFO_BIG");
     UfoType ufoType = ufo_type_parse(ufoTypeStr);
     BulletSourceConfig* bulletConfig = CONFIG_GET(BulletSourceConfig)(config, table, "bullet_source");
+    f32 speed = CONFIG_GET(f32)(config, table, "speed");
 
-    return (Component*)ufo_controller_component_new(0, ufoType, bulletConfig);
+    return (Component*)ufo_controller_component_new(0, ufoType, speed, bulletConfig);
 }
 
 COMPONENT_FREE(COMPONENT_UFO_CONTROLLER) { }

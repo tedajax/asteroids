@@ -14,13 +14,7 @@ void timer_manager_terminate(TimerManager* self) {
 }
 
 Timer* timer_manager_add(TimerManager* self, Message message, Entity target, f32 delay) {
-    Timer timer = {
-        { target, message },
-        0.f,
-        delay
-    };
-
-    return POOL_INSERT(Timer)(&self->timers, timer);
+    return timer_manager_add_interval(self, message, target, delay, 0.f);
 }
 
 Timer* timer_manager_add_interval(TimerManager* self, Message message, Entity target, f32 delay, f32 interval) {
@@ -30,7 +24,15 @@ Timer* timer_manager_add_interval(TimerManager* self, Message message, Entity ta
         delay
     };
 
-    return POOL_INSERT(Timer)(&self->timers, timer);
+    Timer* result = POOL_INSERT(Timer)(&self->timers, timer);
+
+    if (message.type == MESSAGE_GENERIC_TICK) {
+        MessageOnTick params = *(MessageOnTick*)message.paramBlock;
+        params.timer = result;
+        MESSAGE_SET_PARAM_BLOCK(result->message.message, params);
+    }
+
+    return result;
 }
 
 void timer_manager_remove(TimerManager* self, Timer* timer) {

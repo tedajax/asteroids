@@ -26,13 +26,25 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
         
         REQUIRED_COMPONENTS(ufo, movement);
 
-        movement->velocity.x = 100.f;
-        movement->velocity.y = 30.f;
+        vec2_direction(ufo->movementAngle, &movement->velocity);
+        vec2_scale(&movement->velocity, ufo->movementSpeed, &movement->velocity);
 
         if (!ufo->fireTimer) {
             Message msg;
             msg.type = MESSAGE_GENERIC_TICK;
+            MessageOnTick params = { 0 };
+            params.tickFlags = UFO_TICK_FIRE_BULLET;
+            MESSAGE_SET_PARAM_BLOCK(msg, params);
             ufo->fireTimer = timer_add_interval(entity, msg, 0.f, 1.f);
+        }
+
+        if (!ufo->changeDirectionTimer) {
+            Message msg;
+            msg.type = MESSAGE_GENERIC_TICK;
+            MessageOnTick params = { 0 };
+            params.tickFlags = UFO_TICK_CHANGE_DIRECTION;
+            MESSAGE_SET_PARAM_BLOCK(msg, params);
+            ufo->changeDirectionTimer = timer_add_interval(entity, msg, 0.f, 0.5f);
         }
 
         switch (ufo->ufoType) {
@@ -54,12 +66,30 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
     }
 }
 
+void ufo_tick_fire_bullet(UfoControllerSystem* self, Entity entity, Timer* timer);
+void ufo_tick_change_direction(UfoControllerSystem* self, Entity entity, Timer* timer);
+
 void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Message msg) {
+    UfoControllerSystem* self = (UfoControllerSystem*)system;
+    
+    MessageOnTick params;
+    MESSAGE_GET_PARAM_BLOCK(msg, params);
+
+    if ((params.tickFlags & UFO_TICK_FIRE_BULLET)) {
+        ufo_tick_fire_bullet(self, entity, params.timer);
+    }
+
+    if ((params.tickFlags & UFO_TICK_CHANGE_DIRECTION)) {
+        ufo_tick_change_direction(self, entity, params.timer);
+    }
+}
+
+void ufo_tick_fire_bullet(UfoControllerSystem* self, Entity entity, Timer* timer) {
     UfoControllerComponent* ufo =
-        (UfoControllerComponent*)entities_get_component(system->entityManager, COMPONENT_UFO_CONTROLLER, entity);
+        (UfoControllerComponent*)entities_get_component(self->super.entityManager, COMPONENT_UFO_CONTROLLER, entity);
 
     TransformComponent* tx =
-        (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, entity);
+        (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, entity);
 
     Vec2 fireDirection = vec2_unit_x();
 
@@ -70,10 +100,10 @@ void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Me
             break;
 
         case UFO_SMALL: {
-            Entity player = entities_get_named_entity(system->entityManager, "player");
+            Entity player = entities_get_named_entity(self->super.entityManager, "player");
             if (player) {
                 TransformComponent* playerTx =
-                    (TransformComponent*)entities_get_component(system->entityManager, COMPONENT_TRANSFORM, player);
+                    (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, player);
 
                 vec2_sub(&playerTx->position, &tx->position, &fireDirection);
                 vec2_normalize(&fireDirection, &fireDirection);
@@ -85,6 +115,14 @@ void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Me
         }
     }
 
+    timer->interval = randf_range(0.5f, 1.f);
 
-    bullet_source_fire_direction(&ufo->bulletSource, system->entityManager, tx, &fireDirection);
+    bullet_source_fire_direction(&ufo->bulletSource, self->super.entityManager, tx, &fireDirection);
+}
+
+void ufo_tick_change_direction(UfoControllerSystem* self, Entity entity, Timer* timer) {
+    UfoControllerComponent* ufo =
+        (UfoControllerComponent*)entities_get_component(self->super.entityManager, COMPONENT_UFO_CONTROLLER, entity);
+
+    ufo->movementAngle += randf_range(-45.f, 45.f);
 }
