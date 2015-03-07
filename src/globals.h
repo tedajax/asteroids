@@ -77,5 +77,6 @@ extern Globals globals;
 
 Timer* timer_add(Entity target, Message message, f32 delay);
 Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interval);
+void timer_remove(Timer* timer);
 
 #endif

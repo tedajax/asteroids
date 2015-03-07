@@ -63,3 +63,7 @@ Timer* timer_add(Entity target, Message message, f32 delay) {
 Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interval) {
     return timer_manager_add_interval(active_scene()->timerManager, message, target, delay, interval);
 }
+
+void timer_remove(Timer* timer) {
+    timer_manager_remove(active_scene()->timerManager, timer);
+}

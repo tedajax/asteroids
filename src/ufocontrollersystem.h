@@ -16,5 +16,6 @@ void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entity
 void ufo_controller_system_update(UfoControllerSystem* self);
 
 void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Message msg);
+void ufo_controller_system_on_remove(AspectSystem* system, Entity entity, const Message msg);
 
 #endif

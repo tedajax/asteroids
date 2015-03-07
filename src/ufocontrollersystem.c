@@ -7,6 +7,7 @@ void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entity
     aspect_system_init(&self->super, entityManager, COMPONENT_UFO_CONTROLLER, 16);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_GENERIC_TICK, ufo_controller_system_on_tick);
+    REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, ufo_controller_system_on_remove);
 }
 
 void ufo_controller_system_update(UfoControllerSystem* self) {
@@ -44,16 +45,7 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
             MessageOnTick params = { 0 };
             params.tickFlags = UFO_TICK_CHANGE_DIRECTION;
             MESSAGE_SET_PARAM_BLOCK(msg, params);
-            ufo->changeDirectionTimer = timer_add_interval(entity, msg, 0.f, 0.5f);
-        }
-
-        switch (ufo->ufoType) {
-            default:
-            case UFO_BIG:
-                break;
-
-            case UFO_SMALL:
-                break;
+            ufo->changeDirectionTimer = timer_add_interval(entity, msg, 0.f, 1.f);
         }
 
         if (input_key_down(SDL_SCANCODE_E)) {
@@ -125,4 +117,19 @@ void ufo_tick_change_direction(UfoControllerSystem* self, Entity entity, Timer* 
         (UfoControllerComponent*)entities_get_component(self->super.entityManager, COMPONENT_UFO_CONTROLLER, entity);
 
     ufo->movementAngle += randf_range(-45.f, 45.f);
+}
+
+void ufo_controller_system_on_remove(AspectSystem* system, Entity entity, const Message msg) {
+    UfoControllerComponent* ufo =
+        (UfoControllerComponent*)entities_get_component(system->entityManager, COMPONENT_UFO_CONTROLLER, entity);
+
+    if (ufo) {
+        if (ufo->fireTimer) {
+            timer_remove(ufo->fireTimer);
+        }
+
+        if (ufo->changeDirectionTimer) {
+            timer_remove(ufo->changeDirectionTimer);
+        }
+    }
 }

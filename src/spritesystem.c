@@ -1,4 +1,5 @@
 #include "spritesystem.h"
+#include "primitives.h"
 
 void sprite_system_init(SpriteSystem* self, EntityManager* entityManager) {
     aspect_system_init(&self->super, entityManager, COMPONENT_SPRITE, MAX_ENTITIES);
