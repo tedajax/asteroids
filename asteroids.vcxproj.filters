@@ -94,9 +94,6 @@
     <Filter Include="Assets\Prefabs">
       <UniqueIdentifier>{66e7ba1a-1bd9-43ca-b6ae-9836e723fd09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Scripts">
-      <UniqueIdentifier>{030af783-5fc1-49c7-94b1-5217b14a895b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Textures">
       <UniqueIdentifier>{28ac0209-9b94-4ceb-987c-fa65c4de5985}</UniqueIdentifier>
     </Filter>
@@ -282,15 +279,6 @@
     <ClCompile Include="src\componentlist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\scriptapi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\luabind.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\luasystem.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\timer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -305,9 +293,6 @@
     </ClCompile>
     <ClCompile Include="src\Posix\posixdirectory.c">
       <Filter>Source Files\Core\Application\Posix</Filter>
-    </ClCompile>
-    <ClCompile Include="src\luacomponent.c">
-      <Filter>Source Files\Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\transformsystem.c">
       <Filter>Source Files\Game\Systems</Filter>
@@ -572,15 +557,6 @@
     <ClInclude Include="src\tdjxlua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scriptapi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\luabind.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\luasystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -592,9 +568,6 @@
     </ClInclude>
     <ClInclude Include="src\memory.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\luacomponent.h">
-      <Filter>Header Files\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\transformsystem.h">
       <Filter>Header Files\Game\Systems</Filter>
@@ -670,23 +643,8 @@
     <None Include="assets\data\player.ini">
       <Filter>Configs</Filter>
     </None>
-    <None Include="assets\scripts\api.lua">
-      <Filter>Assets\Scripts</Filter>
-    </None>
-    <None Include="assets\scripts\test_component.lua">
-      <Filter>Assets\Scripts</Filter>
-    </None>
-    <None Include="assets\scripts\component.lua">
-      <Filter>Assets\Scripts</Filter>
-    </None>
-    <None Include="assets\scripts\prefab_test.lua">
-      <Filter>Assets\Scripts</Filter>
-    </None>
     <None Include="assets\prefabs\test.prefab">
       <Filter>Assets\Prefabs</Filter>
-    </None>
-    <None Include="assets\scripts\timedlife.lua">
-      <Filter>Assets\Scripts</Filter>
     </None>
     <None Include="assets\prefabs\bullet_explosion.prefab">
       <Filter>Assets\Prefabs</Filter>

@@ -1,11 +1,7 @@
-components = [transform, luacomponent]
+components = [transform]
 
 [transform]
 component_type = COMPONENT_TRANSFORM
 position = [0, 0]
 rotation = 0
 scale = [1, 1]
-
-[luacomponent]
-component_type = COMPONENT_LUA
-file = prefab_test.lua

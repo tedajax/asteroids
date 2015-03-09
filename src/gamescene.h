@@ -31,7 +31,6 @@ typedef struct game_scene_t {
     EnemySystem enemySystem;
     CollisionSystem collisionSystem;
     ParticleSystem particleSystem;
-    LuaSystem luaSystem;
     ScreenWrapSystem screenWrapSystem;
     AsteroidControllerSystem asteroidControllerSystem;
     UfoControllerSystem ufoControllerSystem;

@@ -9,7 +9,6 @@
 #include "bgmanagersystem.h"
 #include "enemysystem.h"
 #include "collisionsystem.h"
-#include "luasystem.h"
 #include "screenwrapsystem.h"
 #include "asteroidcontrollersystem.h"
 #include "particlesystem.h"
