@@ -1,5 +1,5 @@
-#ifndef RUNNER_ATLAS_H
-#define RUNNER_ATLAS_H
+#ifndef ASTEROIDS_ATLAS_H
+#define ASTEROIDS_ATLAS_H
 
 #include "core.h"
 #include "hashtable.h"

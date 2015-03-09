@@ -1,5 +1,5 @@
-#ifndef RUNNER_PHYSICS_H
-#define RUNNER_PHYSICS_H
+#ifndef ASTEROIDS_PHYSICS_H
+#define ASTEROIDS_PHYSICS_H
 
 #include "core.h"
 

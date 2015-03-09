@@ -1,5 +1,5 @@
-#ifndef RUNNER_GAME_SCENE_H
-#define RUNNER_GAME_SCENE_H
+#ifndef ASTEROIDS_GAME_SCENE_H
+#define ASTEROIDS_GAME_SCENE_H
 
 #include "core.h"
 #include "entitymanager.h"

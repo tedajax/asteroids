@@ -1,5 +1,5 @@
-#ifndef RUNNER_DEBUG_H
-#define RUNNER_DEBUG_H
+#ifndef ASTEROIDS_DEBUG_H
+#define ASTEROIDS_DEBUG_H
 
 #include <stdbool.h>
 

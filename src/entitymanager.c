@@ -96,6 +96,31 @@ void entity_dict_clear(EntityDict* self) {
     }
 }
 
+EntityDictNode* entity_dict_remove_node(EntityDict* self, EntityDictNode* node) {
+    u32 index = node->keyHash % self->bucketCount;
+    EntityDictNode* current = self->buckets[index];
+
+    ASSERT(current, "Attempt to remove node that is not in this dictionary.");
+
+    while (current && current != node) {
+        current = current->next;
+    }
+
+    ASSERT(current, "Attempt to remove node that is not in this dictionary.");
+
+    if (current->prev) {
+        current->prev->next = current->next;
+    }
+    if (current->next) {
+        current->next->prev = current->prev;
+    }
+
+    current->entity = 0;
+    current->keyHash = 0;
+
+    return current;
+}
+
 void entity_dict_insert(EntityDict* self, const char* name, Entity entity) {
     u64 hash = _djb2(name);
     u32 index = hash % self->bucketCount;
@@ -143,6 +168,44 @@ Entity entity_dict_get(EntityDict* self, const char* name) {
     }
 
     return 0;
+}
+
+EntityDictIter entity_dict_iter(EntityDict* self) {
+    EntityDictIter iter;
+    iter.dictionary = self;
+    iter.currentBucket = 0;
+    iter.currentNode = self->buckets[0];
+
+    while (!iter.currentNode) {
+        ++iter.currentBucket;
+        if (iter.currentBucket >= self->bucketCount) {
+            break;
+        }
+        iter.currentNode = self->buckets[iter.currentBucket];
+    }
+
+    return iter;
+}
+
+EntityDictNode* entity_dict_next(EntityDictIter* self) {
+    if (self->currentBucket >= self->dictionary->bucketCount) {
+        return NULL;
+    }
+    
+    EntityDictNode* result = self->currentNode;
+
+    if (self->currentNode->next) {
+        self->currentNode = self->currentNode->next;
+    } else {
+        do {
+            ++self->currentBucket;
+            self->currentNode = self->dictionary->buckets[self->currentBucket];
+        } while (!self->currentNode && self->currentBucket < self->dictionary->bucketCount);
+    }
+
+    if (self->currentBucket >= self->dictionary->bucketCount) { self->currentNode = NULL;  }
+
+    return result;
 }
 
 ////////////////////
@@ -322,6 +385,18 @@ void entities_internal_remove_entity(EntityManager* self, Entity entity, bool is
         };
 
         entities_internal_send_message(self, targetedMsg);
+
+        EntityDictIter iter = entity_dict_iter(&self->namedEntities);
+        EntityDictNode* node;
+        while ((node = entity_dict_next(&iter))) {
+            if (node->entity == entity) {
+                EntityDictNode* removed = entity_dict_remove_node(iter.dictionary, node);
+                if (removed->prev) {
+                    free(removed);
+                }
+                break;
+            }
+        }
     }
 
     // Actually remove the components

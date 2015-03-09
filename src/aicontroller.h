@@ -1,5 +1,5 @@
-#ifndef RUNNER_AI_CONTROLLER_H
-#define RUNNER_AI_CONTROLLER_H
+#ifndef ASTEROIDS_AI_CONTROLLER_H
+#define ASTEROIDS_AI_CONTROLLER_H
 
 #include "core.h"
 #include "bulletsource.h"

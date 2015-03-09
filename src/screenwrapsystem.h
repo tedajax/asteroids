@@ -1,5 +1,5 @@
-#ifndef RUNNER_SCREEN_WRAP_SYSTEM_H
-#define RUNNER_SCREEN_WRAP_SYSTEM_H
+#ifndef ASTEROIDS_SCREEN_WRAP_SYSTEM_H
+#define ASTEROIDS_SCREEN_WRAP_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

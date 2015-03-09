@@ -83,6 +83,8 @@ void ufo_tick_fire_bullet(UfoControllerSystem* self, Entity entity, Timer* timer
     TransformComponent* tx =
         (TransformComponent*)entities_get_component(self->super.entityManager, COMPONENT_TRANSFORM, entity);
 
+    if (!ufo || !tx) { return; }
+
     Vec2 fireDirection = vec2_unit_x();
 
     switch (ufo->ufoType) {

@@ -1,5 +1,5 @@
-#ifndef RUNNER_LIST_H
-#define RUNNER_LIST_H
+#ifndef ASTEROIDS_LIST_H
+#define ASTEROIDS_LIST_H
 
 #include "memory.h"
 #include "types.h"

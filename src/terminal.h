@@ -1,5 +1,5 @@
-#ifndef RUNNER_TERMINAL_H
-#define RUNNER_TERMINAL_H
+#ifndef ASTEROIDS_TERMINAL_H
+#define ASTEROIDS_TERMINAL_H
 
 typedef enum term_color_e {
     TERM_COLOR_WHITE,

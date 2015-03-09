@@ -290,6 +290,7 @@
     <ClCompile Include="src\scriptapi.c" />
     <ClCompile Include="src\spritecomponent.c" />
     <ClCompile Include="src\spritesystem.c" />
+    <ClCompile Include="src\starfield.c" />
     <ClCompile Include="src\terminal.c" />
     <ClCompile Include="src\texturemanager.c" />
     <ClCompile Include="src\timer.c" />
@@ -384,6 +385,7 @@
     <ClInclude Include="src\snprintf.h" />
     <ClInclude Include="src\spritecomponent.h" />
     <ClInclude Include="src\spritesystem.h" />
+    <ClInclude Include="src\starfield.h" />
     <ClInclude Include="src\systems.h" />
     <ClInclude Include="src\tdjxlua.h" />
     <ClInclude Include="src\terminal.h" />

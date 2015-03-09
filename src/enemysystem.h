@@ -1,5 +1,5 @@
-#ifndef RUNNER_ENEMY_SYSTEM_H
-#define RUNNER_ENEMY_SYSTEM_H
+#ifndef ASTEROIDS_ENEMY_SYSTEM_H
+#define ASTEROIDS_ENEMY_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

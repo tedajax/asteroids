@@ -1,5 +1,4 @@
 instantiations = [
-    background,
     player,
     level_manager
 ]

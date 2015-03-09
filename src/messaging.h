@@ -1,5 +1,5 @@
-#ifndef RUNNER_MESSAGING_H
-#define RUNNER_MESSAGING_H
+#ifndef ASTEROIDS_MESSAGING_H
+#define ASTEROIDS_MESSAGING_H
 
 #include <string.h>
 #include "types.h"

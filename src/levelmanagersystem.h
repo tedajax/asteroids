@@ -1,5 +1,5 @@
-#ifndef RUNNER_LEVEL_MANAGER_SYSTEM_H
-#define RUNNER_LEVEL_MANAGER_SYSTEM_H
+#ifndef ASTEROIDS_LEVEL_MANAGER_SYSTEM_H
+#define ASTEROIDS_LEVEL_MANAGER_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "levelmanagercomponent.h"

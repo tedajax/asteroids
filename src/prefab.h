@@ -1,5 +1,5 @@
-#ifndef RUNNER_PREFAB_H
-#define RUNNER_PREFAB_H
+#ifndef ASTEROIDS_PREFAB_H
+#define ASTEROIDS_PREFAB_H
 
 #include "types.h"
 #include "debug.h"

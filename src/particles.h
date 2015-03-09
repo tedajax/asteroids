@@ -1,5 +1,5 @@
-#ifndef RUNNER_PARTICLES_H
-#define RUNNER_PARTICLES_H
+#ifndef ASTEROIDS_PARTICLES_H
+#define ASTEROIDS_PARTICLES_H
 
 #include "core.h"
 #include "config.h"

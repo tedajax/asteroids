@@ -1,5 +1,5 @@
-#ifndef RUNNER_PROFILER_H
-#define RUNNER_PROFILER_H
+#ifndef ASTEROIDS_PROFILER_H
+#define ASTEROIDS_PROFILER_H
 
 #include <stdio.h>
 #include "memory.h"

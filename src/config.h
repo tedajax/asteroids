@@ -1,5 +1,5 @@
-#ifndef RUNNER_CONFIG_H
-#define RUNNER_CONFIG_H
+#ifndef ASTEROIDS_CONFIG_H
+#define ASTEROIDS_CONFIG_H
 
 #include "ini.h"
 #include "hashtable.h"

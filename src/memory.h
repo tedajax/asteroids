@@ -1,5 +1,5 @@
-#ifndef RUNNER_MEMORY_H
-#define RUNNER_MEMORY_H
+#ifndef ASTEROIDS_MEMORY_H
+#define ASTEROIDS_MEMORY_H
 
 #include "debug.h"
 

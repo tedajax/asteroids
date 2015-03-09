@@ -1,5 +1,5 @@
-#ifndef RUNNER_CURVES_H
-#define RUNNER_CURVES_H
+#ifndef ASTEROIDS_CURVES_H
+#define ASTEROIDS_CURVES_H
 
 #include "core.h"
 

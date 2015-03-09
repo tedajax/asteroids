@@ -1,5 +1,5 @@
-#ifndef RUNNER_LUA_COMPONENT_H
-#define RUNNER_LUA_COMPONENT_H
+#ifndef ASTEROIDS_LUA_COMPONENT_H
+#define ASTEROIDS_LUA_COMPONENT_H
 
 #include "core.h"
 #include "component.h"

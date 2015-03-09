@@ -1,5 +1,5 @@
-#ifndef RUNNER_APPLICATION_H
-#define RUNNER_APPLICATION_H
+#ifndef ASTEROIDS_APPLICATION_H
+#define ASTEROIDS_APPLICATION_H
 
 #include "memory.h"
 

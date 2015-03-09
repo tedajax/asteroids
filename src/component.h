@@ -1,5 +1,5 @@
-#ifndef RUNNER_COMPONENT_H
-#define RUNNER_COMPONENT_H
+#ifndef ASTEROIDS_COMPONENT_H
+#define ASTEROIDS_COMPONENT_H
 
 #include "core.h"
 #include "messaging.h"

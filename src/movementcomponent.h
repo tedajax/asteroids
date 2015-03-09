@@ -1,5 +1,5 @@
-#ifndef RUNNER_MOVEMENT_COMPONENT_H
-#define RUNNER_MOVEMENT_COMPONENT_H
+#ifndef ASTEROIDS_MOVEMENT_COMPONENT_H
+#define ASTEROIDS_MOVEMENT_COMPONENT_H
 
 #include "core.h"
 #include "component.h"

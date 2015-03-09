@@ -1,5 +1,5 @@
-#ifndef RUNNER_MOVEMENT_SYSTEM_H
-#define RUNNER_MOVEMENT_SYSTEM_H
+#ifndef ASTEROIDS_MOVEMENT_SYSTEM_H
+#define ASTEROIDS_MOVEMENT_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

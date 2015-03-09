@@ -1,5 +1,5 @@
-#ifndef RUNNER_LOG_H
-#define RUNNER_LOG_H
+#ifndef ASTEROIDS_LOG_H
+#define ASTEROIDS_LOG_H
 
 #include <stdarg.h>
 #include <stdio.h>

@@ -1,5 +1,5 @@
-#ifndef RUNNER_ASPECT_SYSTEM_H
-#define RUNNER_ASPECT_SYSTEM_H
+#ifndef ASTEROIDS_ASPECT_SYSTEM_H
+#define ASTEROIDS_ASPECT_SYSTEM_H
 
 #include "core.h"
 #include "entitymanager.h"

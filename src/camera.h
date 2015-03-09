@@ -1,5 +1,5 @@
-#ifndef RUNNER_CAMERA_H
-#define RUNNER_CAMERA_H
+#ifndef ASTEROIDS_CAMERA_H
+#define ASTEROIDS_CAMERA_H
 
 #include "types.h"
 #include "algebra.h"

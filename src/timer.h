@@ -1,5 +1,5 @@
-#ifndef RUNNER_TIMER_H
-#define RUNNER_TIMER_H
+#ifndef ASTEROIDS_TIMER_H
+#define ASTEROIDS_TIMER_H
 
 #include "types.h"
 #include "gametime.h"

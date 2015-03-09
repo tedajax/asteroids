@@ -1,5 +1,5 @@
-#ifndef RUNNER_DEBUG_HUD_H
-#define RUNNER_DEBUG_HUD_H
+#ifndef ASTEROIDS_DEBUG_HUD_H
+#define ASTEROIDS_DEBUG_HUD_H
 
 #include "core.h"
 

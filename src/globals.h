@@ -1,5 +1,5 @@
-#ifndef RUNNER_GLOBALS_H
-#define RUNNER_GLOBALS_H
+#ifndef ASTEROIDS_GLOBALS_H
+#define ASTEROIDS_GLOBALS_H
 
 #include "memory.h"
 #include "types.h"

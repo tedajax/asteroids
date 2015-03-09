@@ -1,5 +1,5 @@
-#ifndef RUNNER_WINDOW_H
-#define RUNNER_WINDOW_H
+#ifndef ASTEROIDS_WINDOW_H
+#define ASTEROIDS_WINDOW_H
 
 #include <SDL2/SDL.h>
 

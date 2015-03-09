@@ -1,5 +1,5 @@
-#ifndef RUNNER_PARTICLE_SYSTEM_H
-#define RUNNER_PARTICLE_SYSTEM_H
+#ifndef ASTEROIDS_PARTICLE_SYSTEM_H
+#define ASTEROIDS_PARTICLE_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "particlecomponent.h"

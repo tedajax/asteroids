@@ -1,5 +1,5 @@
-#ifndef RUNNER_COLLIDER_H
-#define RUNNER_COLLIDER_H
+#ifndef ASTEROIDS_COLLIDER_H
+#define ASTEROIDS_COLLIDER_H
 
 #include "core.h"
 #include "physics.h"

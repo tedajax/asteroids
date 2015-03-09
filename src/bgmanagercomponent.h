@@ -1,5 +1,5 @@
-#ifndef RUNNER_BG_MANAGER_COMPONENT
-#define RUNNER_BG_MANAGER_COMPONENT
+#ifndef ASTEROIDS_BG_MANAGER_COMPONENT
+#define ASTEROIDS_BG_MANAGER_COMPONENT
 
 #include "core.h"
 #include "component.h"

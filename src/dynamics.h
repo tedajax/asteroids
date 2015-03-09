@@ -1,5 +1,5 @@
-#ifndef RUNNER_DYNAMICS_H
-#define RUNNER_DYNAMICS_H
+#ifndef ASTEROIDS_DYNAMICS_H
+#define ASTEROIDS_DYNAMICS_H
 
 #include "types.h"
 #include "algebra.h"

@@ -1,5 +1,5 @@
-#ifndef RUNNER_INI_H
-#define RUNNER_INI_H
+#ifndef ASTEROIDS_INI_H
+#define ASTEROIDS_INI_H
 
 #include "types.h"
 #include "debug.h"

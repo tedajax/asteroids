@@ -1,5 +1,5 @@
-#ifndef RUNNER_BULLET_SOURCE_H
-#define RUNNER_BULLET_SOURCE_H
+#ifndef ASTEROIDS_BULLET_SOURCE_H
+#define ASTEROIDS_BULLET_SOURCE_H
 
 #include "core.h"
 #include "collider.h"

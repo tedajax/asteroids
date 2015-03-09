@@ -1,5 +1,5 @@
-#ifndef RUNNER_LEVEL_CONTROLLER_H
-#define RUNNER_LEVEL_CONTROLLER_H
+#ifndef ASTEROIDS_LEVEL_CONTROLLER_H
+#define ASTEROIDS_LEVEL_CONTROLLER_H
 
 typedef struct level_controller_t {
 

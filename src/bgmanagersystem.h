@@ -1,5 +1,5 @@
-#ifndef RUNNER_BG_MANAGER_SYSTEM_H
-#define RUNNER_BG_MANAGER_SYSTEM_H
+#ifndef ASTEROIDS_BG_MANAGER_SYSTEM_H
+#define ASTEROIDS_BG_MANAGER_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

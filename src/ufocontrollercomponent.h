@@ -1,5 +1,5 @@
-#ifndef RUNNER_UFO_CONTROLLER_COMPONENT_H
-#define RUNNER_UFO_CONTROLLER_COMPONENT_H
+#ifndef ASTEROIDS_UFO_CONTROLLER_COMPONENT_H
+#define ASTEROIDS_UFO_CONTROLLER_COMPONENT_H
 
 #include "component.h"
 #include "transformcomponent.h"

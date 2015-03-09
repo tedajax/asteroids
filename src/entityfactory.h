@@ -1,5 +1,5 @@
-#ifndef RUNNER_ENTITY_FACTORY_H
-#define RUNNER_ENTITY_FACTORY_H
+#ifndef ASTEROIDS_ENTITY_FACTORY_H
+#define ASTEROIDS_ENTITY_FACTORY_H
 
 #include "entity.h"
 #include "entitymanager.h"

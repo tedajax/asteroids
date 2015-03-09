@@ -1,5 +1,5 @@
-#ifndef RUNNER_SNPRINTF_H
-#define RUNNER_SNPRINTF_H
+#ifndef ASTEROIDS_SNPRINTF_H
+#define ASTEROIDS_SNPRINTF_H
 
 #include <stdio.h>
 

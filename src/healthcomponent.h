@@ -1,5 +1,5 @@
-#ifndef RUNNER_HEALTH_COMPONENT_H
-#define RUNNER_HEALTH_COMPONENT_H
+#ifndef ASTEROIDS_HEALTH_COMPONENT_H
+#define ASTEROIDS_HEALTH_COMPONENT_H
 
 #include "core.h"
 #include "component.h"

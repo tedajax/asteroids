@@ -1,5 +1,5 @@
-#ifndef RUNNER_TRANSFORM_SYSTEM_H
-#define RUNNER_TRANSFORM_SYSTEM_H
+#ifndef ASTEROIDS_TRANSFORM_SYSTEM_H
+#define ASTEROIDS_TRANSFORM_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "transformcomponent.h"

@@ -1,5 +1,5 @@
-#ifndef RUNNER_RANGE_H
-#define RUNNER_RANGE_H
+#ifndef ASTEROIDS_RANGE_H
+#define ASTEROIDS_RANGE_H
 
 #include "types.h"
 #include "algebra.h"

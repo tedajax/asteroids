@@ -1,5 +1,5 @@
-#ifndef RUNNER_ALGEBRA_H
-#define RUNNER_ALGEBRA_H
+#ifndef ASTEROIDS_ALGEBRA_H
+#define ASTEROIDS_ALGEBRA_H
 
 #include "memory.h"
 

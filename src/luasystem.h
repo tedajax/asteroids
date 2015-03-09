@@ -1,5 +1,5 @@
-#ifndef RUNNER_LUA_SYSTEM_H
-#define RUNNER_LUA_SYSTEM_H
+#ifndef ASTEROIDS_LUA_SYSTEM_H
+#define ASTEROIDS_LUA_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

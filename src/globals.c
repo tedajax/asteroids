@@ -43,6 +43,9 @@ void globals_config(const char* configName) {
 
     globals.scrollSpeed = config_try_get_float(config, "game", "scroll_speed", 0.f);
     globals.levelPosition = 0.f;
+
+    Color clearColor = CONFIG_TRY_GET(Color)(config, "game", "clear_color", color_make_rgb(0, 0, 0));
+    globals.clearColor = *((SDL_Color*)&clearColor);
 }
 
 void textures_init(const char* rootDir) { texture_manager_init(&globals.textures, rootDir); }

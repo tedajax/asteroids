@@ -1,5 +1,5 @@
-#ifndef RUNNER_SCRIPT_API_H
-#define RUNNER_SCRIPT_API_H
+#ifndef ASTEROIDS_SCRIPT_API_H
+#define ASTEROIDS_SCRIPT_API_H
 
 #include "tdjxlua.h"
 #include "types.h"

@@ -1,5 +1,5 @@
-#ifndef RUNNER_PRIMITIVES_H
-#define RUNNER_PRIMITIVES_H
+#ifndef ASTEROIDS_PRIMITIVES_H
+#define ASTEROIDS_PRIMITIVES_H
 
 /*
  * Functions for rendering primitives (pixels, lines, squares, circles, etc)

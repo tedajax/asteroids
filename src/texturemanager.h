@@ -1,5 +1,5 @@
-#ifndef RUNNER_TEXTURE_MANAGER_H
-#define RUNNER_TEXTURE_MANAGER_H
+#ifndef ASTEROIDS_TEXTURE_MANAGER_H
+#define ASTEROIDS_TEXTURE_MANAGER_H
 
 #include "types.h"
 #include "hashtable.h"

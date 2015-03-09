@@ -1,5 +1,5 @@
-#ifndef RUNNER_ENTITY_MANAGER_H
-#define RUNNER_ENTITY_MANAGER_H
+#ifndef ASTEROIDS_ENTITY_MANAGER_H
+#define ASTEROIDS_ENTITY_MANAGER_H
 
 #include "core.h"
 
@@ -37,11 +37,20 @@ typedef struct entity_dict_t {
     u32 bucketCount;
 } EntityDict;
 
+typedef struct entity_dict_iter_t {
+    EntityDict* dictionary;
+    u32 currentBucket;
+    EntityDictNode* currentNode;
+} EntityDictIter;
+
 void entity_dict_init(EntityDict* self, u32 bucketCount);
 void entity_dict_cleanup(EntityDict* self);
 void entity_dict_clear(EntityDict* self);
+EntityDictNode* entity_dict_remove_node(EntityDict* self, EntityDictNode* node);
 void entity_dict_insert(EntityDict* self, const char* name, Entity entity);
 Entity entity_dict_get(EntityDict* self, const char* name);
+EntityDictIter entity_dict_iter(EntityDict* self);
+EntityDictNode* entity_dict_next(EntityDictIter* self);
 
 typedef struct entity_id_list_t {
     Entity* list;

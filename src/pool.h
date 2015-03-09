@@ -1,5 +1,5 @@
-#ifndef RUNNER_POOL_H
-#define RUNNER_POOL_H
+#ifndef ASTEROIDS_POOL_H
+#define ASTEROIDS_POOL_H
 
 #include "types.h"
 #include "debug.h"

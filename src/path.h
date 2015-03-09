@@ -1,5 +1,5 @@
-#ifndef RUNNER_PATH_H
-#define RUNNER_PATH_H
+#ifndef ASTEROIDS_PATH_H
+#define ASTEROIDS_PATH_H
 
 #include <string.h>
 

@@ -3,6 +3,7 @@
 #include "atlas.h"
 #include "particles.h"
 #include "scene.h"
+#include "starfield.h"
 
 #include <SDL2/SDL_image.h>
 
@@ -11,6 +12,8 @@ bool playGame = true;
 
 ParticleEmitter testParticle;
 TransformComponent testParticleTransform;
+
+Starfield starfield;
 
 void game_debug_keys(Game* self);
 
@@ -66,6 +69,8 @@ void game_init(Game* self) {
         DebugHudWatch* tweenWatch = debug_hud_add_watch(&self->debugHud, "Tweens", WATCH_TYPE_INT, &globals.tweens.count);
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
+
+    starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 5000);
 
     //////////////////////////////
     //emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));
@@ -143,12 +148,18 @@ void game_debug_keys(Game* self) {
     if (input_key_down(SDL_SCANCODE_F12)) {
         DEBUG_BREAKPOINT();
     }
+
+    if (input_key_down(SDL_SCANCODE_G)) {
+        starfield_regenerate(&starfield, globals.renderer);
+    }
 }
 
 void game_render(Game* self) {
     /////////////////////////////////
     //emitter_render(&testParticle, &testParticleTransform);
     /////////////////////////////////
+
+    starfield_render(&starfield, globals.renderer);
 
     game_scene_render(self->activeScene);
 

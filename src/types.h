@@ -1,5 +1,5 @@
-#ifndef RUNNER_TYPES_H
-#define RUNNER_TYPES_H
+#ifndef ASTEROIDS_TYPES_H
+#define ASTEROIDS_TYPES_H
 
 #include <inttypes.h>
 #include <stdint.h>

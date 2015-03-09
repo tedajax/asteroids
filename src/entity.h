@@ -1,5 +1,5 @@
-#ifndef RUNNER_ENTITY_H
-#define RUNNER_ENTITY_H
+#ifndef ASTEROIDS_ENTITY_H
+#define ASTEROIDS_ENTITY_H
 
 #include "types.h"
 

@@ -1,5 +1,5 @@
-#ifndef RUNNER_CONTROLLER_SYSTEM_H
-#define RUNNER_CONTROLLER_SYSTEM_H
+#ifndef ASTEROIDS_CONTROLLER_SYSTEM_H
+#define ASTEROIDS_CONTROLLER_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

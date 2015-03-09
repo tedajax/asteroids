@@ -1,5 +1,5 @@
-#ifndef RUNNER_COLOR_H
-#define RUNNER_COLOR_H
+#ifndef ASTEROIDS_COLOR_H
+#define ASTEROIDS_COLOR_H
 
 #include "types.h"
 

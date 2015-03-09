@@ -1,5 +1,5 @@
-#ifndef RUNNER_SPRITE_SYSTEM_H
-#define RUNNER_SPRITE_SYSTEM_H
+#ifndef ASTEROIDS_SPRITE_SYSTEM_H
+#define ASTEROIDS_SPRITE_SYSTEM_H
 
 #include "aspectsystem.h"
 #include "component.h"

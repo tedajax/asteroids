@@ -1,5 +1,5 @@
-#ifndef RUNNER_DYNF32_H
-#define RUNNER_DYNF32_H
+#ifndef ASTEROIDS_DYNF32_H
+#define ASTEROIDS_DYNF32_H
 
 #include "types.h"
 #include "inline.h"

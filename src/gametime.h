@@ -1,5 +1,5 @@
-#ifndef RUNNER_TIME_H
-#define RUNNER_TIME_H
+#ifndef ASTEROIDS_TIME_H
+#define ASTEROIDS_TIME_H
 
 #include <SDL2/SDL.h>
 

@@ -1,5 +1,5 @@
-#ifndef RUNNER_COLLISION_H
-#define RUNNER_COLLISION_H
+#ifndef ASTEROIDS_COLLISION_H
+#define ASTEROIDS_COLLISION_H
 
 #include "aspectsystem.h"
 #include "component.h"

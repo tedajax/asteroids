@@ -1,5 +1,5 @@
-#ifndef RUNNER_SCENE_H
-#define RUNNER_SCENE_H
+#ifndef ASTEROIDS_SCENE_H
+#define ASTEROIDS_SCENE_H
 
 #include "types.h"
 #include "debug.h"

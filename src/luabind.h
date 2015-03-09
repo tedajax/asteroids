@@ -1,5 +1,5 @@
-#ifndef RUNNER_LUA_BIND_H
-#define RUNNER_LUA_BIND_H
+#ifndef ASTEROIDS_LUA_BIND_H
+#define ASTEROIDS_LUA_BIND_H
 
 #include <string.h>
 #include <stdarg.h>

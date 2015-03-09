@@ -1,5 +1,5 @@
-#ifndef RUNNER_TWEEN_H
-#define RUNNER_TWEEN_H
+#ifndef ASTEROIDS_TWEEN_H
+#define ASTEROIDS_TWEEN_H
 
 #include "types.h"
 #include "debug.h"

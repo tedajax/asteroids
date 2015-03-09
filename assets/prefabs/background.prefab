@@ -4,4 +4,3 @@ components = [bgmanager]
 [bgmanager]
 component_type = COMPONENT_BG_MANAGER
 prefab = background_tile.prefab
-clear_color = [58, 46, 63, 255]

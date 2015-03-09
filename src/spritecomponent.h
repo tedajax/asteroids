@@ -1,5 +1,5 @@
-#ifndef RUNNER_SPRITE_COMPONENT_H
-#define RUNNER_SPRITE_COMPONENT_H
+#ifndef ASTEROIDS_SPRITE_COMPONENT_H
+#define ASTEROIDS_SPRITE_COMPONENT_H
 
 #include "core.h"
 #include "component.h"

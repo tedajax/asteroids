@@ -1,5 +1,5 @@
-#ifndef RUNNER_CONFIG_TYPES_H
-#define RUNNER_CONFIG_TYPES_H
+#ifndef ASTEROIDS_CONFIG_TYPES_H
+#define ASTEROIDS_CONFIG_TYPES_H
 
 #include "types.h"
 #include "algebra.h"
