@@ -70,7 +70,7 @@ void game_init(Game* self) {
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
 
-    starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 5000);
+    starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 25000);
 
     //////////////////////////////
     //emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));
@@ -161,13 +161,13 @@ void game_render(Game* self) {
 
     starfield_render(&starfield, globals.renderer);
 
-    game_scene_render(self->activeScene);
+    //game_scene_render(self->activeScene);
 
     if (drawCollision) {
         collision_system_render(&self->activeScene->collisionSystem);
     }
 
-    debug_hud_render(&self->debugHud, globals.renderer, 5, 5);
+    //debug_hud_render(&self->debugHud, globals.renderer, 5, 5);
 }
 
 void game_frame_end(Game* self) {
