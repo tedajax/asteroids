@@ -85,6 +85,7 @@ void emitter_init(ParticleEmitter* self, ParticleEmitterConfig* config) {
     self->lifetime = self->config.lifetime;
     self->isPlaying = true;
     self->spawnNewParticles = true;
+    self->done = false;
 }
 
 void emitter_free(ParticleEmitter* self) {
@@ -118,6 +119,10 @@ void emitter_pause(ParticleEmitter* self) {
 
 void emitter_stop(ParticleEmitter* self) {
     self->lifetime = 0.f;
+}
+
+bool emitter_done(ParticleEmitter* self) {
+    return self->done && self->activeParticles == 0;
 }
 
 void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
@@ -184,6 +189,7 @@ void emitter_update(ParticleEmitter* self, TransformComponent* anchor) {
         self->lifetime -= globals.time.delta;
         if (self->lifetime <= 0.f) {
             self->spawnNewParticles = false;
+            self->done = true;
         }
     }
 

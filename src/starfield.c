@@ -61,8 +61,6 @@ void starfield_regenerate(Starfield* self, SDL_Renderer* renderer) {
         };
         packedColor = SDL_MapRGBA(surface->format, color.r, color.g, color.b, color.a);
         SDL_FillRect(surface, &pixel, packedColor);
-        
-
     }
 
     self->texture = SDL_CreateTextureFromSurface(renderer, surface);

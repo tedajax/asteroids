@@ -1,4 +1,4 @@
-components = [transform, lua, particle]
+components = [transform, particle]
 
 [transform]
 component_type = COMPONENT_TRANSFORM
@@ -6,10 +6,7 @@ position = [0, 0]
 rotation = 0
 scale = [1, 1]
 
-[lua]
-component_type = COMPONENT_LUA
-file = timedlife.lua
-
 [particle]
 component_type = COMPONENT_PARTICLE
 emitters = particles|bullet_explosion
+remove_on_done = true

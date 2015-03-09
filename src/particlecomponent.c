@@ -29,6 +29,9 @@ COMPONENT_DESERIALIZE(COMPONENT_PARTICLE) {
     }
 
     ParticleComponent* result = particle_component_new(0, configs, count);
+
+    result->removeOnDone = CONFIG_TRY_GET(bool)(config, table, "remove_on_done", false);
+
     free(configs);
     return (Component*)result;
 }

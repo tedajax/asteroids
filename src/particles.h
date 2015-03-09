@@ -51,6 +51,7 @@ typedef struct particle_emitter_t {
     f32 emitTimer;
     bool isPlaying;
     bool spawnNewParticles;
+    bool done;
 } ParticleEmitter;
 
 typedef int(*particle_compare_f)(Particle*, Particle*);
@@ -69,6 +70,8 @@ void emitter_free(ParticleEmitter* self);
 void emitter_play(ParticleEmitter* self);
 void emitter_pause(ParticleEmitter* self);
 void emitter_stop(ParticleEmitter* self);
+
+bool emitter_done(ParticleEmitter* self);
 
 void emitter_update(ParticleEmitter* self, TransformComponent* anchor);
 i32 emitter_get_next_available(ParticleEmitter* self);

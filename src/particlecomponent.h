@@ -9,6 +9,7 @@ typedef struct particle_component_t {
     Component super;
     ParticleEmitter* emitters;
     u32 emitterCount;
+    bool removeOnDone;
 } ParticleComponent;
 
 ParticleComponent* particle_component_new(Entity entity, ParticleEmitterConfig** configs, u32 count);
