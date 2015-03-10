@@ -682,6 +682,9 @@
     <None Include="assets\prefabs\ufo_bullet.prefab">
       <Filter>Assets\Prefabs</Filter>
     </None>
+    <None Include="assets\scenes\menu.scene">
+      <Filter>Assets\Scenes</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\atlas1.png">

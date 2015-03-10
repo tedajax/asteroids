@@ -12,7 +12,7 @@ typedef struct ufo_controller_system_t {
     AspectSystem super;
 } UfoControllerSystem;
 
-void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entityManager);
+void ufo_controller_system_init(UfoControllerSystem* self, GameScene* scene);
 void ufo_controller_system_update(UfoControllerSystem* self);
 
 void ufo_controller_system_on_tick(AspectSystem* system, Entity entity, const Message msg);

@@ -10,7 +10,7 @@ typedef struct screen_wrap_system_t {
     AspectSystem super;
 } ScreenWrapSystem;
 
-void screen_wrap_system_init(ScreenWrapSystem* self, EntityManager* entityManager);
+void screen_wrap_system_init(ScreenWrapSystem* self, GameScene* scene);
 void screen_wrap_system_update(ScreenWrapSystem* self);
 
 #endif

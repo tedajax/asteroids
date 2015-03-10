@@ -5,8 +5,8 @@ f32 get_speed(i32 maxSize, i32 size, f32 speedMult) {
     return (maxSize - size + 1) * speedMult;
 }
 
-void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager, Config* config, const char* table) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
+void asteroid_controller_system_init(AsteroidControllerSystem* self, GameScene* scene, Config* config, const char* table) {
+    aspect_system_init(&self->super, scene, COMPONENT_ASTEROID_CONTROLLER, MAX_ENTITIES);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, asteroid_controller_system_on_entity_removed);
     REGISTER_SYSTEM_HANDLER(MESSAGE_DAMAGE, asteroid_controller_system_on_damage);

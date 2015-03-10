@@ -409,6 +409,7 @@
     <None Include="assets\prefabs\ufo_big.prefab" />
     <None Include="assets\prefabs\ufo_bullet.prefab" />
     <None Include="assets\prefabs\ufo_small.prefab" />
+    <None Include="assets\scenes\menu.scene" />
     <None Include="assets\scenes\play.scene" />
   </ItemGroup>
   <ItemGroup>

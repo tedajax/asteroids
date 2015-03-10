@@ -11,7 +11,7 @@ typedef struct bullet_controller_system_t {
     AspectSystem super;
 } BulletControllerSystem;
 
-void bullet_controller_system_init(BulletControllerSystem* self, EntityManager* entityManager);
+void bullet_controller_system_init(BulletControllerSystem* self, GameScene* scene);
 void bullet_controller_system_update(BulletControllerSystem* self);
 
 void bullet_controller_system_on_collision_enter(AspectSystem* system, Entity entity, Message message);

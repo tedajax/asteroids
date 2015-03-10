@@ -11,7 +11,7 @@ typedef struct enemy_system_t {
     AspectSystem super;
 } EnemySystem;
 
-void enemy_system_init(EnemySystem* self, EntityManager* entityManager);
+void enemy_system_init(EnemySystem* self, GameScene* scene);
 void enemy_system_update(EnemySystem* self);
 void enemy_update(EnemySystem* self, EnemyComponent* enemy, TransformComponent* playerTransform);
 

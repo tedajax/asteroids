@@ -3,8 +3,8 @@
 #include "physics.h"
 #include "prefab.h"
 
-void bullet_controller_system_init(BulletControllerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_BULLET_CONTROLLER, 512);
+void bullet_controller_system_init(BulletControllerSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_BULLET_CONTROLLER, 512);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER, bullet_controller_system_on_collision_enter);
 }

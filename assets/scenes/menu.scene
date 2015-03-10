@@ -1,0 +1,9 @@
+instantiations = [
+    player
+]
+
+[player]
+name = player
+prefab = player_ship.prefab
+position = [340, 360]
+rotation = 0

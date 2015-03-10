@@ -17,8 +17,12 @@ Starfield starfield;
 
 void game_debug_keys(Game* self);
 
-void game_init(Game* self) {  
+void game_init(Game* self) {
     globals.game = self;
+    self->sceneHead = 0;
+    self->activeScene = NULL;
+
+    input_initialize(&self->globalInput);
 
     component_system_init();
     tween_manager_init(&globals.tweens, 4192);
@@ -31,11 +35,10 @@ void game_init(Game* self) {
     prefab_system_dump_names(stdout);
     scene_system_init("assets/scenes");
 
-    self->activeScene = &self->playScene;
+    game_load_scene(self, "play.scene");
+    game_load_scene(self, "menu.scene");
 
-    game_scene_init(self->activeScene);
-
-    scene_instantiate(scene_get("play.scene"), active_scene()->entityManager);
+    self->activeScene = &self->sceneStack[0];
 
     for (u32 i = 0; i < 1; ++i) {
         entity_create_asteroid(self->activeScene->entityManager, "asteroid.prefab");
@@ -80,7 +83,11 @@ void game_init(Game* self) {
 void game_quit(Game* self) {
     scene_system_terminate();
     prefab_system_terminate();
-    game_scene_quit(self->activeScene);
+    
+    for (u32 i = 0; i < self->sceneHead; ++i) {
+        game_scene_quit(&self->sceneStack[i]);
+    }
+
     atlases_terminate();
     textures_terminate();
 
@@ -98,7 +105,7 @@ void game_start(Game* self) {
 }
 
 void game_update(Game* self) {
-    if (input_key_down(SDL_SCANCODE_F5)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_F5)) {
         playGame = true;
     }
     
@@ -122,34 +129,36 @@ void game_update(Game* self) {
     tween_manager_update(&globals.tweens, globals.time.delta);
 
     game_debug_keys(self);
+
+    input_update(&self->globalInput);
 }
 
 void game_debug_keys(Game* self) {
-    if (input_key_down(SDL_SCANCODE_F1)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_F1)) {
         debug_hud_dump(&self->debugHud, stdout);
     }
 
-    if (input_key_down(SDL_SCANCODE_F2)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_F2)) {
         profiler_dump(stdout, false);
     }
 
-    if (input_key_down(SDL_SCANCODE_F3)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_F3)) {
         drawCollision = !drawCollision;
     }
 
-    if (input_key_down(SDL_SCANCODE_MINUS)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_MINUS)) {
         globals.time.timescale -= 0.1f;
     }
 
-    if (input_key_down(SDL_SCANCODE_EQUALS)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_EQUALS)) {
         globals.time.timescale += 0.1f;
     }
 
-    if (input_key_down(SDL_SCANCODE_F12)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_F12)) {
         DEBUG_BREAKPOINT();
     }
 
-    if (input_key_down(SDL_SCANCODE_G)) {
+    if (input_key_down(&self->globalInput, SDL_SCANCODE_G)) {
         starfield_regenerate(&starfield, globals.renderer);
     }
 }
@@ -161,7 +170,9 @@ void game_render(Game* self) {
 
     starfield_render(&starfield, globals.renderer);
 
-    game_scene_render(self->activeScene);
+    for (u32 i = 0; i < self->sceneHead; ++i) {
+        game_scene_render(&self->sceneStack[i]);
+    }
 
     if (drawCollision) {
         collision_system_render(&self->activeScene->collisionSystem);
@@ -172,4 +183,32 @@ void game_render(Game* self) {
 
 void game_frame_end(Game* self) {
     game_scene_frame_end(self->activeScene);
+}
+
+GameScene* game_push_scene(Game* self) {
+    ASSERT(self->sceneHead < GAME_MAX_SCENES, "Too many scenes!");
+
+    GameScene* result = &self->sceneStack[self->sceneHead];
+    ++self->sceneHead;
+    self->activeScene = result;
+    return result;
+}
+
+GameScene* game_scene_pop(Game* self) {
+    ASSERT(self->sceneHead > 0, "Nothing left to pop!");
+
+    GameScene* result = &self->sceneStack[self->sceneHead - 1];
+    --self->sceneHead;
+    if (self->sceneHead > 0) {
+        self->activeScene = &self->sceneStack[self->sceneHead - 1];
+    } else {
+        self->activeScene = NULL;
+    }
+    return result;
+}
+
+void game_load_scene(Game* self, const char* sceneName) {
+    GameScene* scene = game_push_scene(self);
+    game_scene_init(scene);
+    scene_instantiate(scene_get(sceneName), scene->entityManager);
 }

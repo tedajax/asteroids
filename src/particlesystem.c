@@ -1,7 +1,7 @@
 #include "particlesystem.h"
 
-void particle_system_init(ParticleSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_PARTICLE, MAX_ENTITIES);
+void particle_system_init(ParticleSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_PARTICLE, MAX_ENTITIES);
 }
 
 void particle_system_update(ParticleSystem* self) {

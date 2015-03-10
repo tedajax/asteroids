@@ -10,7 +10,7 @@ typedef struct sprite_system_t {
     AspectSystem super;
 } SpriteSystem;
 
-void sprite_system_init(SpriteSystem* self, EntityManager* entityManager);
+void sprite_system_init(SpriteSystem* self, GameScene* scene);
 void sprite_system_update(SpriteSystem* self);
 void sprite_system_render(SpriteSystem* self);
 

@@ -8,6 +8,6 @@ typedef struct transform_system_t {
     AspectSystem super;
 } TransformSystem;
 
-void transform_system_init(TransformSystem* self, EntityManager* entityManager);
+void transform_system_init(TransformSystem* self, GameScene* scene);
 
 #endif

@@ -3,8 +3,8 @@
 #include "movementcomponent.h"
 #include "messaging.h"
 
-void ufo_controller_system_init(UfoControllerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_UFO_CONTROLLER, 16);
+void ufo_controller_system_init(UfoControllerSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_UFO_CONTROLLER, 16);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_GENERIC_TICK, ufo_controller_system_on_tick);
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, ufo_controller_system_on_remove);
@@ -48,7 +48,7 @@ void ufo_controller_system_update(UfoControllerSystem* self) {
             ufo->changeDirectionTimer = timer_add_interval(entity, msg, 0.f, 1.f);
         }
 
-        if (input_key_down(SDL_SCANCODE_E)) {
+        if (input_key_down(self->super.input, SDL_SCANCODE_E)) {
             Vec2 direction = { 1.f, 0.f };
             bullet_source_fire_direction(&ufo->bulletSource,
                 self->super.entityManager,

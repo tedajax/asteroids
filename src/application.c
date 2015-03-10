@@ -57,7 +57,10 @@ void _app_handle_event(App* self, SDL_Event* event) {
 
         case SDL_KEYDOWN:
         case SDL_KEYUP:
-            input_handle_event(&event->key);
+            input_handle_event(&self->game->globalInput, &event->key);
+            if (self->game->activeScene) {
+                input_handle_event(&self->game->activeScene->input, &event->key);
+            }
             break;
     }
 }
@@ -65,13 +68,11 @@ void _app_handle_event(App* self, SDL_Event* event) {
 void _app_update(App* self) {
     game_time_update(&globals.time);
 
-    if (input_key_down(SDL_SCANCODE_ESCAPE)) {
+    if (input_key_down(&self->game->globalInput, SDL_SCANCODE_ESCAPE)) {
         self->shouldQuit = true;
     }
 
     game_update(self->game);
-
-    input_update();
 }
 
 void _app_render(App* self) {
@@ -147,8 +148,6 @@ bool _app_initialize(App* self) {
     SDL_RenderSetLogicalSize(globals.renderer, globals.world.width, globals.world.height);
 
     self->shouldQuit = false;
-
-    input_initialize();
 
     profiler_init(config_try_get_bool(config_get("game.ini"), "game", "enable_profiling", true));
     globals.time.on_second = config_reload_all;

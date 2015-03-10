@@ -1,8 +1,8 @@
 #include "levelmanagersystem.h"
 #include "asteroidcontrollercomponent.h"
 
-void level_manager_system_init(LevelManagerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_LEVEL_MANAGER, 1);
+void level_manager_system_init(LevelManagerSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_LEVEL_MANAGER, 1);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_ADDED, level_manager_on_entity_added);
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, level_manager_on_entity_removed);

@@ -8,7 +8,7 @@ typedef struct level_manager_system_t {
     AspectSystem super;
 } LevelManagerSystem;
 
-void level_manager_system_init(LevelManagerSystem* self, EntityManager* entityManager);
+void level_manager_system_init(LevelManagerSystem* self, GameScene* scene);
 void level_manager_system_start(LevelManagerSystem* self);
 void level_manager_system_update(LevelManagerSystem* self);
 

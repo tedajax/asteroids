@@ -2,8 +2,8 @@
 #include "spritecomponent.h"
 #include "prefab.h"
 
-void bg_manager_system_init(BgManagerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_BG_MANAGER, 1);
+void bg_manager_system_init(BgManagerSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_BG_MANAGER, 1);
 }
 
 void bg_manager_system_start(BgManagerSystem* self) {

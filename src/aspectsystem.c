@@ -1,7 +1,10 @@
 #include "aspectsystem.h"
+#include "gamescene.h"
 
-void aspect_system_init(AspectSystem* self, EntityManager* entityManager, ComponentType type, u32 capacity) {
-    self->entityManager = entityManager;
+void aspect_system_init(AspectSystem* self, GameScene* scene, ComponentType type, u32 capacity) {
+    self->scene = scene;
+    self->entityManager = scene->entityManager;
+    self->input = &scene->input;
     self->systemType = type;
 
     REGISTER_SYSTEM(self->entityManager, self, capacity);

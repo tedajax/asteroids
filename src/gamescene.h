@@ -19,6 +19,7 @@ typedef struct game_scene_t {
     TimerManager* timerManager;
 
     EntityManager* entityManager;
+    InputManager input;
 
     TransformSystem transformSystem;
     MovementSystem movementSystem;

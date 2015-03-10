@@ -1,7 +1,7 @@
 #include "screenwrapsystem.h"
 
-void screen_wrap_system_init(ScreenWrapSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_SCREEN_WRAP, MAX_ENTITIES);
+void screen_wrap_system_init(ScreenWrapSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_SCREEN_WRAP, MAX_ENTITIES);
 }
 
 void screen_wrap_system_update(ScreenWrapSystem* self) {

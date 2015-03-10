@@ -16,7 +16,7 @@ typedef struct asteroid_controller_system_t {
     f32 friction;
 } AsteroidControllerSystem;
 
-void asteroid_controller_system_init(AsteroidControllerSystem* self, EntityManager* entityManager, Config* config, const char* table);
+void asteroid_controller_system_init(AsteroidControllerSystem* self, GameScene* scene, Config* config, const char* table);
 void asteroid_controller_system_start(AsteroidControllerSystem* self);
 void asteroid_controller_system_update(AsteroidControllerSystem* self);
 

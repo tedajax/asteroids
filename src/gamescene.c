@@ -8,21 +8,23 @@ void game_scene_init(GameScene* self) {
     self->timerManager = CALLOC(1, TimerManager);
     timer_manager_init(self->timerManager, self->entityManager);
 
-    transform_system_init(&self->transformSystem, self->entityManager);
-    health_system_init(&self->healthSystem, self->entityManager);
-    sprite_system_init(&self->spriteSystem, self->entityManager);
-    movement_system_init(&self->movementSystem, self->entityManager);
-    gravity_system_init(&self->gravitySystem, self->entityManager);
-    controller_system_init(&self->controllerSystem, self->entityManager);
-    bullet_controller_system_init(&self->bulletControllerSystem, self->entityManager);
-    bg_manager_system_init(&self->bgManagerSystem, self->entityManager);
-    enemy_system_init(&self->enemySystem, self->entityManager);
-    collision_system_init(&self->collisionSystem, self->entityManager);
-    particle_system_init(&self->particleSystem, self->entityManager);
-    screen_wrap_system_init(&self->screenWrapSystem, self->entityManager);
-    asteroid_controller_system_init(&self->asteroidControllerSystem, self->entityManager, config_get("game.ini"), "asteroid_config");
-    ufo_controller_system_init(&self->ufoControllerSystem, self->entityManager);
-    level_manager_system_init(&self->levelManagerSystem, self->entityManager);
+    input_initialize(&self->input);
+
+    transform_system_init(&self->transformSystem, self);
+    health_system_init(&self->healthSystem, self);
+    sprite_system_init(&self->spriteSystem, self);
+    movement_system_init(&self->movementSystem, self);
+    gravity_system_init(&self->gravitySystem, self);
+    controller_system_init(&self->controllerSystem, self);
+    bullet_controller_system_init(&self->bulletControllerSystem, self);
+    bg_manager_system_init(&self->bgManagerSystem, self);
+    enemy_system_init(&self->enemySystem, self);
+    collision_system_init(&self->collisionSystem, self);
+    particle_system_init(&self->particleSystem, self);
+    screen_wrap_system_init(&self->screenWrapSystem, self);
+    asteroid_controller_system_init(&self->asteroidControllerSystem, self, config_get("game.ini"), "asteroid_config");
+    ufo_controller_system_init(&self->ufoControllerSystem, self);
+    level_manager_system_init(&self->levelManagerSystem, self);
 }
 
 void game_scene_load(GameScene* self, const char* sceneName) {
@@ -60,6 +62,8 @@ void game_scene_update(GameScene* self) {
     screen_wrap_system_update(&self->screenWrapSystem);
     level_manager_system_update(&self->levelManagerSystem);
     collision_system_update(&self->collisionSystem);
+
+    input_update(&self->input);
 }
 
 void game_scene_render(GameScene* self) {

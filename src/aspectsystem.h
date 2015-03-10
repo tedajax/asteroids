@@ -47,13 +47,17 @@
 #define REGISTER_SYSTEM_HANDLER(messageType, func) \
     ((AspectSystem*)self)->handlers[messageType] = func
 
+typedef struct game_scene_t GameScene;
+
 typedef struct aspect_system_t {
+    GameScene* scene;
     EntityManager* entityManager;
+    InputManager* input;
     ComponentType systemType;
     system_message_cb handlers[MESSAGE_LAST];
 } AspectSystem;
 
-void aspect_system_init(AspectSystem* self, EntityManager* entityManager, ComponentType type, u32 capacity);
+void aspect_system_init(AspectSystem* self, GameScene* scene, ComponentType type, u32 capacity);
 ComponentList* aspect_system_components(AspectSystem* self);
 void aspect_system_send_message(AspectSystem* self, Entity entity, const Message message);
 

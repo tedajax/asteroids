@@ -1,8 +1,8 @@
 #include "controllersystem.h"
 #include "entityfactory.h"
 
-void controller_system_init(ControllerSystem* self, EntityManager* entityManager) {
-    aspect_system_init(&self->super, entityManager, COMPONENT_CONTROLLER, 1);
+void controller_system_init(ControllerSystem* self, GameScene* scene) {
+    aspect_system_init(&self->super, scene, COMPONENT_CONTROLLER, 1);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER,
         controller_system_on_collision_enter);
@@ -36,15 +36,15 @@ void controller_system_update(ControllerSystem* self) {
         f32 turnRate = 0.f;
         Vec2 acceleration = vec2_zero();
 
-        if (input_key(SDL_SCANCODE_LEFT)) {
+        if (input_key(self->super.input, SDL_SCANCODE_LEFT)) {
             turnRate -= 1.f;
         }
 
-        if (input_key(SDL_SCANCODE_RIGHT)) {
+        if (input_key(self->super.input, SDL_SCANCODE_RIGHT)) {
             turnRate += 1.f;
         }
 
-        if (input_key(SDL_SCANCODE_UP)) {
+        if (input_key(self->super.input, SDL_SCANCODE_UP)) {
             vec2_set_angle(&acceleration, transform->rotation, controller->acceleration * globals.time.delta);
             particle->emitters[0].spawnNewParticles = true;
         } else {
@@ -69,17 +69,17 @@ void controller_system_update(ControllerSystem* self) {
 
         movement->angularVelocity = turnRate;
 
-        if (input_key_down(SDL_SCANCODE_S)) {
+        if (input_key_down(self->super.input, SDL_SCANCODE_S)) {
             movement->velocity = vec2_zero();
         }
 
-        if (input_key_down(SDL_SCANCODE_Z)) {
+        if (input_key_down(self->super.input, SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
                 bullet_source_on(&controller->bulletSources[i]);
             }
         }
 
-        if (input_key_up(SDL_SCANCODE_Z)) {
+        if (input_key_up(self->super.input, SDL_SCANCODE_Z)) {
             for (u32 i = 0; i < controller->bulletSourceCount; ++i) {
                 bullet_source_off(&controller->bulletSources[i]);
             }
