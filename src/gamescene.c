@@ -3,6 +3,8 @@
 #include "entityfactory.h"
 
 void game_scene_init(GameScene* self) {
+    self->state = GAME_SCENE_STATE_UPDATE | GAME_SCENE_STATE_DRAW;
+
     self->entityManager = entity_manager_new();
     
     self->timerManager = CALLOC(1, TimerManager);
@@ -46,6 +48,10 @@ void game_scene_start(GameScene* self) {
 }
 
 void game_scene_update(GameScene* self) {
+    if (!(self->state & GAME_SCENE_STATE_UPDATE)) {
+        return;
+    }
+
     timer_manager_tick(self->timerManager, globals.time.delta);
 
     health_system_update(&self->healthSystem);
@@ -67,6 +73,10 @@ void game_scene_update(GameScene* self) {
 }
 
 void game_scene_render(GameScene* self) {
+    if (!(self->state & GAME_SCENE_STATE_DRAW)) {
+        return;
+    }
+
     sprite_system_render(&self->spriteSystem);
     particle_system_render(&self->particleSystem);
     //if (drawCollision) {
