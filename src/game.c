@@ -48,8 +48,8 @@ void game_init(Game* self) {
         entity_create_asteroid(self->activeScene->entityManager, "asteroid_metal.prefab");
     }
 
-    prefab_instantiate(prefab_get("ufo_big.prefab"), self->activeScene->entityManager);
-    prefab_instantiate_at(prefab_get("ufo_small.prefab"), self->activeScene->entityManager, vec2_init(200, 300), 0);
+    /*prefab_instantiate(prefab_get("ufo_big.prefab"), self->activeScene->entityManager);
+    prefab_instantiate_at(prefab_get("ufo_small.prefab"), self->activeScene->entityManager, vec2_init(200, 300), 0);*/
 
     camera_init(&globals.camera, NULL);
 
@@ -73,7 +73,7 @@ void game_init(Game* self) {
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
 
-    starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 50000);
+    starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 5000);
 
     //////////////////////////////
     //emitter_init(&testParticle, CONFIG_GET(ParticleEmitterConfig)(config_get("particles.ini"), "particles", "bullet_explosion"));

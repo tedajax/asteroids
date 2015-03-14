@@ -5,7 +5,7 @@
 #include "color.h"
 #include "primitives.h"
 
-#define STARFIELD_SEEDED_LOCATIONS 10
+#define STARFIELD_SEEDED_LOCATIONS 15
 
 typedef struct starfield_star_t {
     Vec2 position;

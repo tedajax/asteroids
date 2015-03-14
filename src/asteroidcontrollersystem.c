@@ -55,6 +55,9 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
         ColliderComponent* collider =
             (ColliderComponent*)GET_COMPONENT(entity, COMPONENT_COLLIDER);
 
+        SpriteComponent* sprite =
+            (SpriteComponent*)GET_COMPONENT(entity, COMPONENT_SPRITE);
+
         REQUIRED_COMPONENTS(asteroid, movement, transform);
 
         f32 normalSpeed = get_speed(self->maxSize, asteroid->size, self->normalSpeedMultiplier);
@@ -73,6 +76,8 @@ void asteroid_controller_system_update(AsteroidControllerSystem* self) {
 
         f32 scale = (f32)asteroid->size / (f32)self->maxSize;
         vec2_set(&transform->scale, scale, scale);
+
+        sprite->orientationSpin = 75.f * (self->maxSize - asteroid->size + 1.f) / (f32)self->maxSize;
 
         // TODO: Collision system should handle the scaling from the transform so this shouldn't be necessary
         BoundingCircle* circle = (BoundingCircle*)collider->collider.volume;
@@ -93,7 +98,7 @@ void asteroid_controller_system_on_entity_removed(AspectSystem* system, Entity e
 
     if (asteroid->size > 1) {
         for (int i = 0; i < 2; ++i) {
-            Entity e = prefab_instantiate_at(prefab_get(asteroid->prefabName), self->super.entityManager, transform->position, 0.f);
+            Entity e = prefab_instantiate_at(prefab_get(asteroid->prefabName), self->super.entityManager, transform->position, randf(360.f));
             
             AsteroidControllerComponent* a = (AsteroidControllerComponent*)entities_get_component(
                 system->entityManager,

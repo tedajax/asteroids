@@ -12,6 +12,7 @@ typedef struct level_manager_component_t {
     i32 metalAsteroidCount;
     i32 smallUfoCount;
     i32 largeUfoCount;
+    i32 livesRemaining;
 } LevelManagerComponent;
 
 LevelManagerComponent* level_manager_component_new(Entity entity, LevelManagerConfig* config);

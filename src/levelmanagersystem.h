@@ -14,5 +14,6 @@ void level_manager_system_update(LevelManagerSystem* self);
 
 void level_manager_on_entity_added(AspectSystem* system, Entity entity, const Message msg);
 void level_manager_on_entity_removed(AspectSystem* system, Entity entity, const Message msg);
+void level_manager_on_spawn_player(AspectSystem* system, Entity entity, const Message msg);
 
 #endif

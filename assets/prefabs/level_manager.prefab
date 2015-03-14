@@ -10,6 +10,7 @@ levels = [
     levelmanager.level2,
     levelmanager.level3
 ]
+lives = 3
 
 [levelmanager.level1]
 asteroids = 3

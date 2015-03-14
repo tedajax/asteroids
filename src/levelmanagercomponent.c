@@ -13,6 +13,8 @@ LevelManagerComponent* level_manager_component_new(Entity entity, LevelManagerCo
     self->smallUfoCount = 0;
     self->largeUfoCount = 0;
 
+    self->livesRemaining = self->config->startingLives;
+
     return self;
 }
 

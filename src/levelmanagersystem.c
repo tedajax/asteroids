@@ -1,11 +1,13 @@
 #include "levelmanagersystem.h"
 #include "asteroidcontrollercomponent.h"
+#include "controllercomponent.h"
 
 void level_manager_system_init(LevelManagerSystem* self, GameScene* scene) {
     aspect_system_init(&self->super, scene, COMPONENT_LEVEL_MANAGER, 1);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_ADDED, level_manager_on_entity_added);
     REGISTER_SYSTEM_HANDLER(MESSAGE_ENTITY_REMOVED, level_manager_on_entity_removed);
+    REGISTER_SYSTEM_HANDLER(MESSAGE_SPAWN_PLAYER, level_manager_on_spawn_player);
 }
 
 void level_manager_system_start(LevelManagerSystem* self) {
@@ -50,9 +52,11 @@ void level_manager_on_entity_added(AspectSystem* system, Entity entity, const Me
         COMPONENT_LEVEL_MANAGER,
         entity);
 
-    if (levelManager) {
-        level_manager_update_asteroid_count(self->super.entityManager, levelManager);
-    }
+    if (!levelManager) { return; }
+
+    level_manager_update_asteroid_count(self->super.entityManager, levelManager);
+
+    
 }
 
 void level_manager_on_entity_removed(AspectSystem* system, Entity entity, const Message msg) {
@@ -63,5 +67,28 @@ void level_manager_on_entity_removed(AspectSystem* system, Entity entity, const 
         COMPONENT_LEVEL_MANAGER,
         entity);
 
+    if (!levelManager) { return; }
+    
     level_manager_update_asteroid_count(self->super.entityManager, levelManager);
+
+    MessageOnRemovedParams params;
+    MESSAGE_GET_PARAM_BLOCK(msg, params);
+
+    Entity removed = params.removedEntity;
+    ControllerComponent* controller = (ControllerComponent*)entities_get_component(system->entityManager, COMPONENT_CONTROLLER, removed);
+
+    if (controller) {
+        if (levelManager->livesRemaining > 0) {
+            --levelManager->livesRemaining;
+            Message msg;
+            msg.type = MESSAGE_SPAWN_PLAYER;
+            timer_add(entity, msg, 1.f);
+        }
+    }
+}
+
+void level_manager_on_spawn_player(AspectSystem* system, Entity entity, const Message msg) {
+    Entity player = prefab_instantiate_at(prefab_get("player_ship.prefab"), system->entityManager, vec2_init(640, 360), 0.f);
+
+    entities_add_named_entity(system->entityManager, "player", player);
 }

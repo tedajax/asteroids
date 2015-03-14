@@ -142,6 +142,7 @@ void level_config_deserialize(TypeConfig* super, Config* config, char* table);
 typedef struct level_manager_config_t {
     TypeConfig super;
     u32 levelCount;
+    i32 startingLives;
     LevelConfig** levels;
 } LevelManagerConfig;
 

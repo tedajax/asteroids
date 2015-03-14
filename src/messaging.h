@@ -36,6 +36,8 @@ typedef enum message_type_e {
 
     MESSAGE_GENERIC_TICK,
 
+    MESSAGE_SPAWN_PLAYER,
+
     // N/A
     MESSAGE_LAST
 } MessageType;

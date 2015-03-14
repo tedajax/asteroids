@@ -2,7 +2,7 @@
 #include "entityfactory.h"
 
 void controller_system_init(ControllerSystem* self, GameScene* scene) {
-    aspect_system_init(&self->super, scene, COMPONENT_CONTROLLER, 1);
+    aspect_system_init(&self->super, scene, COMPONENT_CONTROLLER, 16);
 
     REGISTER_SYSTEM_HANDLER(MESSAGE_ON_COLLISION_ENTER,
         controller_system_on_collision_enter);

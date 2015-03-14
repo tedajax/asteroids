@@ -21,7 +21,7 @@ void starfield_regenerate(Starfield* self, SDL_Renderer* renderer) {
 
     for (u32 i = 0; i < self->starCount; ++i) {
         Vec2 seed = seedPositions[rand() % STARFIELD_SEEDED_LOCATIONS];
-        f32 distance = randf_range(0.f, 500.f);
+        f32 distance = randf_range(0.f, 250.f);
         f32 angle = randf_range(0.f, 360.f);
         Vec2 position;
         vec2_set_angle(&position, angle, distance);

@@ -25,6 +25,7 @@ max_health = 1
 component_type = COMPONENT_SPRITE
 atlas = atlas1
 sprite = meteorBrown_big4
+orient_to_rotation = false
 
 [collider]
 component_type = COMPONENT_COLLIDER

@@ -156,6 +156,8 @@ void level_manager_config_deserialize(TypeConfig* super, Config* config, char* t
         ASSERT(level, "");
         self->levels[i] = level;
     }
+
+    self->startingLives = CONFIG_GET(i32)(config, table, "lives");
 }
 
 void level_manager_config_cleanup(TypeConfig* super) {

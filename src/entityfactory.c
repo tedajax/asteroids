@@ -59,7 +59,7 @@ Entity entity_create_asteroid(EntityManager* entityManager, char* prefabName) {
     Prefab* prefab = prefab_get(prefabName);
     ASSERT(prefab, "");
 
-    Entity entity = prefab_instantiate(prefab, entityManager);
+    Entity entity = prefab_instantiate_at(prefab, entityManager, vec2_zero(), randf(360.f));
 
     AsteroidControllerComponent* asteroid =
         (AsteroidControllerComponent*)entities_get_component(entityManager,

@@ -8,6 +8,7 @@ components = [
     screen_wrap,
     particle_emitter
 ]
+name = player
 
 [transform]
 component_type = COMPONENT_TRANSFORM
