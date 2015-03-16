@@ -1,6 +1,6 @@
-Runner
-======
-A game written in mostly C99 with some caveats to handle MSVC oddities.
+Asteroids
+=========
+Asteroids clone written in C11 in so far as MSVC 2013 supports C11
 
 Dependencies
 ------------
@@ -8,7 +8,6 @@ Dependencies
 - SDL2
 - SDL2_image
 - SDL2_ttf
-- lua (Not actually just maybe one day)
 
 Building
 -------
@@ -20,7 +19,7 @@ On windows there are two options:
 **Visual Studio 2013**
 
 Although MSVC has not supported most C99/11 features more recently due to the need to support some of these features for C++11/14 compliance we have a lot more to work with.  Theoretically all the external dependencies are included and setup so all
-you should have to do is open up runner.sln and it'll compile and run.
+you should have to do is open up asteroids.sln and it'll compile and run.
 
 **mingw-w64**
 
@@ -33,14 +32,13 @@ This should probably change so that the mingw-w64 libs are in the External/ dire
 Assuming git and the mingw-w64 binaries are in your PATH the whole process should look like this once you get the dependencies setup.
 
 ```
-git clone https://github.com/tedajax/runner.git
-cd runner
+git clone https://github.com/tedajax/asteroids.git
+cd asteroids
 make
-./copy_dll_32.bat
-./runner
+./asteroids
 ```
 
-Running copy_dll_32.bat is important because it copies the .dlls from the External directory into the top level directory so they're next to the executable.  If you run the executable and it immediately exits make sure you run this step.
+The make file should automatically copy necessary .dlls into the runtime directory but in case it doesn't just run copy_dll_32.bat.
 
 ### Linux
 
@@ -57,10 +55,10 @@ But I'm sure you can figure out how to install those packages on your distro.
 Cloning, building, and running is then all very simple.
 
 ```
-git clone https://github.com/tedajax/runner.git
-cd runner
+git clone https://github.com/tedajax/asteroids.git
+cd asteroids
 make
-./runner
+./asteroids
 ```
 
 ### OSX
