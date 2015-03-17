@@ -357,6 +357,9 @@
     <ClCompile Include="src\starfield.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scoring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\aspectsystem.h">
@@ -627,6 +630,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\starfield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scoring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -282,6 +282,7 @@
     <ClCompile Include="src\profiler.c" />
     <ClCompile Include="src\range.c" />
     <ClCompile Include="src\scene.c" />
+    <ClCompile Include="src\scoring.c" />
     <ClCompile Include="src\screenwrapcomponent.c" />
     <ClCompile Include="src\screenwrapsystem.c" />
     <ClCompile Include="src\spritecomponent.c" />
@@ -372,6 +373,7 @@
     <ClInclude Include="src\profiler.h" />
     <ClInclude Include="src\range.h" />
     <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\scoring.h" />
     <ClInclude Include="src\screenwrapcomponent.h" />
     <ClInclude Include="src\screenwrapsystem.h" />
     <ClInclude Include="src\snprintf.h" />
