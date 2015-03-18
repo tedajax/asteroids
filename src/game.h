@@ -8,6 +8,7 @@
 #include "systems.h"
 #include "debughud.h"
 #include "gamescene.h"
+#include "scoring.h"
 
 #define GAME_MAX_SCENES 8
 
@@ -17,6 +18,7 @@ typedef struct game_t {
     u32 sceneHead;
     DebugHud debugHud;
     InputManager globalInput;
+    ScoreBoard scoreBoard;
 } Game;
 
 void game_init(Game* self);

@@ -2,6 +2,7 @@
 #include "gamescene.h"
 #include "game.h"
 #include <time.h>
+#include "scoring.h"
 
 Globals globals;
 
@@ -69,4 +70,20 @@ Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interva
 
 void timer_remove(Timer* timer) {
     timer_manager_remove(active_scene()->timerManager, timer);
+}
+
+void load_scores(ScoreBoard* scores, u32 max) {
+    FILE* scoreFile = fopen("scores.txt", "r");
+    if (!scoreFile) {
+        scoreFile = fopen("assets/data/default_scores.txt", "r");
+        ASSERT(scoreFile, "Failed to find score file or default score file backup.");
+    }
+    score_board_init(scores, scoreFile, max);
+    fclose(scoreFile);
+}
+
+void save_scores(ScoreBoard* scores) {
+    FILE* scoreFile = fopen("scores.txt", "w");
+    score_board_dump(scores, scoreFile);
+    fclose(scoreFile);
 }

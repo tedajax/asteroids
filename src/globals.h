@@ -20,6 +20,7 @@
 typedef struct game_t Game;
 typedef struct game_scene_t GameScene;
 typedef struct timer_t Timer;
+typedef struct score_board_t ScoreBoard;
 
 typedef struct globals {
     u32 randomSeed;
@@ -78,5 +79,8 @@ extern Globals globals;
 Timer* timer_add(Entity target, Message message, f32 delay);
 Timer* timer_add_interval(Entity target, Message message, f32 delay, f32 interval);
 void timer_remove(Timer* timer);
+
+void load_scores(ScoreBoard* scores, u32 max);
+void save_scores(ScoreBoard* scores);
 
 #endif

@@ -1,12 +1,15 @@
 #ifndef ASTEROIDS_SCORING_H
 #define ASTEROIDS_SCORING_H
 
+#include "memory.h"
 #include "types.h"
 #include "debug.h"
 #include "log.h"
 
+#define SCORE_BOARD_MAX_NAME_LENGTH 128
+
 typedef struct score_t {
-    char* name;
+    char name[SCORE_BOARD_MAX_NAME_LENGTH];
     i32 score;
 } Score;
 

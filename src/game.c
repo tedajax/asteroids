@@ -73,6 +73,11 @@ void game_init(Game* self) {
         debug_hud_watch_set_warnings(tweenWatch, true, 2500, 4000);
     }
 
+    load_scores(&self->scoreBoard, 10);
+    save_scores(&self->scoreBoard);
+
+    score_board_dump(&self->scoreBoard, stdout);
+
     starfield_init(&starfield, globals.renderer, globals.world.width, globals.world.height, 5000);
 
     //////////////////////////////
