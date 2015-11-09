@@ -12,6 +12,7 @@ asteroids.exe
 *.psess
 *.vsp
 *.suo
+*.swp
 /*.dll
 profile.txt
 *.profile

@@ -127,7 +127,7 @@ static inline void message_event_queue_processing_unlock(MessageEventQueue* self
     memcpy(msg.paramBlock, ((u8*)((void*)&params)), MESSAGE_PARAM_BLOCK_SIZE)
 
 #define MESSAGE_GET_PARAM_BLOCK(msg, dest) \
-    memcpy(((u8*)((void*)&dest)), &msg.paramBlock, MESSAGE_PARAM_BLOCK_SIZE)
+    memcpy((u8*)&dest, &msg.paramBlock, sizeof(dest))
 
 typedef void(*message_cb)(Component*, const Message);
 typedef void(*system_message_cb)(AspectSystem*, Entity, const Message);
