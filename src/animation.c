@@ -39,5 +39,9 @@ void animation_set_frame(Animation* self, u32 frame) {
 }
 
 SpriteFrame animation_get_frame(Animation* self) {
-
+    SpriteFrame frame = {
+        { { 0, 0 }, 0, 0 },
+        { 0, 0 }
+    };
+    return frame;
 }
