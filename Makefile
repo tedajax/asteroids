@@ -11,7 +11,7 @@ else
 	CC = clang
 	STD = gnu11
 	POST_BUILD =
-	INCLUDE_FLAGS = -I/usr/include/luajit-2.0
+	INCLUDE_FLAGS = 
     SYSTEM_FLAGS = -rdynamic
     PLATFORM_DIR = Posix
 endif
@@ -33,7 +33,7 @@ TARGET		= asteroids
 CFLAGS		= -std=$(STD) -O$(OPT_LEVEL) $(EXPLICIT_OPTIMIZATIONS) -Wall -I. $(INCLUDE_FLAGS) $(DEBUG_FLAGS) -Wno-unknown-pragmas
 
 LINKER		= $(CC) -o
-LFLAGS		= -Wall -I. -lm -lluajit-5.1 -lmxml
+LFLAGS		= -Wall -I. -lm -lmxml
 
 SRCDIR		= src
 OBJDIR		= obj
