@@ -3,9 +3,13 @@
 
 #include "aspectsystem.h"
 #include "healthcomponent.h"
+#include "componentlist.h"
+
+COMPONENT_LIST_DECLARE(HealthComponent);
 
 typedef struct health_system_t {
     AspectSystem super;
+    COMPONENT_LIST(HealthComponent) components;
 } HealthSystem;
 
 void health_system_init(HealthSystem* self, GameScene* scene);

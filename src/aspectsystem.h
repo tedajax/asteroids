@@ -40,6 +40,7 @@
     // despite all other compilers doing exactly the opposite of what they do so we have to do this stupid work around.
     #define EXPAND(x) x
     #define REQUIRED_COMPONENTS(...) EXPAND(GET_REQUIRED_COMPONENTS_MACRO(__VA_ARGS__, REQUIRED_COMPONENTS9, REQUIRED_COMPONENTS8, REQUIRED_COMPONENTS7, REQUIRED_COMPONENTS6, REQUIRED_COMPONENTS5, REQUIRED_COMPONENTS4, REQUIRED_COMPONENTS3, REQUIRED_COMPONENTS2, REQUIRED_COMPONENTS1))EXPAND((__VA_ARGS__))
+    #undef EXPAND
 #else
     #define REQUIRED_COMPONENTS(...) GET_REQUIRED_COMPONENTS_MACRO(__VA_ARGS__, REQUIRED_COMPONENTS9, REQUIRED_COMPONENTS8, REQUIRED_COMPONENTS7, REQUIRED_COMPONENTS6, REQUIRED_COMPONENTS5, REQUIRED_COMPONENTS4, REQUIRED_COMPONENTS3, REQUIRED_COMPONENTS2, REQUIRED_COMPONENTS1)(__VA_ARGS__)
 #endif
@@ -47,12 +48,15 @@
 #define REGISTER_SYSTEM_HANDLER(messageType, func) \
     ((AspectSystem*)self)->handlers[messageType] = func
 
+#define ASPECT_SYSTEM_FUNC(type, func) type##_system_##func
+
 typedef struct game_scene_t GameScene;
 
 typedef struct aspect_system_t {
     GameScene* scene;
     EntityManager* entityManager;
     InputManager* input;
+    ComponentList* components;
     ComponentType systemType;
     system_message_cb handlers[MESSAGE_LAST];
 } AspectSystem;

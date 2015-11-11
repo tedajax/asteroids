@@ -69,7 +69,6 @@ POOL_REGISTER(Entity);
 typedef struct entity_manager_t {
     POOL(Entity) entities;
     AspectSystem* systems[COMPONENT_LAST];
-    ComponentList componentsMap[COMPONENT_LAST];
     i32 lowestEId;
     EntityQueue removeQueue;
     MessageEventQueue eventQueue;

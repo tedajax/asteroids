@@ -1,5 +1,7 @@
 #include "healthsystem.h"
 
+COMPONENT_LIST_DEFINE(HealthComponent);
+
 void health_system_init(HealthSystem* self, GameScene* scene) {
     aspect_system_init(&self->super, scene, COMPONENT_HEALTH, MAX_ENTITIES);
 
